@@ -10,7 +10,7 @@ The goal of the project is to enable online shopping, searching and checking the
 ### User accounts
 The user should be able to register his user account via e-mail. The user **must** register his account in order to order the product (but not before the ordering action itself), and his data (name, surname, address) will be remembered that way. It is not necessary to register before ordering a product.
 
-<img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH2.png" width="40%" align="left"/>
+<img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH2.png" width="45%" align="left"/>
 
 
 ### Shopping
