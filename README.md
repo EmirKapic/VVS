@@ -1,6 +1,6 @@
 # TechHaven
 
- <img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH.png" width="50%" align="right"/>
+ <img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH.png" width="45%" align="right"/>
 
 TechHaven - satisfying your tech needs. We offer a wide range of high-quality products and services to help you stay connected and productive. From the latest gadgets and devices to cutting-edge software and accessories, we've got everything you need to satisfy your tech cravings.
 
