@@ -21,7 +21,7 @@ Shipping information will be taken from his profile (except creditcard info)
 ### Product search
 The user should be able to search for the desired product when using it. It should be provided with an interface such that it can choose the type of product, and then the manufacturer and, if necessary, the model. When searching, the user should be allowed to click on the product to open a window that will display more details about it.
 
-### Wish list
+### Wishlist
 Users who are logged in will be able to add products to their wish-list during the search. They should be able to directly purchase products from the wish list.
 
 ### Suggested products
