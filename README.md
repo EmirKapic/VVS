@@ -1,6 +1,6 @@
 # TechHaven
 
- <img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH.png" width="45%" align="right"/>
+ <img src="https://user-images.githubusercontent.com/110246580/227355505-876ff6e2-59c6-4218-a767-20da93da9b79.png" width="45%" align="right"/>
 
 TechHaven - satisfying your tech needs. We offer a wide range of high-quality products and services to help you stay connected and productive. From the latest gadgets and devices to cutting-edge software and accessories, we've got everything you need to satisfy your tech cravings.
 <br/>
@@ -11,7 +11,7 @@ The goal of the project is to enable online shopping, searching and checking the
 ### User accounts
 The user should be able to register his user account via e-mail. The user **must** register his account in order to order the product (but not before the ordering action itself), and his data (name, surname, address) will be remembered that way. It is not necessary to register before ordering a product.
 
-<img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH2.png" width="43%" align="left"/>
+<img src="https://user-images.githubusercontent.com/110246580/227356236-4ee1cfe6-09c8-46ed-a202-4dd067bc4e8e.png" width="43%" align="left"/>
 
 
 ### Shopping
@@ -32,7 +32,7 @@ The user should be offered certain products within the basic interface and be ab
 It is necessary to monitor the availability of the product, and inform the user during the purchase if the selected product is not currently available (all have already been purchased or similar).
 When the user buys the product, update the database (reduce the number of available items)
 
-<img src="https://github.com/EmirKapic/TechHaven/blob/master/Company%20Resources/TH3.png" width="58%" align="right"/>
+<img src="https://user-images.githubusercontent.com/110246580/227356357-ddb22f41-79c4-4180-af08-9ed9c7983fff.png" width="58%" align="right"/>
 
 ## Team members:
   * [Emir Kapić](https://github.com/EmirKapic)
@@ -42,11 +42,9 @@ When the user buys the product, update the database (reduce the number of availa
   * [Amel Riđal](https://github.com/AM37AM37)
 
 ## Languages, Frameworks and Tools:
-<img src = 'https://github.com/EmanMane/emanmane/blob/main/Github%20Welcome/icons8-.net-framework.svg' height='40'/>&nbsp;
-<img src = 'https://github.com/EmanMane/emanmane/blob/main/Github%20Welcome/icons8-c-sharp-logo-2.svg' height='40'/>&nbsp;
-<img src = "https://github.com/EmanMane/emanmane/blob/main/Github%20Welcome/apps/icons8-visual-studio.svg" height="40"/>
-
-
+<img src = 'https://user-images.githubusercontent.com/110246580/227356634-c34c6506-6292-4577-b1d0-0df4935cffa9.svg' height='40'/>&nbsp;
+<img src = 'https://user-images.githubusercontent.com/110246580/227356676-ca9c805a-25cb-4f66-abea-dec76f7b7c71.svg' height='40'/>&nbsp;
+<img src = "https://user-images.githubusercontent.com/110246580/227356926-4bea4bce-765a-441a-836a-95aff68c91ac.svg" height="40"/>
 
 
 ## Disclaimer
