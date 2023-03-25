@@ -39,7 +39,7 @@ When the user buys the product, update the database (reduce the number of availa
   * [Alem Muratović](https://github.com/amuratovic2)
   * [Eman Alibalić](https://github.com/emanmane)
   * [Muaz Sikirić](https://github.com/msikiric1)
-  * [Amel Riđal](https://github.com/AM37AM37)
+  * [Amel Ridžal](https://github.com/AM37AM37)
 
 ## Languages, Frameworks and Tools:
 <img src = 'https://user-images.githubusercontent.com/110246580/227356634-c34c6506-6292-4577-b1d0-0df4935cffa9.svg' height='40'/>&nbsp;
