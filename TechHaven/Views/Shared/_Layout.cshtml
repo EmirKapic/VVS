@@ -3,32 +3,110 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TechHaven</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechHaven.styles.css" asp-append-version="true" />
+    <style>
+        .navbar-image{
+            width: 300px;
+            height: 80px;
+            padding: 10px;
+        }
+        #navbarSupportedContent{
+            
+            display:flex;
+            justify-content: space-between;
+        }
+        #kategorije-dropdown{
+         
+            width:285px;
+            height: 40px;
+        }
+        .korpa{
+            display:flex;
+            margin-right: 60px;
+        }
+
+        .header-linkovi{
+            display:flex;
+            flex-wrap:nowrap;
+        }
+
+        @@media only screen and (max-width:820px){
+            .header-linkovi{
+                display:none;
+            }
+        }
+
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TechHaven</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+        <nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding-bottom:25px;">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="nav-item" style="display:flex; align-items:center;">
+                    <img src="~/images/logoImage.png" class="navbar-brand navbar-image" style="margin-left:50px;" />
+
+                    <div class="header-linkovi">
+                        <a class ="btn" style="margin-left: 50px; font-weight:bold; font-size: 20px;" asp-controller="Home" asp-action="Privacy"> O nama</a>
+                        <a class="btn" style="margin-left: 50px; font-weight:bold; font-size: 20px;" asp-controller="Home" asp-action="Privacy"> Kontakt</a>
+                    </div>
+                    
+                </div>
+
+
+                <div class="nav-item">
+                    
+                    <a class="btn nav-item" asp-controller="Home" asp-action="Privacy" style="margin-right: 50px;">Registracija | Prijava</a>
+                </div> 
+            </div>
+
+        </nav>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <div class="btn-group" style="margin-left:58px;" id ="kategorije-dropdown">
+                    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kategorije
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" style="color: black; font-weight:bold;"> Laptopi</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" style="color: black; font-weight:bold;">Mobiteli</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" style="color: black; font-weight:bold;"> ...</a>
+                    </div>
+                </div>
+                <form class="form-check-inline">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <input type="text" class="form-control" size="100" placeholder="Search" />
+                        </div>
+                        <div class="col-auto">
+                            <a asp-controller="Home" asp-action="Privacy">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                </svg>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </form>
+                <div class="korpa">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+
+                    <div style="display:flex; flex-direction: column; margin-left: 5px;">
+                        <a>Korpa</a>
+                        <p class="cijena">0.00 KM</p> 
+
+                    </div>
+                    
+
                 </div>
             </div>
+           
         </nav>
     </header>
     <div class="container">
@@ -44,6 +122,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
