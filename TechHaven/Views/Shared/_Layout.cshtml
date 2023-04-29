@@ -7,117 +7,159 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechHaven.styles.css" asp-append-version="true" />
     <style>
-        .navbar-image{
-            width: 300px;
-            height: 80px;
-            padding: 10px;
+        #main {
+            margin-bottom: 60px;
         }
-        #navbarSupportedContent{
-            
-            display:flex;
-            justify-content: space-between;
-        }
-        #kategorije-dropdown{
-         
-            width:285px;
-            height: 40px;
-        }
-        .korpa{
-            display:flex;
-            margin-right: 60px;
-        }
-
-        .header-linkovi{
-            display:flex;
-            flex-wrap:nowrap;
-        }
-
-        @@media only screen and (max-width:820px){
-            .header-linkovi{
-                display:none;
-            }
-        }
-
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-light" style="padding-bottom:25px;">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="nav-item" style="display:flex; align-items:center;">
-                    <img src="~/images/logoImage.png" class="navbar-brand navbar-image" style="margin-left:50px;" />
-
-                    <div class="header-linkovi">
-                        <a class ="btn" style="margin-left: 50px; font-weight:bold; font-size: 20px;" asp-controller="Home" asp-action="Privacy"> O nama</a>
-                        <a class="btn" style="margin-left: 50px; font-weight:bold; font-size: 20px;" asp-controller="Home" asp-action="Privacy"> Kontakt</a>
-                    </div>
-                    
-                </div>
-
-
-                <div class="nav-item">
-                    
-                    <a class="btn nav-item" asp-controller="Home" asp-action="Privacy" style="margin-right: 50px;">Registracija | Prijava</a>
-                </div> 
-            </div>
-
-        </nav>
-        <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-                <div class="btn-group" style="margin-left:58px;" id ="kategorije-dropdown">
-                    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Kategorije
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" style="color: black; font-weight:bold;"> Laptopi</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" style="color: black; font-weight:bold;">Mobiteli</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" style="color: black; font-weight:bold;"> ...</a>
-                    </div>
-                </div>
-                <form class="form-check-inline">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <input type="text" class="form-control" size="100" placeholder="Search" />
-                        </div>
-                        <div class="col-auto">
-                            <a asp-controller="Home" asp-action="Privacy">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+        <nav class="navbar navbar-expand-md navbar-light bg-light d-none d-md-block">
+            <div class="container container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="~/images/logo.png" alt="TechHaven" height="32" />
+                    <span class="d-md-none ms-2">TechHaven</span>
+                </a>
+                <div class="collapse navbar-collapse d-flex" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-lg-0 flex-fill">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link d-flex align-items-center dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                </svg>
+                                <span class="ms-1">Categories</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Laptopi</a></li>
+                                <li><a class="dropdown-item" href="#">Mobiteli</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">...</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                </svg>
+                                <span class="ms-1">Wishlist</span>
+                            </a>
+                        </li>
+                        <li class="nav-item flex-fill mx-2">
+                            <form class="d-flex input-group input-group-sm" role="search">
+                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <span class="input-group-text">
+                                    <button class="btn btn-sm" type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                    </button>
+                                </span>
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                                </svg>
+                                <span class="badge rounded-pill text-bg-secondary bg-secondary ms-1">3</span>
+                            </a>
+                        </li>
+                        <div class="vr mx-2"></div>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                                 </svg>
                             </a>
-                        </div>
-                        
-                    </div>
-                </form>
-                <div class="korpa">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                    </svg>
-
-                    <div style="display:flex; flex-direction: column; margin-left: 5px;">
-                        <a>Korpa</a>
-                        <p class="cijena">0.00 KM</p> 
-
-                    </div>
+                        </li>
+                    </ul>
                     
-
+                    
                 </div>
             </div>
-           
+        </nav>
+
+        <nav class="navbar navbar-expand navbar-light bg-light d-md-none flex-column">
+            <div class="container container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="~/images/logo.png" alt="TechHaven" height="32" />
+                    <span class="ms-1">TechHaven</span>
+                </a>
+                <div class="collapse navbar-collapse d-flex" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-lg-0 flex-fill">
+                        <li class="nav-item dropdown ms-auto">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="d-md-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                    </svg>
+                                </span>
+                                <span class="d-none d-md-inline">Categories</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Laptopi</a></li>
+                                <li><a class="dropdown-item" href="#">Mobiteli</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">...</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                                </svg>
+                            </a>
+                        </li>
+                        <div class="vr mx-2"></div>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                                </svg>
+                                <span class="badge rounded-pill text-bg-secondary bg-secondary ms-1">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container mt-2">
+                <form class="d-flex input-group input-group-sm" role="search">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <span class="input-group-text">
+                        <button class="btn btn-sm" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </button>
+                    </span>
+
+                </form>
+            </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" id="main">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - TechHaven - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer">
+        <div class="container d-flex px-4">
+            <span class="flex-grow-1">&copy; 2023 - TechHaven</span>
+            <span>
+                <a class="me-2" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <a class="me-2" asp-area="" asp-controller="Home" asp-action="Privacy">About us</a>
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Contact</a>
+            </span>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
