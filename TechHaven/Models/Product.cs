@@ -1,4 +1,6 @@
-﻿namespace TechHaven.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TechHaven.Models
 {
     public class Product
     {

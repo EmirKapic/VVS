@@ -8,8 +8,6 @@
         {
             ShoppingCart = new ShoppingCart();
         }
-
-        public Guest() { }
     }
 }
 
