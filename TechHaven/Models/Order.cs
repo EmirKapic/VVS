@@ -9,12 +9,9 @@
         public Discount Discount { get; set; }
         public DateTime OrderDate { get; set; }
 
-        [ForeignKey("RecommendationId")]
-        public Recommendation Recommendation { get; set; }
-        public int RecommendationId { get; set; }
-
-        public Order(ShoppingCart products, int price, string shippingAddress, Discount discount, DateTime orderDate)
+        public Order(int orderId, ShoppingCart products, int price, string shippingAddress, Discount discount, DateTime orderDate)
         {
+            OrderId = orderId;
             Products = products;
             Price = price;
             ShippingAddress = shippingAddress;

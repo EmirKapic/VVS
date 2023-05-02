@@ -2,7 +2,6 @@
 {
     public class Recommendation
     {
-        public int RecommendationId { get; set; }
         public Customer Customer { get; set; }
         public List<Order> Orders { get; set; }
 
@@ -11,5 +10,7 @@
             Customer = customer;
             Orders = orders;
         }
+
+        public Recommendation() { }
     }
 }

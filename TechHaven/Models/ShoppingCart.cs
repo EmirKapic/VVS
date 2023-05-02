@@ -27,6 +27,8 @@
         {
             return totalPrice;
         }
+
+        public ShoppingCart() { }
     }
 }
 
