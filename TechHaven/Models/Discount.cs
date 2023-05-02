@@ -2,6 +2,7 @@
 {
     public class Discount
     {
+        public int DiscountId { get; set; }
         public List<Product> Products { get; set; }
         public int NumberOfHavenCoins { get; set; }
         public double AdditionalDiscount { get; set; }

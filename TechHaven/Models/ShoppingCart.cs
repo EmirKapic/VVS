@@ -2,6 +2,7 @@
 {
     public class ShoppingCart
     {
+        public int ShoppingCartId { get; set; }
         private List<Product> products = new List<Product>();
         private double totalPrice;
 

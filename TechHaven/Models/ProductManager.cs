@@ -2,6 +2,7 @@
 {
     public class ProductManager
     {
+        public int ProductManagerId { get; set; }
         public List<Product> AddedProducts { get; set; }
 
         public ProductManager()

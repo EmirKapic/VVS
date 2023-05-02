@@ -2,6 +2,7 @@
 {
     public class Customer : Person, User
     {
+        public int CustomerId { get; set; }
         public int NumberOfHavenCoins { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
         public List<Product> Wishlist { get; set; }
