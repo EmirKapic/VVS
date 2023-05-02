@@ -1,102 +1,150 @@
-﻿
+﻿<div class="container my-4">
+    <h2 class="text-center">Shopping cart</h2>
+    <hr class="mb-4" />
+    <div class="row">
 
+        <div class="col-lg-8 table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Proizvod</th>
+                        <th scope="col">Cijena</th>
+                        <th scope="col">Količina</th>
+                        <th scope="col">Ukupno</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr>
+                        <td scope="row">
+                            <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
+                            <span class="ms-2">Proizvod 1</span>
+                        </td>
+                        <td>23.00KM</td>
+                        <td>
+                            <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" value="1" />
+                        </td>
+                        <td>23.00KM</td>
+                        <td>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
+                            <span class="ms-2">Proizvod 1</span>
+                        </td>
+                        <td>23.00KM</td>
+                        <td>
+                            <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" value="1" />
+                        </td>
+                        <td>23.00KM</td>
+                        <td>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
+                            <span class="ms-2">Proizvod 1</span>
+                        </td>
+                        <td>23.00KM</td>
+                        <td>
+                            <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" value="1" />
+                        </td>
+                        <td>23.00KM</td>
+                        <td>
+                            <button type="button" class="btn-close" aria-label="Close"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<head>
-    <title>Korpa</title>
-</head>
-
-<body>
-
-    <div class="container mt-5">
-        
-        <div class="row">
-
-            <div class="col-lg-8">
-                <div class = "row">
-                    <div class="col-5">
-                        Proizvod
+        <div class="col-lg">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Ukupni iznos</h5>
+                    <hr />
+                    <div class="fs-5 d-flex justify-content-between mb-1">
+                        <div>Ukupno:</div>
+                        <div>23.00KM</div>
                     </div>
-                    <div class="col-2">
-                        Cijena
+                    <div class="fs-5 d-flex justify-content-between mb-1">
+                        <div>Dostava:</div>
+                        <div>8.00KM</div>
                     </div>
-                    <div class="col-2">
-                        Količina
+                    
+                    <p class="fs-6 fw-light">Dostava je <b>besplatna</b> za sve narudžbe preko 50KM.</p>
+
+                    <hr />
+                    <div class="d-flex justify-content-between mb-2">
+                        <h5>Ukupna cijena:</h5>
+                        <h5>31.00KM</h5>
                     </div>
-                    <div class="col-2">
-                        Ukupno
-                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Kupi sada</button>
                 </div>
-                <hr />
-                <div class="row align-items-center mb-4">
-                    <div class="col-5">
-                        <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
-                        <span>Primjer imena proizvoda</span>
-                    </div>
-                    <div class="col-2">
-                        23.00KM
-                    </div>
-                    <div class="col-2">
-                        <input type="number" style="width:50%;" min="1" value="1"/>
-                    </div>
-                    <div class="col-2">
-                        23.00KM
-                    </div>
-                    <div class="col-1">
-                        <button type="button" class="close border-0 bg-white btn-lg"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                </div>
-                <div class="row align-items-center">
-                    <div class="col-5">
-                        <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
-                        <span>Primjer imena proizvoda2</span>
-                    </div>
-                    <div class="col-2">
-                        23.00KM
-                    </div>
-                    <div class="col-2">
-                        <input type="number" aria-label="Small" style="width:50%;" min="1" value="1" />
-                    </div>
-                    <div class="col-2">
-                        23.00KM
-                    </div>
-                    <div class="col-1">
-                        <button type="button" class="close border-0 bg-white btn-lg"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                </div>
-            
-
             </div>
-            <div class="col-lg-1 d-none d-md-flex">
-                <div class="vr mx-auto"></div>
-            </div>
+        </div>
+    </div>      
+</div>
 
-            <div class="col-lg">
-                <div class="card bg-light">
+<div class="container mt-4">
+    <div class="border border-secondary-subtle rounded p-3">
+        <h3 class="text-center mb-3">Recommended for you</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Ukupni iznos korpe</h5>
-                        <hr />
-                        <div style="display:flex; justify-content:space-between">
-                            <div>Ukupno</div>
-                            <div>23.00KM</div>
-                        </div>
-                        <div style="display:flex; justify-content:space-between">
-                            <div>Dostava</div>
-                            <div>8.00KM</div>
-                        </div>
-                        <small>Dostava je <b>besplatna</b> za narudžbe preko 50KM.</small>
-
-                        <hr />
-                        <div style="display:flex; justify-content:space-between">
-                            <h5>Ukupno za platiti: </h5>
-                            <div>31.00KM</div>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Kupi sad</button>
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
                     </div>
                 </div>
             </div>
-        </div>      
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
-
-
-</body>
+</div>
