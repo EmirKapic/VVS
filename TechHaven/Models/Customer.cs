@@ -11,8 +11,9 @@
         public int NumberOfHavenCoins { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
         public List<Product> Wishlist { get; set; }
+        public List<Order> Orders { get; set; }
 
-        public Customer(int customerId, string username, string email, string password, string firstName, string lastName, int numberOfHavenCoins, ShoppingCart shoppingCart, List<Product> wishlist)
+        public Customer(int customerId, string username, string email, string password, string firstName, string lastName, int numberOfHavenCoins, ShoppingCart shoppingCart, List<Product> wishlist, List<Order> orders)
         {
             CustomerId = customerId;
             Username = username;
@@ -23,6 +24,7 @@
             NumberOfHavenCoins = numberOfHavenCoins;
             ShoppingCart = shoppingCart;
             Wishlist = wishlist;
+            Orders = orders;
         }
 
         public Customer() { }

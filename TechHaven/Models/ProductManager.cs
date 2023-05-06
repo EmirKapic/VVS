@@ -1,5 +1,8 @@
-﻿namespace TechHaven.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TechHaven.Models
 {
+    [NotMapped]
     public class ProductManager
     {
         public int ProductManagerId { get; set; }

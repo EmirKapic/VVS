@@ -5,6 +5,8 @@ namespace TechHaven.Models
     public class Product
     {
         public int ProductId { get; set; }
+
+        [NotMapped]
         public Category Category { get; set; }
         public string Manufacturer { get; set; }
         public string Model { get; set; }
@@ -20,6 +22,12 @@ namespace TechHaven.Models
         public ShoppingCart ShoppingCart { get; set; }
 
         public Customer Customer { get; set; }
+
+
+        [ForeignKey("Order")]
+        public int OrderId { get; set; }
+        public Order Order { get; set; }
+
 
         public Product(int productId, Category category, string manufacturer, string model, double price, int numberOfAvailable)
         {

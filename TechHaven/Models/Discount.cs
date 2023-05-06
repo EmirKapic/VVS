@@ -1,5 +1,8 @@
-﻿namespace TechHaven.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TechHaven.Models
 {
+    [NotMapped]
     public class Discount
     {
         public int DiscountId { get; set; }
