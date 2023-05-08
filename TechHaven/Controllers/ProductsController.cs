@@ -8,5 +8,10 @@ namespace TechHaven.Controllers
         {
             return View();
         }
+
+        public IActionResult ProductDetails()
+        {
+            return View();
+        }
     }
 }

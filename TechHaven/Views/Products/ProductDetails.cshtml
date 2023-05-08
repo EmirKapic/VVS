@@ -1,0 +1,119 @@
+﻿<div class="container">
+
+    <div class="row mt-5 pt-5">
+
+        <div class="col">
+            <div class="img img-fluid d-none d-md-block mb-sm-3">
+                <img src="https://placehold.co/600x400" />
+            </div>
+            <div class="img img-fluid d-md-none d-block mb-3">
+                <img src="https://placehold.co/400x300" />
+            </div>
+
+        </div>
+
+        <div class="col">
+            <div class="d-flex justify-content-between w-100">
+                <h3>Apple iPhone 13 Pro</h3>
+                <a class="btn" asp-controller="MyAccount" asp-action="addToFavorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart mt-1" viewBox="0 0 16 16">
+                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                    </svg>
+                </a>
+            </div>
+            
+            <hr />
+            <div class="bg-primary text-center mt-4 p-3 text-white" style="border-radius:15px;">
+                Vaša ušteda prilikom kupovine ovog artikla kod nas je 20.00 KM!
+            </div>
+            <div class="mt-4" style="color: #808080; text-decoration: line-through; font-size: 20px;">
+                1320 KM
+            </div>
+            <div>
+                <h2 class="text-primary">1300 KM</h2>
+            </div>
+
+            <div class="d-flex">
+                <div class=" btn-group">
+                    <button class="btn btn-outline-dark btn-black bg-light">
+                        - 
+                    </button>
+                    <input class="form-control text-center" style="min-width: 50px; width: 20%; max-width: 100px;" value="1" id="kolicina"/>
+                    <button class="btn btn-outline-dark btn-black bg-light">
+                        +
+                    </button>
+                </div>
+                <a class="d-flex bg-primary rounded mx-2 text-center text-white flex-grow-1 align-items-center justify-content-center btn"
+                asp-controller="ShoppingCart" asp-action="addToCart">
+                    Dodaj u korpu
+                </a>
+            </div>
+            
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="container mt-4">
+    <div class="border border-secondary-subtle rounded p-3">
+        <h3 class="text-center mb-3">Slični artikli</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Product title</h5>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
+                        <small class="text-body-secondary">$9.99</small>
+                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
