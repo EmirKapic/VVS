@@ -1,55 +1,46 @@
-﻿<div class="container">
+﻿<div class="container my-4">
+    <h2 class="text-center">Product details</h2>
+    <hr class="mb-4" />
+    <div class="row">
 
-    <div class="row mt-5 pt-5">
-
-        <div class="col">
-            <div class="img img-fluid d-none d-md-block mb-sm-3">
-                <img src="https://placehold.co/600x400" />
-            </div>
-            <div class="img img-fluid d-md-none d-block mb-3">
-                <img src="https://placehold.co/400x300" />
-            </div>
-
+        <div class="col-12 col-lg-6">
+            <img src="https://placehold.co/600x400" class="img-fluid border border-secondary-subtle rounded w-100" />
         </div>
 
-        <div class="col">
-            <div class="d-flex justify-content-between w-100">
-                <h3>Apple iPhone 13 Pro</h3>
-                <a class="btn" asp-controller="MyAccount" asp-action="addToFavorites">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-heart mt-1" viewBox="0 0 16 16">
-                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-                    </svg>
-                </a>
-            </div>
-            
-            <hr />
-            <div class="bg-primary text-center mt-4 p-3 text-white" style="border-radius:15px;">
-                Vaša ušteda prilikom kupovine ovog artikla kod nas je 20.00 KM!
-            </div>
-            <div class="mt-4" style="color: #808080; text-decoration: line-through; font-size: 20px;">
-                1320 KM
-            </div>
+        <div class="col-12 col-lg-6 d-flex flex-column justify-content-between">
             <div>
-                <h2 class="text-primary">1300 KM</h2>
-            </div>
-
-            <div class="d-flex">
-                <div class=" btn-group">
-                    <button class="btn btn-outline-dark btn-black bg-light">
-                        - 
-                    </button>
-                    <input class="form-control text-center" style="min-width: 50px; width: 20%; max-width: 100px;" value="1" id="kolicina"/>
-                    <button class="btn btn-outline-dark btn-black bg-light">
-                        +
-                    </button>
+                <h3 class="mt-3 mt-lg-0 mb-3">Apple iPhone 13 Pro</h3>
+                <div class="mb-3">
+                    <span class="h5">1320.00KM</span>
+                    <span class="text-muted">/po proizvodu</span>
                 </div>
-                <a class="d-flex bg-primary rounded mx-2 text-center text-white flex-grow-1 align-items-center justify-content-center btn"
-                asp-controller="ShoppingCart" asp-action="addToCart">
-                    Dodaj u korpu
-                </a>
-            </div>
-            
+                <p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquam venenatis auctor. In sollicitudin dictum posuere. Maecenas rhoncus dui magna, tempus ornare ligula finibus quis. Duis rutrum fringilla elit vitae bibendum.</p>
 
+                <div class="d-flex">
+                    <div>
+                        <span class="me-1">Količina:</span>
+                        <div class="btn-group me-2" style="width: 120px;">
+                            <button type="button" class="btn btn-outline-secondary">-</button>
+                            <input type="text" class="form-control" placeholder="1">
+                            <button type="button" class="btn btn-outline-secondary">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 d-flex gap-2">
+                <button type="button" class="btn btn-primary d-flex align-items-center" asp-controller="ShoppingCart" asp-action="addToCart">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                    </svg>
+                    <span class="ms-2">Dodaj u korpu</span>
+                </button>
+                <button type="button" class="btn btn-danger d-flex align-items-center" asp-controller="MyAccount" asp-action="addToFavorites">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                    </svg>
+                    <span class="ms-2">Dodaj u wishlist</span>
+                </button>
+            </div>
         </div>
 
     </div>
