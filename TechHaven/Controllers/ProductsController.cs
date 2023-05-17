@@ -1,17 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TechHaven.Data;
+using TechHaven.Models;
 
 namespace TechHaven.Controllers
 {
+    /*
+     * Ovo je samo privremeno rješenje, zapravo ce biti proslijedjena lista Produkata kao parametar metodi Index iz onog kontrolera
+     * koji je poziva
+     * */
     public class ProductsController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
+        public ApplicationDbContext _db;
+        public ProductsController(ApplicationDbContext db) {
+            _db = db;
         }
 
-        public IActionResult ProductDetails()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _db.Product.ToListAsync());
+        }
+
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
+            if(prod == null)
+            {
+                return NotFound();
+            }
+            return View(prod);
         }
     }
 }
