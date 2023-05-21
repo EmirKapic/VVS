@@ -16,6 +16,20 @@ builder.Services.AddDefaultIdentity<Customer>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    //Password options
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 4;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredUniqueChars = 4;
+    options.Password.RequireLowercase = false;
+
+    //User options
+    options.User.RequireUniqueEmail = false;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
