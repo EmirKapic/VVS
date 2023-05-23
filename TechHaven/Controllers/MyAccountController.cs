@@ -7,16 +7,20 @@ using TechHaven.Models;
 
 namespace TechHaven.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Customer, Administrator")]
     public class MyAccountController : Controller
     {
         public ApplicationDbContext _db;
         public UserManager<Customer> _userManager;
-        public MyAccountController(ApplicationDbContext db, UserManager<Customer> userManager)
+        public SignInManager<Customer> _signInManager;
+
+        public MyAccountController(ApplicationDbContext db, UserManager<Customer> userManager, SignInManager<Customer> signInManager)
         {
             _db = db;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -27,34 +31,106 @@ namespace TechHaven.Controllers
             return View();
         }
         
-        public IActionResult Wishlist()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Customer")]
-        public async Task<IActionResult> AddToFavorites([FromQuery] int newProdId)
+        public async Task<IActionResult> Wishlist()
         {
             var usrId = _userManager.GetUserId(User);
-            var newProduct = await _db.Product.FirstOrDefaultAsync(x => x.Id == newProdId);
-            var usr = _db.Customer.Include(c => c.Products).FirstOrDefault(c=> c.Id == usrId);
-            //Console.WriteLine("\n\n\n\n" + usr.Products[1] + "\n\n\n\n");
-            if (newProduct == null || usr == null)
+            var usr = await _db.Customer.Include(u => u.Products).FirstAsync(u => u.Id == usrId);
+            if (usr.Products != null)
             {
-                return NotFound();
+                if (!usr.Products.Any())
+                {
+                    return View(new List<Product>());
+                }
+                return View(usr.Products);
             }
-            usr.Products.Add(newProduct);
+            return NotFound();
+        }
 
-            if (ModelState.IsValid)
+        
+        public async Task<IActionResult> AddToFavorites([FromQuery] int newProdId)
+        {
+            var newProd = await _db.Product.FirstOrDefaultAsync(x => x.Id == newProdId);
+            var usr = await _userManager.GetUserAsync(User);
+
+            var newProduct = new Product();
+            //Potrebno je kopirati na ovaj nacin da ne bi oba bili referenca na jedan objekat, zbog cega bi nastala greska u bazi (Zapravo bi bila one-to-one veza)
+            //Ako je i dalje nejasno pitati Emira
+            if (newProd != null && usr != null)
             {
-                
-                await _db.SaveChangesAsync();
-                return Redirect(Request.Headers.Referer);
+                newProduct = new Product{
+                    Category = newProd.Category,
+                    Manufacturer = newProd.Manufacturer,
+                    Model = newProd.Model,
+                    Price = newProd.Price,
+                    NumberOfAvailable = newProd.NumberOfAvailable,
+                    CustomerId = usr.Id,
+                    Customer = usr
+                };
             }
             else
             {
                 return NotFound();
             }
+            usr.Products.Add(newProduct);
+            await _db.SaveChangesAsync();
+            return Redirect(Request.Headers.Referer);
+        }
+
+        
+        public async Task<IActionResult> DropFromFavorites(int id)
+        {
+            var usr = await _userManager.GetUserAsync(User);
+            var prod = await _db.Product.FirstOrDefaultAsync(x => x.Id == id);
+            if (usr == null || usr.Products == null || prod == null) { return NotFound(); }
+            usr.Products.Remove(prod);
+            _db.Product.Remove(prod);
+            await _db.SaveChangesAsync();
+            return Redirect(Request.Headers.Referer);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(DataChangeViewModel newData, string change)
+        {
+            if (change == "data")
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                usr.FirstName = newData.FirstName;
+                usr.LastName = newData.LastName;
+                usr.Email = newData.Email;
+
+                await _userManager.UpdateAsync(usr);
+                _db.SaveChanges();
+                return Redirect(Request.Headers.Referer);
+            }
+            else if(change == "password")
+            {
+                var usr = await _userManager.GetUserAsync(User);
+                if (!await _userManager.CheckPasswordAsync(usr, newData.oldPass))
+                {
+                    ModelState.AddModelError("oldPass", "Invalid password");
+                }
+                if (newData.newPass != newData.repeatNew)
+                {
+                    ModelState.AddModelError("repeatNew", "Passwords must match!");
+                }
+                if (!ModelState.IsValid)
+                {
+                    return View(newData);
+                }
+                await _userManager.ChangePasswordAsync(usr, newData.oldPass, newData.newPass);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
     }
 }

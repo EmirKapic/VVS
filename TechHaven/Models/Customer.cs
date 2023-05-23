@@ -14,11 +14,11 @@ namespace TechHaven.Models
 
         public ShoppingCart? ShoppingCart { get; set; }
 
-        public List<Product>? Products { get; set; } //Wish-list
+        public ICollection<Product>? Products { get; set; } = new List<Product>();//Wish-list
 
-        public List<Order>? Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; } = new List<Order>();
 
-        public Customer() { Products = new List<Product>();}
+        public Customer() {}
     }
 }
 

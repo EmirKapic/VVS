@@ -1,4 +1,14 @@
-﻿<div class="container container-fluid">
+﻿@model DataChangeViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<Customer> UserManager
+
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+
+
+<div class="container container-fluid">
 
     <div class="row mt-3">
 
@@ -10,42 +20,53 @@
             <hr />
             <h4 class="mb-3">Lični podaci</h4>
 
-            <form>
+            <form method="post" asp-route-change="data">
                 <div class="form-group mb-3">
                     <h6>Ime</h6>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" value="@currentUser.FirstName" asp-for="FirstName"/>
                 </div>
 
                 <div class="form-group mb-3">
                     <h6>Prezime</h6>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" value="@currentUser.LastName" asp-for="LastName"/>
                 </div>
 
                 <div class="form-group mb-3">
                     <h6>E-mail adresa</h6>
-                    <input type="email" class="form-control"/>
+                    <input type="email" class="form-control" value= "@currentUser.Email" asp-for="Email"/>
+                    <span class="text-danger" asp-validation-for="Email"></span>
                 </div>
 
-                <button class="btn btn-primary">Sačuvaj promjene</button>
+                <button class="btn btn-primary" type="submit">Sačuvaj promjene</button>
                     
             </form>
 
             <h4 class="mt-5 mb-3">Promijeni lozinku</h4>
-            <form>
-
+           
+            <form method="post" asp-route-change="password">
                 <div class="form-group mb-3">
                     <h6>Stara lozinka</h6>
-                    <input type="password" class="form-control" />
+                    <input name ="oldPass" type="password" class="form-control" asp-for="oldPass"/>
+                    @if (ViewData.ModelState["oldPass"] != null && ViewData.ModelState["oldPass"].Errors.Any())
+                    {
+                        <span class="text-danger">Invalid password</span>
+                    }
+                    
                 </div>
                 <div class="form-group mb-3">
                     <h6>Nova lozinka</h6>
-                    <input type="password" class="form-control" />
+                    <input name="newPass" type="password" class="form-control" asp-for="newPass"/>
                 </div>
                 <div class="form-group mb-3">
                     <h6>Ponovljena nova lozinka</h6>
-                    <input type="password" class="form-control" />
+                    <input name="repeatNew" type="password" class="form-control" asp-for="repeatNew"/>
+                    @if (ViewData.ModelState["repeatNew"] != null && ViewData.ModelState["repeatNew"].Errors.Any())
+                    {
+                        <span class="text-danger">Passwords must match!</span>
+                    }
+                    
                 </div>
-                <button class="btn btn-primary">Sačuvaj promjene</button>
+                <button class="btn btn-primary" type="submit">Sačuvaj promjene</button>
             </form>
 
 
