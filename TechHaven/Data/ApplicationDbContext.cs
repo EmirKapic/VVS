@@ -20,10 +20,16 @@ namespace TechHaven.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Administrator>().ToTable("Administrator");
-            modelBuilder.Entity<Customer>().ToTable("Customer");
-            modelBuilder.Entity<Order>().ToTable("Order");
+            modelBuilder.Entity<Customer>().ToTable("Customer")
+                .HasMany(c => c.Products)
+                .WithMany(p => p.Customers);
+            modelBuilder.Entity<Order>().ToTable("Order")
+                .HasMany(o => o.Products)
+                .WithMany(p => p.Orders);
             modelBuilder.Entity<Product>().ToTable("Product");
-            modelBuilder.Entity<ShoppingCart>().ToTable("ShoppingCart");
+            modelBuilder.Entity<ShoppingCart>().ToTable("ShoppingCart")
+                .HasMany(s => s.Products)
+                .WithMany(p => p.ShoppingCarts);
             base.OnModelCreating(modelBuilder);
         }
     }

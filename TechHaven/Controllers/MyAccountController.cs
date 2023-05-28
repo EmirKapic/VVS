@@ -50,28 +50,14 @@ namespace TechHaven.Controllers
         public async Task<IActionResult> AddToFavorites([FromQuery] int newProdId)
         {
             var newProd = await _db.Product.FirstOrDefaultAsync(x => x.Id == newProdId);
-            var usr = await _userManager.GetUserAsync(User);
+            var usrId = _userManager.GetUserId(User);
+            var usr = await _db.Customer.Include(u => u.Products).FirstAsync(u => u.Id == usrId);
 
-            var newProduct = new Product();
-            //Potrebno je kopirati na ovaj nacin da ne bi oba bili referenca na jedan objekat, zbog cega bi nastala greska u bazi (Zapravo bi bila one-to-one veza)
-            //Ako je i dalje nejasno pitati Emira
-            if (newProd != null && usr != null)
-            {
-                newProduct = new Product{
-                    Category = newProd.Category,
-                    Manufacturer = newProd.Manufacturer,
-                    Model = newProd.Model,
-                    Price = newProd.Price,
-                    NumberOfAvailable = newProd.NumberOfAvailable,
-                    CustomerId = usr.Id,
-                    Customer = usr
-                };
-            }
-            else
-            {
-                return NotFound();
-            }
-            usr.Products.Add(newProduct);
+            if (usr == null) { return NotFound(); }
+
+            if (usr.Products.Contains(newProd)) { return Redirect(Request.Headers.Referer); } //Zapravo bi trebao da izadje neki pop-up koji kaze already added to favorites
+
+            usr.Products.Add(newProd);
             await _db.SaveChangesAsync();
             return Redirect(Request.Headers.Referer);
         }
@@ -79,11 +65,11 @@ namespace TechHaven.Controllers
         
         public async Task<IActionResult> DropFromFavorites(int id)
         {
-            var usr = await _userManager.GetUserAsync(User);
+            var usrId = _userManager.GetUserId(User);
+            var usr = await _db.Customer.Include(u => u.Products).FirstAsync(u => u.Id == usrId);
             var prod = await _db.Product.FirstOrDefaultAsync(x => x.Id == id);
             if (usr == null || usr.Products == null || prod == null) { return NotFound(); }
             usr.Products.Remove(prod);
-            _db.Product.Remove(prod);
             await _db.SaveChangesAsync();
             return Redirect(Request.Headers.Referer);
         }

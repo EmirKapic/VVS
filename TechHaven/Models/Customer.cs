@@ -12,11 +12,12 @@ namespace TechHaven.Models
         public string? LastName { get; set; }
         public int? NumberOfHavenCoins { get; set; }
 
-        public ShoppingCart? ShoppingCart { get; set; }
+        public ShoppingCart? ShoppingCart { get; set; } = null!;
 
         public ICollection<Product>? Products { get; set; } = new List<Product>();//Wish-list
 
         public ICollection<Order>? Orders { get; set; } = new List<Order>();
+        
 
         public Customer() {}
     }

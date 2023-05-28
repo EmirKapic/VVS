@@ -8,12 +8,12 @@ namespace TechHaven.Models
         [Key]
         public int Id { get; set; }
 
-        public List<Product>? products;
+        public ICollection<Product>? Products = new List<Product>();
         public double TotalPrice { get; set; }
 
         [ForeignKey("Customer")]
         public string CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public Customer Customer { get; set; } = null!;
 
         public ShoppingCart() { }
     }

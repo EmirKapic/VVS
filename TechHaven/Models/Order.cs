@@ -12,7 +12,7 @@ namespace TechHaven.Models
         public string CustomerId { get; set; }
         public Customer Customer { get; set; }
 
-        public List<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
 
         public int Price { get; set; }
         public string ShippingAddress { get; set; }

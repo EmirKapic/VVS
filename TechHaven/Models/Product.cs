@@ -13,13 +13,11 @@ namespace TechHaven.Models
         public double? Price { get; set; }
         public int? NumberOfAvailable { get; set; }
 
-        [ForeignKey("Customer")]
-        public string? CustomerId { get; set; }
-        public Customer? Customer { get; set; }
+        public ICollection<Customer>? Customers { get; set; } = new List<Customer>();
+        
+        public ICollection<ShoppingCart>? ShoppingCarts { get; set; } = new List<ShoppingCart>();
 
-        [ForeignKey("ShoppingCart")]
-        public int? ShoppingCartId { get; set; }
-        public ShoppingCart? ShoppingCart { get; set; }
+        public ICollection<Order>? Orders { get; set; } = new List<Order>();
 
         public Product() { }
     }

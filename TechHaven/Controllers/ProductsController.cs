@@ -19,7 +19,7 @@ namespace TechHaven.Controllers
         public async Task<IActionResult> Index()
         {
             //Ovdje treba dodati samo one producte gdje je customerId == null
-            return View(await _db.Product.Distinct().Where(p => p.CustomerId == null).ToListAsync());
+            return View(await _db.Product.ToListAsync());
         }
 
         public async Task<IActionResult> ProductDetails(int id)
