@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TechHaven.Data;
 using TechHaven.Models;
+using TechHaven.Services;
 
 namespace TechHaven.Controllers
 {
@@ -11,14 +12,15 @@ namespace TechHaven.Controllers
      * */
     public class ProductsController : Controller
     {
-        public ApplicationDbContext _db;
-        public ProductsController(ApplicationDbContext db) {
+        private ApplicationDbContext _db;
+        private ICartManager _cartManager;
+        public ProductsController(ApplicationDbContext db, CartManager cartManager) {
             _db = db;
+            _cartManager = cartManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            //Ovdje treba dodati samo one producte gdje je customerId == null
             return View(await _db.Product.ToListAsync());
         }
 
@@ -34,6 +36,17 @@ namespace TechHaven.Controllers
                 return NotFound();
             }
             return View(prod);
+        }
+
+        public async Task<IActionResult> AddToCart(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
+            await _cartManager.AddToCart(prod);
+            return RedirectToAction("ProductDetails", new {id = id});
         }
     }
 }

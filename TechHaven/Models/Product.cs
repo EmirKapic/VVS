@@ -7,11 +7,11 @@ namespace TechHaven.Models
     {
         [Key]
         public int Id { get; set; }
-        public string? Category { get; set; }
-        public string? Manufacturer { get; set; }
-        public string? Model { get; set; }
-        public double? Price { get; set; }
-        public int? NumberOfAvailable { get; set; }
+        public string Category { get; set; } = String.Empty;
+        public string Manufacturer { get; set; } = String.Empty;
+        public string Model { get; set; } = String.Empty;
+        public double Price { get; set; } = 0;
+        public int NumberOfAvailable { get; set; } = 0;
 
         public ICollection<Customer>? Customers { get; set; } = new List<Customer>();
         

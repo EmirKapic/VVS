@@ -10,9 +10,9 @@ namespace TechHaven.Controllers
     [Authorize(Roles = "Customer, Administrator")]
     public class MyAccountController : Controller
     {
-        public ApplicationDbContext _db;
-        public UserManager<Customer> _userManager;
-        public SignInManager<Customer> _signInManager;
+        private ApplicationDbContext _db;
+        private UserManager<Customer> _userManager;
+        private SignInManager<Customer> _signInManager;
 
         public MyAccountController(ApplicationDbContext db, UserManager<Customer> userManager, SignInManager<Customer> signInManager)
         {
