@@ -15,12 +15,17 @@ namespace TechHaven.Models
         public string CustomerId { get; set; }
         public Customer Customer { get; set; } = null!;
 
+        public List<int> Repetitions = new();
+
         public void AddNewProduct(Product newProduct)
         {
-            Products.Add(newProduct);
-            TotalPrice += newProduct.Price;
+            if (!Products.Contains(newProduct))
+            {
+                Products.Add(newProduct);
+                TotalPrice += newProduct.Price;
+            }
         }
-        public void removeProduct(Product newProduct)
+        public void RemoveProduct(Product newProduct)
         {
             if (Products.Contains(newProduct))
             {

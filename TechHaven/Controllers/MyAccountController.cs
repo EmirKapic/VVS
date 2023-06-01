@@ -85,6 +85,11 @@ namespace TechHaven.Controllers
         {
             if (change == "data")
             {
+                if (newData.FirstName == null || newData.LastName == null || newData.Email == null)
+                {
+                    ModelState.AddModelError("emptyFields", "Fields cannot be empty");
+                    return View(newData);
+                }
                 var usr = await _userManager.GetUserAsync(User);
                 usr.FirstName = newData.FirstName;
                 usr.LastName = newData.LastName;
@@ -96,6 +101,11 @@ namespace TechHaven.Controllers
             }
             else if(change == "password")
             {
+                if (newData.oldPass == null || newData.newPass == null || newData.repeatNew == null)
+                {
+                    ModelState.AddModelError("emptyPassFields", "Polja ne mogu biti prazna");
+                    return View(newData);
+                }
                 var usr = await _userManager.GetUserAsync(User);
                 if (!await _userManager.CheckPasswordAsync(usr, newData.oldPass))
                 {

@@ -22,20 +22,23 @@
 
             <form method="post" asp-route-change="data">
                 <div class="form-group mb-3">
-                    <h6>Ime</h6>
+                    <h6>Ime<span class="text-danger">*</span> </h6>
                     <input type="text" class="form-control" value="@currentUser.FirstName" asp-for="FirstName"/>
                 </div>
 
                 <div class="form-group mb-3">
-                    <h6>Prezime</h6>
+                    <h6>Prezime<span class="text-danger">*</span></h6>
                     <input type="text" class="form-control" value="@currentUser.LastName" asp-for="LastName"/>
                 </div>
 
-                <div class="form-group mb-3">
-                    <h6>E-mail adresa</h6>
+                <div class="form-group mb-2">
+                    <h6>E-mail adresa<span class="text-danger">*</span></h6>
                     <input type="email" class="form-control" value= "@currentUser.Email" asp-for="Email"/>
-                    <span class="text-danger" asp-validation-for="Email"></span>
                 </div>
+                @if (ViewData.ModelState["emptyFields"] != null && ViewData.ModelState["emptyFields"].Errors.Any())
+                {
+                    <span class="text-danger d-block">Polja ne smiju ostati prazna</span>
+                }
 
                 <button class="btn btn-primary" type="submit">Sačuvaj promjene</button>
                     
@@ -45,25 +48,31 @@
            
             <form method="post" asp-route-change="password">
                 <div class="form-group mb-3">
-                    <h6>Stara lozinka</h6>
+                    <h6>Stara lozinka<span class="text-danger">*</span></h6>
                     <input name ="oldPass" type="password" class="form-control" asp-for="oldPass"/>
                     @if (ViewData.ModelState["oldPass"] != null && ViewData.ModelState["oldPass"].Errors.Any())
                     {
-                        <span class="text-danger">Invalid password</span>
+                        <span class="text-danger">Netačna lozinka</span>
                     }
                     
                 </div>
                 <div class="form-group mb-3">
-                    <h6>Nova lozinka</h6>
+                    <h6>Nova lozinka<span class="text-danger">*</span></h6>
                     <input name="newPass" type="password" class="form-control" asp-for="newPass"/>
                 </div>
                 <div class="form-group mb-3">
-                    <h6>Ponovljena nova lozinka</h6>
+                    <h6>Ponovljena nova lozinka<span class="text-danger">*</span></h6>
                     <input name="repeatNew" type="password" class="form-control" asp-for="repeatNew"/>
-                    @if (ViewData.ModelState["repeatNew"] != null && ViewData.ModelState["repeatNew"].Errors.Any())
+                    @if (ViewData.ModelState["emptyPassFields"] != null && ViewData.ModelState["emptyPassFields"].Errors.Any())
                     {
-                        <span class="text-danger">Passwords must match!</span>
+                        <span class="text-danger d-block">Polja ne smiju biti prazna</span>
                     }
+                    else if (ViewData.ModelState["repeatNew"] != null && ViewData.ModelState["repeatNew"].Errors.Any())
+                    {
+                        <span class="text-danger">Lozinke se moraju poklapati</span>
+                    }
+                    
+                    
                     
                 </div>
                 <button class="btn btn-primary" type="submit">Sačuvaj promjene</button>

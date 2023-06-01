@@ -1,10 +1,26 @@
-﻿@model ICollection<Product>
+﻿@model IList<CartItemViewModel>
+@using TechHaven.Services;
+@inject CartManager _cartManager;
+@{
+    var cart = await _cartManager.GetCurrentCart();
+    var products = (IList<Product>)cart.Products;
+    double shipmentFee = 8.00;
+    double withShipment = cart.TotalPrice;
+    if (cart.TotalPrice <= 200)
+    {
+        withShipment += shipmentFee;
+    }
+    var priceWithShipment = withShipment.ToString("F");
+    if (cart.Products.Count() == 0) priceWithShipment = "0";
+}
 
+
+<form method="post" asp-controller="Orders" asp-action="Index">
 <div class="container my-4">
     <h2 class="text-center">Shopping cart</h2>
     <hr class="mb-4" />
     <div class="row">
-
+        
         <div class="col-lg-8 table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
@@ -17,23 +33,29 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    @foreach(var prod in Model)
+                    @for(int i = 0; i < Model.Count; ++i)
                     {
                         <tr>
                             <td scope="row">
                                 <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
-                                <span class="ms-2"> @prod.Manufacturer @prod.Model</span>
+                                <span class="ms-2"> @products[i].Manufacturer @products[i].Model</span>
                             </td>
-                            <td>@prod.Price KM</td>
+                            <td>@products[i].Price KM</td>
                             <td>
-                                <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" value="1" />
+                                <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" max = "100" value="1" asp-for="@Model[i].NumberOfRepetitions" />
+                                <input type="hidden" asp-for="@Model[i].Product.Id" value="@Model[i].Product.Id"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Manufacturer" value="@Model[i].Product.Manufacturer"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Model" value="@Model[i].Product.Model"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Price" value="@Model[i].Product.Price"/>
+                                
                             </td>
-                            <td>@prod.Price KM</td>
+                            <td>@products[i].Price KM</td>
                             <td>
-                                <button type="button" class="btn-close" aria-label="Close"></button>
+                                <a type="submit" class="btn-close" aria-label="Close" asp-action="RemoveFromCart" asp-route-id="@products[i].Id"></a>
                             </td>
                         </tr>
-                    }     
+                    } 
+                        
                 </tbody>
             </table>
         </div>
@@ -45,27 +67,35 @@
                     <hr />
                     <div class="fs-5 d-flex justify-content-between mb-1">
                         <div>Ukupno:</div>
-                        <div>23.00KM</div>
+                        <div>@cart.TotalPrice.ToString("F") KM</div>
                     </div>
                     <div class="fs-5 d-flex justify-content-between mb-1">
                         <div>Dostava:</div>
-                        <div>8.00KM</div>
+                        @if (cart.TotalPrice > 200)
+                        {
+                            <div class="text-decoration-line-through">@shipmentFee.ToString("F") KM</div>
+                        }
+                        else
+                        {
+                            <div>@shipmentFee.ToString("F") KM</div>
+                        }
                     </div>
-                    
-                    <p class="fs-6 fw-light">Dostava je <b>besplatna</b> za sve narudžbe preko 50KM.</p>
+                    <p class="fs-6 fw-light">Dostava je <b>besplatna</b> za sve narudžbe preko 200KM.</p>
 
                     <hr />
                     <div class="d-flex justify-content-between mb-2">
-                        <h5>Ukupna cijena:</h5>
-                        <h5>31.00KM</h5>
+                        <h5>Ukupna cijena: </h5>
+                        <h5>@priceWithShipment KM</h5>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Kupi sada</button>
+                    
+                        <button type="submit" class="btn btn-primary w-100" >Kupi sada</button>
+                    
                 </div>
             </div>
         </div>
     </div>      
 </div>
-
+</form>
 <div class="container mt-4">
     <div class="border border-secondary-subtle rounded p-3">
         <h3 class="text-center mb-3">Recommended for you</h3>
@@ -125,3 +155,7 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>

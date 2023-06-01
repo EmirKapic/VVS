@@ -19,7 +19,7 @@ namespace TechHaven.Services
         }
  
         //Adds the product given as parameter to the currently logged-in user
-        public async Task AddToCart(Product prod)
+        public async Task<ICollection<Product>> AddToCart(Product prod)
         {
             var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
             var usr = await _db.Customer
@@ -28,8 +28,8 @@ namespace TechHaven.Services
                 .ThenInclude(c => c.Products)
                 .FirstAsync(u => u.Id == usrId);
 
-            if (usr == null) { return; }
-            if (usr.ShoppingCart != null && usr.ShoppingCart.Products.Contains(prod)) { return; }
+            if (usr == null) { new List<Product>(); }
+            if (usr.ShoppingCart != null && usr.ShoppingCart.Products.Contains(prod)) { new List<Product>(); }
 
             if (usr.ShoppingCart == null)
             {
@@ -37,20 +37,54 @@ namespace TechHaven.Services
             }
             usr.ShoppingCart.AddNewProduct(prod);
             await _db.SaveChangesAsync();
+            return usr.ShoppingCart.Products;
+        }
+
+        public async Task<ICollection<Product>> RemoveFromCart(Product prod)
+        {
+            var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+            var usr = await _db.Customer
+                .Include(u => u.Products)
+                .Include(u => u.ShoppingCart)
+                .ThenInclude(c => c.Products)
+                .FirstAsync(u => u.Id == usrId);
+            if (usr == null) { throw new NullReferenceException("Shopping cart is null when trying to remove from it!"); }
+            //Ako ne postoji cart kako se desi da se pokusa izvaditi nesto iz njega???? -> exception
+            if (usr.ShoppingCart == null) { throw new NullReferenceException("Shopping cart is null when trying to remove from it!"); }
+            usr.ShoppingCart.RemoveProduct(prod);
+            await _db.SaveChangesAsync();
+            return usr.ShoppingCart.Products;
         }
 
         public async Task<ICollection<Product>> getAllFromCart()
         {
             var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
-
-            var cart = await _db.ShoppingCart.Include(s => s.Products).Where(s => s.CustomerId == usrId).FirstAsync();
-
-            if (cart == null) { throw new NullReferenceException("Cart is null!"); }
-            if (cart.Products != null)
+            var usr = await _db.Customer
+                .Include(u => u.ShoppingCart)
+                .ThenInclude(c => c.Products)
+                .FirstAsync(u => u.Id == usrId);
+            if (usr == null) { throw new NullReferenceException("User doesn't exist !"); }
+            if (usr.ShoppingCart == null)
             {
-                return cart.Products;
+                usr.ShoppingCart = new ShoppingCart();
             }
-            else return new List<Product>();
+            await _db.SaveChangesAsync();
+            return usr.ShoppingCart.Products;
+        }
+        public async Task<ShoppingCart> GetCurrentCart()
+        {
+            var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
+            var usr = await _db.Customer
+                .Include(u => u.ShoppingCart)
+                .ThenInclude(c => c.Products)
+                .FirstAsync(u => u.Id == usrId);
+            if (usr == null) { throw new NullReferenceException("User doesn't exist !"); }
+            if (usr.ShoppingCart == null)
+            {
+                usr.ShoppingCart = new ShoppingCart();
+            }
+            await _db.SaveChangesAsync();
+            return usr.ShoppingCart;
         }
     }
 }

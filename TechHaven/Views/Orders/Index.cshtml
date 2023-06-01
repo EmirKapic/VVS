@@ -1,0 +1,16 @@
+﻿@model IList<CartItemViewModel>
+<div>
+    Hello!
+</div>
+
+@foreach(var item in Model){
+    <div>
+        <p>
+            @item.Product.Manufacturer @item.Product.Model
+        </p>
+        <p>
+            @item.NumberOfRepetitions <br>
+        </p>
+    </div>
+
+}
