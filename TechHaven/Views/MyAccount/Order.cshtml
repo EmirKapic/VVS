@@ -1,4 +1,6 @@
-﻿<div class="container container-fluid">
+﻿@model ICollection<Order>
+
+<div class="container container-fluid">
 
     <div class="row mt-3">
         <partial name="_MyAccMenu" />
@@ -14,34 +16,17 @@
 							<th scope="col">Broj narudžbe</th>
 							<th scope="col">Datum</th>
 							<th scope="col">Iznos</th>
-							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody class="table-group-divider">
-						<tr>
-							<th scope="row">#00000</th>
-							<td>03.05.2023.</td>
-							<td>$3143</td>
-							<td>
-								<a class="btn btn-primary float-end">Detalji</a>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">#00000</th>
-							<td>03.05.2023.</td>
-							<td>$3143</td>
-							<td>
-								<a class="btn btn-primary float-end">Detalji</a>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row">#00000</th>
-							<td>03.05.2023.</td>
-							<td>$3143</td>
-							<td>
-								<a class="btn btn-primary float-end">Detalji</a>
-							</td>
-						</tr>
+						@foreach(var item in Model)
+						{
+							<tr>
+								<th scope="row">#@item.Id</th>
+								<td>@item.OrderDate</td>
+								<td>@item.Price KM</td>
+							</tr>
+						}
 					</tbody>
 				</table>
             </div>

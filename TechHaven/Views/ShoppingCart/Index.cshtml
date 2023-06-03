@@ -1,6 +1,7 @@
 ﻿@model IList<CartItemViewModel>
 @using TechHaven.Services;
 @inject CartManager _cartManager;
+@inject HistoryAnalyzer _historyAnalyzer;
 @{
     var cart = await _cartManager.GetCurrentCart();
     var products = (IList<Product>)cart.Products;
@@ -40,19 +41,27 @@
                                 <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
                                 <span class="ms-2"> @products[i].Manufacturer @products[i].Model</span>
                             </td>
-                            <td>@products[i].Price KM</td>
                             <td>
-                                <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" max = "100" value="1" asp-for="@Model[i].NumberOfRepetitions" />
+                                <span id="price-per-product">
+                                        @products[i].Price
+                                    </span> KM
+                            </td>
+                            <td>
+                                <input class="form-control quantity" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" max = "100" value="1" asp-for="@Model[i].NumberOfRepetitions" />
                                 <input type="hidden" asp-for="@Model[i].Product.Id">
                                 <input type="hidden" asp-for="@Model[i].Product.Manufacturer"/>
                                 <input type="hidden" asp-for="@Model[i].Product.Model"/>
                                 <input type="hidden" asp-for="@Model[i].Product.Price"/>
                                 <input type="hidden" asp-for="@Model[i].Product.Category"/>
-                                
                             </td>
-                            <td>@products[i].Price KM</td>
                             <td>
-                                <a class="btn-close" aria-label="Close" asp-action="RemoveFromCart" asp-route-id="@products[i].Id"></a>
+                                <span id="total-product-price">
+                                        @products[i].Price
+                                </span> KM
+                            </td>
+                            <td>
+                                <a onclick="RemoveFromCart()" class="btn-close"></a>
+                                <input id="prod-id" type="hidden" value="@Model[i].Product.Id">
                             </td>
                         </tr>
                     } 
@@ -68,7 +77,12 @@
                     <hr />
                     <div class="fs-5 d-flex justify-content-between mb-1">
                         <div>Ukupno:</div>
-                        <div>@cart.TotalPrice.ToString("F") KM</div>
+                        <div >
+                               <span id ="total-without-shipment">
+                               @cart.TotalPrice.ToString("F")
+                            </span> KM
+                            
+                        </div>
                     </div>
                     <div class="fs-5 d-flex justify-content-between mb-1">
                         <div>Dostava:</div>
@@ -86,7 +100,7 @@
                     <hr />
                     <div class="d-flex justify-content-between mb-2">
                         <h5>Ukupna cijena: </h5>
-                        <h5>@priceWithShipment KM</h5>
+                            <h5> <span id="total-with-shipment">@priceWithShipment</span> KM</h5>
                     </div>
                     
                         <button type="submit" class="btn btn-primary w-100" >Kupi sada</button>
@@ -97,66 +111,112 @@
     </div>      
 </div>
 </form>
+
+<!-- Recommendations -->
 <div class="container mt-4">
     <div class="border border-secondary-subtle rounded p-3">
         <h3 class="text-center mb-3">Recommended for you</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
+            @{
+                var recommends = await new CustomerRecommendation(_historyAnalyzer).RecommendProducts();
+                foreach (var prod in recommends.Take(4))
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                                <a class="btn btn-sm btn-primary" asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">Detalji</a>
+                                <small class="text-body-secondary">@prod.Price KM</small>
+                                <a onclick="AddToCart()" class="btn btn-sm btn-success">Dodaj</a>
+                                <input id ="prod-id-add" type="hidden" value="@prod.Id">
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
+                }
+            }
         </div>
     </div>
 </div>
+<script> 
+    async function RemoveFromCart() {
+        const tableRow = event.target.parentNode.parentNode;
+        tableRow.parentNode.removeChild(tableRow);
+
+        const td = event.target.parentNode;
+
+        const prodId = td.querySelector('#prod-id').value;
+
+        const parameters = new URLSearchParams();
+        parameters.append("id", prodId.toString());
+
+        const url = "/ShoppingCart/RemoveFromCart?" + parameters.toString();
+        const result = await fetch(url)
+            .then(response => response.json());
+
+        console.log(result);
+        window.location.reload();
+    }
+
+    async function AddToCart() {
+        const container = event.target.parentNode;
+        const prodId = container.querySelector('#prod-id-add').value;
+
+        const parameters = new URLSearchParams();
+        parameters.append("id", prodId.toString());
+        const url = "/Products/AddToCart?" + parameters.toString();
+
+        const result = await fetch(url)
+            .then(response => response.json());
+        console.log(result);
+        window.location.reload();
+    }
+
+    function updateCosts(){
+        if (event.target.value <= 0 || event.target.value > 100) {
+            event.target.value = 1;
+            console.log("Must be 1-100")
+        }
+
+        const inputParent = event.target.parentNode.parentNode;
+        
+        
+        let totalPriceNode = inputParent.querySelector('#total-product-price');
+        const pricePerProductNode = inputParent.querySelector('#price-per-product');
+        const totalPriceInt = parseInt(pricePerProductNode.textContent)*event.target.value
+        totalPriceNode.textContent = totalPriceInt;
+        
+        let cartPriceNode = document.querySelector('#total-without-shipment');
+
+        const allTotalPriceNodes = document.querySelectorAll('#total-product-price');
+
+        let totalPriceBeforeShipping = 0.0;
+        allTotalPriceNodes.forEach((node) => {
+            totalPriceBeforeShipping += parseInt(node.textContent);
+        });
+        cartPriceNode.textContent = totalPriceBeforeShipping.toFixed(2);
+
+        let cartPriceWithShippmentNode = document.querySelector('#total-with-shipment');
+
+        if (totalPriceBeforeShipping > 200){
+            cartPriceWithShippmentNode.textContent = cartPriceNode.textContent;
+        }
+        else{
+            cartPriceWithShippmentNode.textContent = (totalPriceBeforeShipping + 8.00).toFixed(2);
+        }
+
+        console.log("Example" + event.target.value);
+    }
+
+    document.querySelectorAll('.quantity').forEach( (btn) => {
+        btn.addEventListener('change', updateCosts);
+    });  
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
+

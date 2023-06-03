@@ -44,7 +44,7 @@ namespace TechHaven.Controllers
             {
                 var prod = await _db.Product.FirstAsync(p => p.Id == id);
                 await _cartManager.RemoveFromCart(prod);
-                return RedirectToAction("Index");
+                return Json(new { message = "Sucessfully removed from cart!" });
             }
             catch (NullReferenceException)
             {

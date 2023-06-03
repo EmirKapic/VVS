@@ -9,13 +9,15 @@ namespace TechHaven.Services
     {
         private readonly SignInManager<Customer> _signInManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly OrdersManager _ordersManager;
         private readonly ApplicationDbContext _db;
 
-        public HistoryAnalyzer(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, SignInManager<Customer> signInManager)
+        public HistoryAnalyzer(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, SignInManager<Customer> signInManager, OrdersManager ordersManager)
         {
             _db = db;
             _httpContextAccessor = httpContextAccessor;
             _signInManager = signInManager;
+            _ordersManager = ordersManager;
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
@@ -27,10 +29,8 @@ namespace TechHaven.Services
             }
             else
             {
-                //Take from database products where category is any of the ones our customer has purchased
-                //prvo se trebaju ubaciti neki orderi da bi ovdje mogli nesto odradit
-                return new List<Product>();
-            }
+                return await _ordersManager.GetProductsFromOrders();
+			}
         }
     }
 }

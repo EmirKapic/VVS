@@ -29,8 +29,9 @@
 								<td>$@prod.Price</td>
 								<td>
 									<span class="float-end">
-										<a class="btn btn-primary">Dodaj u korpu</a>
-										<a class="btn btn-danger" asp-action="DropFromFavorites" asp-route-id="@prod.Id">Izbaci</a>
+										<a class="btn btn-primary" onclick="AddToCart()">Dodaj u korpu</a>
+										<a class="btn btn-danger" onclick="RemoveFromFavorites()">Izbaci</a>
+										<input id="remove-id" type="hidden" value="@prod.Id">
 									</span>
 								</td>
 							</tr>			
@@ -41,3 +42,39 @@
         </div>
     </div>
 </div>
+
+<script>
+
+	async function RemoveFromFavorites(){
+		const tableRow = event.target.parentNode.parentNode.parentNode;
+		tableRow.parentNode.removeChild(tableRow);
+
+		const td = event.target.parentNode;
+
+		const prodId = td.querySelector('#remove-id').value;
+
+		const parameters = new URLSearchParams();
+		parameters.append("id", prodId.toString());
+
+		const url = "/MyAccount/DropFromFavorites?" + parameters.toString();
+		const result = await fetch(url)
+			.then(response => response.json());
+
+		console.log(result);
+	}
+
+	async function AddToCart(){
+		const td = event.target.parentNode;
+		const prodId = td.querySelector('#remove-id').value;
+
+		const parameters = new URLSearchParams();
+		parameters.append("id", prodId.toString());
+		const url = "/Products/AddToCart?" + parameters.toString();
+		const result = await fetch(url)
+			.then(response => response.json());
+
+		console.log(result);
+	}
+
+
+</script>

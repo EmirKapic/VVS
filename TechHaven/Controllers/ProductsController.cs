@@ -50,11 +50,11 @@ namespace TechHaven.Controllers
         {
             if (id == 0)
             {
-                return NotFound();
+                return Json(new { message = "No object found with given id!" });
             }
             var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
             await _cartManager.AddToCart(prod);
-            return RedirectToAction("ProductDetails", new {id = id});
+            return Json(new { message = "Sucessfully added to cart!" });
         }
     }
 }

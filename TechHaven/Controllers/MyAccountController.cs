@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TechHaven.Data;
 using TechHaven.Models;
 
@@ -26,8 +27,18 @@ namespace TechHaven.Controllers
             return View();
         }
 
-        public IActionResult Order()
+        public async Task<IActionResult> Order()
         {
+            var usrId = _userManager.GetUserId(User);
+            var usr = await _db.Customer.Include(u => u.Orders).FirstAsync(u => u.Id == usrId);
+            if (usr.Orders != null)
+            {
+                if (!usr.Orders.Any())
+                {
+                    return View(new List<Order>());
+                }
+                return View(usr.Orders);
+            }
             return View();
         }
         
@@ -55,11 +66,12 @@ namespace TechHaven.Controllers
 
             if (usr == null) { return NotFound(); }
 
-            if (usr.Products.Contains(newProd)) { return Redirect(Request.Headers.Referer); } //Zapravo bi trebao da izadje neki pop-up koji kaze already added to favorites
+            if (usr.Products.Contains(newProd)) { return Json(new { message = "Sucessfully added to favorites!" }); } //Zapravo bi trebao da izadje neki pop-up koji kaze already added to favorites
 
             usr.Products.Add(newProd);
             await _db.SaveChangesAsync();
-            return Redirect(Request.Headers.Referer);
+
+            return Json(new { message = "Sucessfully added to favorites!" });
         }
 
         
@@ -71,8 +83,8 @@ namespace TechHaven.Controllers
             if (usr == null || usr.Products == null || prod == null) { return NotFound(); }
             usr.Products.Remove(prod);
             await _db.SaveChangesAsync();
-            return Redirect(Request.Headers.Referer);
-        }
+            return Json(new { message = "Sucessfully removed from favorites!" });
+		}
 
         public async Task<IActionResult> Logout()
         {
