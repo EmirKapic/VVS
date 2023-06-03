@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TechHaven.Data;
 using TechHaven.Models;
 using TechHaven.Services;
@@ -49,6 +50,36 @@ namespace TechHaven.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpPost]
+        public IActionResult StartOrder(IList<CartItemViewModel> items)
+        {
+            double price = 0;
+            List<Product> orderItems = new List<Product>();
+            foreach(var item in items)
+            {
+                price += item.Product.Price;
+                orderItems.Add(item.Product);
+            }
+            var order = new Order()
+            {
+                CustomerId = _userManager.GetUserId(User),
+                Products = orderItems,
+                Price = price,
+                ShippingAddress = "",
+                OrderDate = DateTime.Now
+            };
+
+            var orderData = new OrdersViewModel()
+            {
+                cartItems = items,
+                order = order
+            };
+
+            TempData["orderData"] = JsonConvert.SerializeObject(orderData);
+
+            return RedirectToAction("Index", "Orders");
         }
     }
 }

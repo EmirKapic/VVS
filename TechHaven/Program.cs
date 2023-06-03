@@ -17,7 +17,15 @@ builder.Services.AddDefaultIdentity<Customer>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+//Register personal services here
+
 builder.Services.AddScoped<CartManager>();
+builder.Services.AddScoped<ProductManager>();
+builder.Services.AddScoped<SingleProductAnalyzer>();
+builder.Services.AddScoped<HistoryAnalyzer>();
+builder.Services.AddScoped<OrdersManager>();
+
+//End of personal services
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

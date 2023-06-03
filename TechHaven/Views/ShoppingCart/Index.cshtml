@@ -15,7 +15,7 @@
 }
 
 
-<form method="post" asp-controller="Orders" asp-action="Index">
+<form method="post" asp-action="StartOrder">
 <div class="container my-4">
     <h2 class="text-center">Shopping cart</h2>
     <hr class="mb-4" />
@@ -43,15 +43,16 @@
                             <td>@products[i].Price KM</td>
                             <td>
                                 <input class="form-control" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" max = "100" value="1" asp-for="@Model[i].NumberOfRepetitions" />
-                                <input type="hidden" asp-for="@Model[i].Product.Id" value="@Model[i].Product.Id"/>
-                                <input type="hidden" asp-for="@Model[i].Product.Manufacturer" value="@Model[i].Product.Manufacturer"/>
-                                <input type="hidden" asp-for="@Model[i].Product.Model" value="@Model[i].Product.Model"/>
-                                <input type="hidden" asp-for="@Model[i].Product.Price" value="@Model[i].Product.Price"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Id">
+                                <input type="hidden" asp-for="@Model[i].Product.Manufacturer"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Model"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Price"/>
+                                <input type="hidden" asp-for="@Model[i].Product.Category"/>
                                 
                             </td>
                             <td>@products[i].Price KM</td>
                             <td>
-                                <a type="submit" class="btn-close" aria-label="Close" asp-action="RemoveFromCart" asp-route-id="@products[i].Id"></a>
+                                <a class="btn-close" aria-label="Close" asp-action="RemoveFromCart" asp-route-id="@products[i].Id"></a>
                             </td>
                         </tr>
                     } 

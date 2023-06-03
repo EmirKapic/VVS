@@ -1,0 +1,21 @@
+﻿@model OrdersViewModel
+
+Thank you!
+
+You ordered items:
+
+@foreach (var item in Model.cartItems)
+{
+    <div>
+        <p>
+            @item.Product.Manufacturer @item.Product.Model
+        </p>
+        <p>
+            @item.NumberOfRepetitions <br>
+        </p>
+    </div>
+}
+
+To address : @Model.order.ShippingAddress
+<div>Total price : @Model.order.Price </div>
+

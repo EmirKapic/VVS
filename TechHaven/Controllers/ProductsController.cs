@@ -6,22 +6,30 @@ using TechHaven.Services;
 
 namespace TechHaven.Controllers
 {
-    /*
-     * Ovo je samo privremeno rješenje, zapravo ce biti proslijedjena lista Produkata kao parametar metodi Index iz onog kontrolera
-     * koji je poziva
-     * */
     public class ProductsController : Controller
     {
-        private ApplicationDbContext _db;
-        private ICartManager _cartManager;
-        public ProductsController(ApplicationDbContext db, CartManager cartManager) {
+        private readonly ApplicationDbContext _db;
+        private readonly ICartManager _cartManager;
+        private readonly IProductManager _productManager;
+        public ProductsController(ApplicationDbContext db, CartManager cartManager, ProductManager productManager) {
             _db = db;
             _cartManager = cartManager;
+            _productManager = productManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string category)
         {
-            return View(await _db.Product.ToListAsync());
+            //After filtering / sorting we use this to set showed products instead of getting all of certain category
+            //This IF should ONLY be true after method filterProducts of THIS controller. In no other case should this TempData return non-null
+            var filtered = TempData["filteredProducts"] as ICollection<Product>;
+            if (filtered != null)
+            {
+                return View(filtered);
+            }
+            else
+            {
+                return View(await _productManager.GetAllByCategory(category));
+            }
         }
 
         public async Task<IActionResult> ProductDetails(int id)

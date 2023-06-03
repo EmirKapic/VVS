@@ -14,7 +14,7 @@ namespace TechHaven.Models
 
         public ICollection<Product> Products { get; set; } = new List<Product>();
 
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string ShippingAddress { get; set; }
 
         [NotMapped]

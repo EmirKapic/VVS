@@ -83,7 +83,6 @@ namespace TechHaven.Services
             {
                 usr.ShoppingCart = new ShoppingCart();
             }
-            await _db.SaveChangesAsync();
             return usr.ShoppingCart;
         }
     }

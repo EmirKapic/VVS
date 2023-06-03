@@ -1,9 +1,9 @@
-﻿@model IList<CartItemViewModel>
+﻿@model OrdersViewModel
 <div>
     Hello!
 </div>
-
-@foreach(var item in Model){
+<form method="post" asp-action="ThankYou">
+@foreach(var item in Model.cartItems){
     <div>
         <p>
             @item.Product.Manufacturer @item.Product.Model
@@ -12,5 +12,21 @@
             @item.NumberOfRepetitions <br>
         </p>
     </div>
-
 }
+
+    <input type="text" asp-for="order.ShippingAddress"/>
+    <input type="hidden" asp-for="order.Price" />
+
+    @for(int i = 0; i < Model.cartItems.Count; i++)
+    {
+        <input type="hidden" asp-for="@Model.cartItems[i].Product.Id" />
+        <input type="hidden" asp-for="@Model.cartItems[i].Product.Category" />
+        <input type="hidden" asp-for="@Model.cartItems[i].Product.Model" />
+        <input type="hidden" asp-for="@Model.cartItems[i].Product.Manufacturer"/>
+        <input type="hidden" asp-for="@Model.cartItems[i].Product.Price" />
+        <input type="hidden" asp-for="@Model.cartItems[i].Product.NumberOfAvailable" />
+        <input type="hidden" asp-for="@Model.cartItems[i].NumberOfRepetitions" />
+    }
+
+    <button type="submit">CONFIRM ORDER</button>
+</form>

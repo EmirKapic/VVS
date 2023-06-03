@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using TechHaven.Services
+@inject ProductManager _productManager
+@{
+    var categories = await _productManager.GetAllCategories();
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +13,8 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechHaven.styles.css" asp-append-version="true" />
-    + <base href="~/" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         #main {
             margin-bottom: 60px;
@@ -31,10 +39,12 @@
                                 <span class="ms-1">Categories</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Laptopi</a></li>
-                                <li><a class="dropdown-item" href="#">Mobiteli</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">...</a></li>
+                                @foreach(var category in categories)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-category="@category">@category</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -99,10 +109,12 @@
                                 <span class="d-none d-md-inline">Categories</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Laptopi</a></li>
-                                <li><a class="dropdown-item" href="#">Mobiteli</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">...</a></li>
+                                @foreach (var category in categories)
+                                {
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-category="@category">@category</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -163,11 +175,9 @@
             </span>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="_framework/blazor.server.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
