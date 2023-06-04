@@ -41,5 +41,9 @@ namespace TechHaven.Services
 
             return new Randomizer(products).GetRandomized().Take(limit);
         }
+        public async Task<IEnumerable<Product>> GetAllProducts()
+        {
+            return await _db.Product.ToListAsync();
+        }
     }
 }

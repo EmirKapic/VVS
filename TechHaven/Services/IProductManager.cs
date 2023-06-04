@@ -9,6 +9,7 @@ namespace TechHaven.Services
         public Task<IEnumerable<string>> GetAllManufacturersForCategory(string category);
         public Task<IEnumerable<string>> GetAllCategories();
         public Task<IEnumerable<Product>> GetRandomProducts(int limit);
+        public Task<IEnumerable<Product>> GetAllProducts();
 
     }
 }

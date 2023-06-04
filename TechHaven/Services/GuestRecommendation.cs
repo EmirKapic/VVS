@@ -1,29 +1,38 @@
-﻿using TechHaven.Models;
+﻿using TechHaven.Data;
+using TechHaven.Models;
 
 namespace TechHaven.Services
 {
     public class GuestRecommendation : Recommendation
     {
         public Analyzer analyzer { get; set; }
+        private readonly ApplicationDbContext _db;
+        private readonly ProductManager _productManager;
         private Product product;
 
-        public GuestRecommendation(Analyzer _analyzer, Product? product = null)
+        public GuestRecommendation(ApplicationDbContext db, ProductManager productManager)
         {
-            analyzer = _analyzer;
-            this.product = product;
+            _db = db;
+            _productManager = productManager;
         }
 
-        public async Task<IEnumerable<Product>> RecommendProducts()
+        public async Task Setup(Analyzer analyzer, Product? product = null)
         {
-            if (analyzer is SingleProductAnalyzer)
+            this.analyzer = analyzer;
+            if (product != null)
             {
-                (analyzer as SingleProductAnalyzer).product = product;
-                return await (analyzer as SingleProductAnalyzer).GetProducts();
+                this.analyzer.UserHistory = new List<Product> { product };
             }
             else
             {
-                return await analyzer.GetProducts();
+                var randoms =  await _productManager.GetRandomProducts(20);
+                this.analyzer.UserHistory = randoms.ToList();
             }
+        }
+
+        public IEnumerable<Product> RecommendProducts()
+        {
+            return analyzer.GetProducts();
         }
     }
 }

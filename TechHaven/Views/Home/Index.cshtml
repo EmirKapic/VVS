@@ -6,7 +6,8 @@
 @using Microsoft.AspNetCore.Identity
 @inject ProductManager _productManager
 @inject SignInManager<Customer> _signInManager
-@inject HistoryAnalyzer _historyAnalyzer
+@inject GuestRecommendation _guestRecommendation;
+@inject CustomerRecommendation _customerRecommendation;
 
 
 <div id="carouselExampleCaptions" class="carousel slide container">
@@ -79,8 +80,11 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @if (_signInManager.IsSignedIn(User))
             {
-                var recommends = await new CustomerRecommendation(_historyAnalyzer).RecommendProducts();
-                foreach(var prod in recommends.Take(6))
+                var allProducts = (await _productManager.GetAllProducts()).ToList();
+                await _customerRecommendation.Setup(new HistoryAnalyzer(allProducts));
+                var recommends = _customerRecommendation.RecommendProducts();
+
+            foreach(var prod in recommends.Take(6))
                 {
                     <div class="col">
                         <div class="card h-100">
@@ -90,8 +94,8 @@
                                 <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
                             </div>
                             <div class="card-footer d-flex justify-content-between align-items-center p-2 pe-3">
-                                <a href="#" class="btn btn-sm btn-primary">Details</a>
-                                <small class="text-body-secondary">$9.99</small>
+                                <a class="btn btn-sm btn-primary" asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">Details</a>
+                                <small class="text-body-secondary">@prod.Price KM</small>
                             </div>
                         </div>
                     </div>
@@ -101,7 +105,9 @@
             }
             else
             {
-                var recommends = await new GuestRecommendation(_historyAnalyzer).RecommendProducts();
+                var allProducts = (await _productManager.GetAllProducts()).ToList();
+                await _guestRecommendation.Setup(new HistoryAnalyzer(new List<Product>()));
+                var recommends = _guestRecommendation.RecommendProducts();
                 foreach(var prod in recommends.Take(6))
                 {
                     <div class="col">

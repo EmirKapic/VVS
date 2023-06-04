@@ -4,6 +4,8 @@ namespace TechHaven.Services
 {
     public interface Analyzer
     {
-        public Task<IEnumerable<Product>> GetProducts();
+        public ICollection<Product> products { get; set; }
+        public IEnumerable<Product> GetProducts();
+        public ICollection<Product> UserHistory { get; set; }
     }
 }

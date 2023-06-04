@@ -21,9 +21,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<CartManager>();
 builder.Services.AddScoped<ProductManager>();
-builder.Services.AddScoped<SingleProductAnalyzer>();
-builder.Services.AddScoped<HistoryAnalyzer>();
+builder.Services.AddScoped<CustomerRecommendation>();
+builder.Services.AddScoped<GuestRecommendation>();
 builder.Services.AddScoped<OrdersManager>();
+builder.Services.AddSingleton<GuestShoppingCart>();
 
 //End of personal services
 

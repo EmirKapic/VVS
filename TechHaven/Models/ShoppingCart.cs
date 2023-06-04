@@ -8,7 +8,7 @@ namespace TechHaven.Models
         [Key]
         public int Id { get; set; }
 
-        public ICollection<Product> Products = new List<Product>();
+        public ICollection<Product> Products { get; set; } = new List<Product>();
         public double TotalPrice { get; set; } = 0;
 
         [ForeignKey("Customer")]
@@ -17,7 +17,7 @@ namespace TechHaven.Models
 
         public List<int> Repetitions = new();
 
-        public void AddNewProduct(Product newProduct)
+        public virtual void AddNewProduct(Product newProduct)
         {
             if (!Products.Contains(newProduct))
             {
@@ -25,7 +25,7 @@ namespace TechHaven.Models
                 TotalPrice += newProduct.Price;
             }
         }
-        public void RemoveProduct(Product newProduct)
+        public virtual void RemoveProduct(Product newProduct)
         {
             if (Products.Contains(newProduct))
             {

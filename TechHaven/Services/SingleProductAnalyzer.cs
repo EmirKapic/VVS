@@ -6,19 +6,28 @@ namespace TechHaven.Services
 {
     public class SingleProductAnalyzer : Analyzer
     {
-        public Product? product;
-        private readonly ApplicationDbContext _db; 
+        public ICollection<Product> products { get; set; }
 
-        public SingleProductAnalyzer(ApplicationDbContext db)
+        public ICollection<Product> UserHistory { get; set; }
+
+
+        public SingleProductAnalyzer(ICollection<Product> products)
         {
-            _db = db;
+            this.products = products;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public IEnumerable<Product> GetProducts()
         {
-            if (product == null) { return Enumerable.Empty<Product>(); }
-            var sameCategoryProducts = await _db.Product.Where(p => p.Category == product.Category).ToListAsync();
-            return new Randomizer(sameCategoryProducts).GetRandomized();
+            if (UserHistory == null || UserHistory.First() == null) { return Enumerable.Empty<Product>(); }
+            var result = new List<Product>();
+            foreach( var product in products)
+            {
+                if (product.Category == UserHistory.First().Category)
+                {
+                    result.Add(product);
+                }
+            }
+            return result;
         }
     }
 }

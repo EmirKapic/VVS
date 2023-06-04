@@ -1,27 +1,37 @@
-﻿using TechHaven.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TechHaven.Data;
+using TechHaven.Models;
 
 namespace TechHaven.Services
 {
     public class CustomerRecommendation : Recommendation
     {     
         public Analyzer analyzer { get; set; }
-        private Product product;
+        //private Product product;
+        private readonly ApplicationDbContext _db;
+        private readonly OrdersManager _ordersManager;
 
-        public CustomerRecommendation(Analyzer analyzer, Product? product = null) {
-            this.analyzer = analyzer;
-            this.product = product;
+        public CustomerRecommendation(ApplicationDbContext db, OrdersManager ordersManager) {
+            _db = db; 
+            _ordersManager = ordersManager;
         }
-        public async Task<IEnumerable<Product>> RecommendProducts()
+
+        public async Task Setup(Analyzer analyzer, Product? product = null)
         {
-            if (analyzer is SingleProductAnalyzer)
+            this.analyzer = analyzer;
+            if (product != null)
             {
-                (analyzer as SingleProductAnalyzer).product = product;
-                return await(analyzer as SingleProductAnalyzer).GetProducts();
+                this.analyzer.UserHistory = new List<Product> { product };
             }
             else
             {
-                return await analyzer.GetProducts();
+                this.analyzer.UserHistory = await _ordersManager.GetProductsFromOrders();
             }
+        }
+
+        public IEnumerable<Product> RecommendProducts()
+        {
+            return analyzer.GetProducts();
             
         }
 

@@ -1,4 +1,7 @@
 ﻿@model Product
+@using TechHaven.Services;
+@inject GuestRecommendation _guestRecommendation;
+@inject ProductManager _productManager;
 
 <div class="container my-4">
     <h2 class="text-center">Product details</h2>
@@ -49,63 +52,34 @@
 
 </div>
 
-
+<!-- Similar products -->
 <div class="container mt-4">
     <div class="border border-secondary-subtle rounded p-3">
         <h3 class="text-center mb-3">Slični artikli</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
+            @{
+                var allProducts = (await _productManager.GetAllProducts()).ToList();
+                await _guestRecommendation.Setup(new SingleProductAnalyzer(allProducts), Model);
+                var recommends = _guestRecommendation.RecommendProducts();
+            }
+            @foreach(var prod in recommends.Take(4))
+            {
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-center p-2">
+                            <a class="btn btn-sm btn-primary" asp-action="ProductDetails" asp-route-id="@prod.Id">Detalji</a>
+                            <small class="text-body-secondary">@prod.Price KM</small>
+                            <a onclick="AddToCartFromRecommendations()" class="btn btn-sm btn-success">Dodaj</a>
+
+                            <input id ="recommended-prod-id" type="hidden" value="@prod.Id">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Product title</h5>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                        <a href="#" class="btn btn-sm btn-primary">Detalji</a>
-                        <small class="text-body-secondary">$9.99</small>
-                        <a href="#" class="btn btn-sm btn-success">Dodaj</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
@@ -129,6 +103,19 @@
     async function AddToCart(){
         const parameters = new URLSearchParams();
         parameters.append("id", "@Model.Id");
+        const url = "/Products/AddToCart?" + parameters.toString();
+
+        const result = await fetch(url)
+            .then(response => response.json());
+        console.log(result);
+    }
+
+    async function AddToCartFromRecommendations(){
+        const parent = event.target.parentNode;
+        const prodId = parent.querySelector('#recommended-prod-id').value;
+
+        const parameters = new URLSearchParams();
+        parameters.append("id", prodId.toString());
         const url = "/Products/AddToCart?" + parameters.toString();
 
         const result = await fetch(url)

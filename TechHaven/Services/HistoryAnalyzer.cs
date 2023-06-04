@@ -7,30 +7,23 @@ namespace TechHaven.Services
 {
     public class HistoryAnalyzer : Analyzer
     {
-        private readonly SignInManager<Customer> _signInManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly OrdersManager _ordersManager;
-        private readonly ApplicationDbContext _db;
+        public ICollection<Product> products { get; set; }
+        public ICollection<Product> UserHistory { get; set; }
 
-        public HistoryAnalyzer(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, SignInManager<Customer> signInManager, OrdersManager ordersManager)
+        public HistoryAnalyzer(ICollection<Product> products)
         {
-            _db = db;
-            _httpContextAccessor = httpContextAccessor;
-            _signInManager = signInManager;
-            _ordersManager = ordersManager;
+            this.products = products;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public IEnumerable<Product> GetProducts()
         {
-            var products = await _db.Product.ToListAsync();
-            if (!_signInManager.IsSignedIn(_httpContextAccessor.HttpContext.User))
-            {   
+            if (UserHistory == null || UserHistory.Count == 0)
+            {
                 return new Randomizer(products.ToList()).GetRandomized().Take(20);
             }
-            else
-            {
-                return await _ordersManager.GetProductsFromOrders();
-			}
+
+
+            return UserHistory;
         }
     }
 }

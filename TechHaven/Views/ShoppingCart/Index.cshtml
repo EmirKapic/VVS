@@ -1,7 +1,12 @@
 ﻿@model IList<CartItemViewModel>
 @using TechHaven.Services;
+@using Microsoft.AspNetCore.Identity;
 @inject CartManager _cartManager;
-@inject HistoryAnalyzer _historyAnalyzer;
+@inject GuestRecommendation _guestRecommendation;
+@inject CustomerRecommendation _customerRecommendation;
+@inject ProductManager _productManager;
+@inject SignInManager<Customer> _signInManager;
+@inject GuestShoppingCart _guestShoppingCart;
 @{
     var cart = await _cartManager.GetCurrentCart();
     var products = (IList<Product>)cart.Products;
@@ -118,7 +123,20 @@
         <h3 class="text-center mb-3">Recommended for you</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
             @{
-                var recommends = await new CustomerRecommendation(_historyAnalyzer).RecommendProducts();
+                IEnumerable<Product> recommends;
+                if (!_signInManager.IsSignedIn(User))
+                {
+                    var allProducts = (await _productManager.GetAllProducts()).ToList();
+                    await _guestRecommendation.Setup(new HistoryAnalyzer(allProducts));
+                    recommends = _guestRecommendation.RecommendProducts();
+                }
+                else
+                {
+                    var allProducts = (await _productManager.GetAllProducts()).ToList();
+                    await _customerRecommendation.Setup(new HistoryAnalyzer(allProducts));
+                    recommends = _customerRecommendation.RecommendProducts();
+                }
+                
                 foreach (var prod in recommends.Take(4))
                 {
                     <div class="col">

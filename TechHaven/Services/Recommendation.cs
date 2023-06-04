@@ -6,6 +6,8 @@ namespace TechHaven.Services
     {
         public Analyzer analyzer { get; set; }
 
-        public Task<IEnumerable<Product>> RecommendProducts();
+        public IEnumerable<Product> RecommendProducts();
+
+        public Task Setup(Analyzer analyzer, Product? product = null);
     }
 }
