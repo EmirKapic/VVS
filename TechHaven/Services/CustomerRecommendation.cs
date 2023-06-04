@@ -5,14 +5,15 @@ using TechHaven.Models;
 namespace TechHaven.Services
 {
     public class CustomerRecommendation : Recommendation
-    {     
+    {
         public Analyzer analyzer { get; set; }
         //private Product product;
         private readonly ApplicationDbContext _db;
         private readonly OrdersManager _ordersManager;
 
-        public CustomerRecommendation(ApplicationDbContext db, OrdersManager ordersManager) {
-            _db = db; 
+        public CustomerRecommendation(ApplicationDbContext db, OrdersManager ordersManager)
+        {
+            _db = db;
             _ordersManager = ordersManager;
         }
 
@@ -32,7 +33,7 @@ namespace TechHaven.Services
         public IEnumerable<Product> RecommendProducts()
         {
             return analyzer.GetProducts();
-            
+
         }
 
 

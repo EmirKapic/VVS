@@ -109,6 +109,32 @@ namespace TechHaven.Services
             return usr.ShoppingCart;
         }
 
+        public async Task TransferCarts(string usrId)
+        {
+            var usr = await _db.Customer
+                .Include(u => u.ShoppingCart)
+                .ThenInclude(c => c.Products)
+                .FirstAsync(u => u.Id == usrId);
+            if (usr == null) { throw new NullReferenceException("User doesn't exist!"); }
+
+            if (_guestCart.Products.Any())
+            {
+                if (usr.ShoppingCart == null)
+                {
+                    usr.ShoppingCart = new ShoppingCart();
+                }
+                foreach(var item in _guestCart.Products)
+                {
+                    usr.ShoppingCart.AddNewProduct(await _db.Product.FirstAsync(p => p.Id == item.Id));
+                }
+            }
+
+            _guestCart.Products.Clear();
+            _guestCart.TotalPrice = 0;
+            _guestCart.Repetitions.Clear();
+            await _db.SaveChangesAsync();
+        }
+
         
     }
 }

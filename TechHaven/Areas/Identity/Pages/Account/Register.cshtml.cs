@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using TechHaven.Models;
+using TechHaven.Services;
 
 namespace TechHaven.Areas.Identity.Pages.Account
 {
@@ -29,6 +30,7 @@ namespace TechHaven.Areas.Identity.Pages.Account
         private readonly IUserStore<Customer> _userStore;
         private readonly IUserEmailStore<Customer> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly CartManager _cartManager;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
@@ -36,7 +38,8 @@ namespace TechHaven.Areas.Identity.Pages.Account
             IUserStore<Customer> userStore,
             SignInManager<Customer> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            CartManager cartManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +47,7 @@ namespace TechHaven.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _cartManager = cartManager;
         }
 
         /// <summary>
@@ -127,11 +131,12 @@ namespace TechHaven.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, "Customer");
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    var userId = await _userManager.GetUserIdAsync(user);    
                     //Ove dvije linije su za email confirmation koji necemo koristiti
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _cartManager.TransferCarts(userId);
                     return RedirectToPage("/Home/Index");
 
                 }

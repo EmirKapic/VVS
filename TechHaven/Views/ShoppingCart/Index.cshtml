@@ -18,6 +18,17 @@
     }
     var priceWithShipment = withShipment.ToString("F");
     if (cart.Products.Count() == 0) priceWithShipment = "0";
+
+    //Uvijek ili 1 ili 0, koristi ga JS kasnije pa zato
+    int loggedIn;
+    if (_signInManager.IsSignedIn(User))
+    {
+        loggedIn = 1;
+    }
+    else
+    {
+        loggedIn = 0;
+    }
 }
 
 
@@ -106,10 +117,10 @@
                     <div class="d-flex justify-content-between mb-2">
                         <h5>Ukupna cijena: </h5>
                             <h5> <span id="total-with-shipment">@priceWithShipment</span> KM</h5>
-                    </div>
-                    
-                        <button type="submit" class="btn btn-primary w-100" >Kupi sada</button>
-                    
+                    </div>                 
+                    <button id="buy-now-btn" type="submit" class="btn btn-primary w-100" >Kupi sada</button>
+                    <a id="login-warning" class="text-danger" asp-controller="MyAccount" asp-action="Index">Please log in to purchase</a>
+
                 </div>
             </div>
         </div>
@@ -230,7 +241,17 @@
 
     document.querySelectorAll('.quantity').forEach( (btn) => {
         btn.addEventListener('change', updateCosts);
-    });  
+    });
+    console.log(@loggedIn);
+    if (@loggedIn === 0){
+        const buyNowBtn = document.querySelector('#buy-now-btn');
+        buyNowBtn.style.opacity = "0.35";
+        buyNowBtn.disabled = true;
+    }
+    else{
+        const logInWarningText = document.querySelector('#login-warning');
+        logInWarningText.style.display = "none";
+    }
 </script>
 
 

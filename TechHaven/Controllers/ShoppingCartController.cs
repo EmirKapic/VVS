@@ -12,13 +12,15 @@ namespace TechHaven.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly UserManager<Customer> _userManager;
+        private readonly SignInManager<Customer> _signInManager;
         private readonly ApplicationDbContext _db;
         private readonly ICartManager _cartManager;
-        public ShoppingCartController(UserManager<Customer> usermanager, ApplicationDbContext db, CartManager cartManager)
+        public ShoppingCartController(UserManager<Customer> usermanager, ApplicationDbContext db, CartManager cartManager, SignInManager<Customer> signInManager)
         {
             _userManager = usermanager;
             _db = db;
             _cartManager = cartManager;
+            _signInManager = signInManager;
         }
         public async Task<IActionResult> Index()
         {
@@ -44,19 +46,20 @@ namespace TechHaven.Controllers
             try
             {
                 var prod = await _db.Product.FirstAsync(p => p.Id == id);
-                await _cartManager.RemoveFromCart(prod);
+                var res = await _cartManager.RemoveFromCart(prod);
                 return Json(new { message = "Sucessfully removed from cart!" });
             }
-            catch (NullReferenceException)
+            catch (Exception e)
             {
-                return NotFound();
+                Console.WriteLine(e.Message + "\n" + e.StackTrace + "\n" + e.Source);
+                return Json(new { message = "Couldn't remove from cart!" });
             }
         }
-
-        [Authorize(Roles = "Customer")]
+        [Authorize(Roles ="Customer")]
         [HttpPost]
         public IActionResult StartOrder(IList<CartItemViewModel> items)
         {
+            //Sta ako korisnik nije ulogovan? Pokusati preko JS-a na frontend ili preko Model-errora server side
             double price = 0;
             List<Product> orderItems = new List<Product>();
             foreach(var item in items)
