@@ -4,13 +4,29 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="container">
-    <form method="post"class="d-flex flex-column">
-        <input type="text" asp-for="Input.Email" placeholder="Email"/>
-        <input type="password" asp-for="Input.Password" placeholder="Password" />
-        <input type="password" asp-for="Input.ConfirmPassword" placeholder="Repeat Password" />
-        <button class="btn btn-primary" type="submit">Register new user!</button>
-    </form>
+<div class="container mt-5 mb-4">
+    <div class="row gy-5 justify-content-center">
+        <div class="d-flex flex-column" style="max-width: 450px;">
+            <h2 class="text-center">Register a new account</h2>
+            <hr />
+            <p class="text-center" style="text-align: justify; text-justify: inter-word;">Registrujte se da biste vidjeli popuste i pogodnosti koje Vam nudimo.</p>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Email</label>
+                    <input asp-for="Input.Email" type="email" class="form-control" id="emailInput"/>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInputNew" class="form-label">Password</label>
+                    <input asp-for="Input.Password" type="password" class="form-control" id="passwordInputNew"/>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordRepeat" class="form-label">Confirm password</label>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control" id="passwordRepeat"/>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+            <hr />
+            <a class="btn btn-success mx-auto" type="button" asp-page="./Login">Already have an account?</a>
+        </div>
+    </div>
 </div>

@@ -4,15 +4,29 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<h5>Log in</h5>
-<div class="container">
-    <form method="post" class="d-flex flex-column">
-        <input asp-for="Input.Email" placeholder="Email" type="text" />
-        <input asp-for="Input.RememberMe" value="@false" type="hidden"/>
-        <input asp-for="Input.Password" placeholder="Password" type="password" />
+<div class="container mt-5 mb-4">
+    <div class="row gy-5 justify-content-center">
+        <div class="d-flex flex-column" style="max-width: 450px;">
+            <h2 class="text-center">Log In</h2>
+            <hr />
+            <p class="text-center" style="text-align: justify; text-justify: inter-word;">Prijavite se i upravljajte Vašim računom na našem WebShopu.</p>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Email</label>
+                    <input asp-for="Input.Email" type="email" class="form-control" id="emailInput" />
+                </div>
 
-        <button class="btn btn-primary" type="submit">Log in!</button>
-        <a class="btn btn-warning" type="button" asp-page="./Register"> Register </a>
-    </form>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Password</label>
+                    <input asp-for="Input.Password" type="password" class="form-control" id="passwordInput" />
+                </div>
 
+                <input asp-for="Input.RememberMe" value="@false" type="hidden" />
+
+                <button type="submit" class="btn btn-primary w-100">Log In</button>
+            </form>
+            <hr />
+            <a class="btn btn-success mx-auto" type="button" asp-page="./Register">Create new account</a>
+        </div>
+    </div>
 </div>
