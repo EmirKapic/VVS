@@ -20,7 +20,7 @@ namespace TechHaven.Services
         {
             if (UserHistory == null || UserHistory.First() == null) { return Enumerable.Empty<Product>(); }
             var result = new List<Product>();
-            foreach( var product in products)
+            foreach (var product in products)
             {
                 if (product.Category == UserHistory.First().Category)
                 {

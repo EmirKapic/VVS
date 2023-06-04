@@ -25,7 +25,7 @@ namespace TechHaven.Services
             }
             else
             {
-                var randoms =  await _productManager.GetRandomProducts(20);
+                var randoms = await _productManager.GetRandomProducts(20);
                 this.analyzer.UserHistory = randoms.ToList();
             }
         }

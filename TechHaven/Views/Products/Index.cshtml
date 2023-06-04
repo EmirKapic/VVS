@@ -1,16 +1,83 @@
 ﻿@model IEnumerable<Product>
 
+@using TechHaven.Services
+@inject ProductManager _productManager;
+
 <div class="container mt-4">
     <div class="row">
         <div class="p-0 px-md-2 col-md-4">
             <div class="card">
                 <div class="card-header fs-5 text-center">Filteri</div>
                 <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Cijena</li>
-                        <li class="list-group-item">Kategorija</li>
-                        <li class="list-group-item">Proizvođač</li>
-                    </ul>
+                    <form method="post" asp-action="FilterProducts">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <span>Cijena</span>
+                                <div class="d-flex justify-content-between">
+                                    <div class="w-25">
+                                        Od
+                                        <input name="priceFrom" id="price-from" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="0" max="10000" />
+                                    </div>
+                                    <div class="w-25">
+                                        Do
+                                        <input name="priceTo" id="price-to" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="0" max="10000" />
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                @{
+                                    var categories = _productManager.GetAllCategoriesFromProducts(Model);
+                                }
+                                <!-- zasto bootstrap ne radi na ovom spanu??? -->
+                                <span style="font-weight:bold; text-transform:uppercase;">Kategorija</span>
+                                @foreach (var cat in categories)
+                                {
+                                    <div>
+                                        <input name="selectedCategory" class="form-check-input" type="checkbox" value="@cat">
+                                        @cat
+                                    </div>
+                                }
+                            </li>
+                            <li class="list-group-item">
+                                @{
+                                    var manufacturers = _productManager.GetAllManufacturersFromProducts(Model);
+                                }
+                                <span style="font-weight:bold; text-transform:uppercase;">
+                                    Proizvođač
+                                </span>
+                                @foreach (var man in manufacturers)
+                                {
+                                    <div>
+                                        <input name="selectedManufacturer" class="form-check-input" type="checkbox" value="@man">
+                                        @man
+                                    </div>
+                                }
+
+                            </li>
+                            <li class="list-group-item">
+                                @{
+                                    var sortTypes = Enum.GetValues(typeof(SortType));
+                                    <span style="font-weight:bold; text-transform:uppercase;">
+                                        Način sortiranja
+                                    </span>
+
+                                    <select class="form-control" name="selectedSort">
+                                        @foreach (var type in sortTypes)
+                                        {
+                                            <option value="@type.ToString()">@type.ToString()</option>
+                                        }
+                                       
+                                    </select>
+
+
+                                }
+                            </li>
+
+                            <li>
+                                <button type="submit">Submit me</button>
+                            </li>
+                        </ul>
+                    </form>
                 </div>
             </div>
         </div>
@@ -18,8 +85,8 @@
             <h4>Pretražili ste:</h4>
             <hr />
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
-                @foreach(var prod in Model)
-                {  
+                @foreach (var prod in Model)
+                {
                     <div class="col">
                         <div class="card h-100">
                             <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
@@ -35,7 +102,7 @@
                     </div>
                 }
 
-                
+
             </div>
         </div>
     </div>

@@ -29,6 +29,26 @@ namespace TechHaven.Services
             return categories;
         }
 
+        public IEnumerable<string> GetAllCategoriesFromProducts(IEnumerable<Product> prods)
+        {
+            var uniqueCategories = new HashSet<string>();
+            foreach(var product in prods)
+            {
+                uniqueCategories.Add(product.Category);
+            }
+            return uniqueCategories.ToList();
+        }
+
+        public IEnumerable<string> GetAllManufacturersFromProducts(IEnumerable<Product> prods)
+        {
+            var uniqueManufacturers = new HashSet<string>();
+            foreach(var product in prods)
+            {
+                uniqueManufacturers.Add(product.Manufacturer);
+            }
+            return uniqueManufacturers.ToList();
+        }
+
         public async Task<IEnumerable<string>> GetAllManufacturersForCategory(string category)
         {
             if (category == null) { throw new NullReferenceException("Passed category was null!"); }
@@ -45,5 +65,7 @@ namespace TechHaven.Services
         {
             return await _db.Product.ToListAsync();
         }
+
+        
     }
 }
