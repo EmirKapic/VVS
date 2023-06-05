@@ -17,6 +17,8 @@ namespace TechHaven.Models
         public ICollection<Product>? Products { get; set; } = new List<Product>();//Wish-list
 
         public ICollection<Order>? Orders { get; set; } = new List<Order>();
+
+        public ICollection<PaymentMethod>? PaymentMethods { get; set; } = new List<PaymentMethod>();
         
 
         public Customer() {}

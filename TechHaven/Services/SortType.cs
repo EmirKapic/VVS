@@ -2,8 +2,8 @@
 {
     public enum SortType
     {
-        HighestFirst,
         LowestFirst,
+        HighestFirst,
         Alphabetical
     }
 }

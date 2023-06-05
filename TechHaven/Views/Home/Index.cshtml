@@ -8,6 +8,7 @@
 @inject SignInManager<Customer> _signInManager
 @inject GuestRecommendation _guestRecommendation;
 @inject CustomerRecommendation _customerRecommendation;
+@inject ImageFactory _imageFactory;
 
 
 <div id="carouselExampleCaptions" class="carousel slide container">
@@ -55,9 +56,10 @@
 
             @foreach(var prod in await _productManager.GetRandomProducts(6))
             {
+                var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
                 <div class="col">
                     <div class="card h-100">
-                        <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                        <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top" style="width:auto; height: 250px;" loading="lazy" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
                             <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>

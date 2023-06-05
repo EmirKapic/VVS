@@ -16,6 +16,8 @@ namespace TechHaven.Data
         public DbSet<Order> Order { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<ShoppingCart> ShoppingCart { get; set; }
+        public DbSet<Image> Image { get; set; }
+        public DbSet<PaymentMethod> PaymentMethod { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,6 +32,8 @@ namespace TechHaven.Data
             modelBuilder.Entity<ShoppingCart>().ToTable("ShoppingCart")
                 .HasMany(s => s.Products)
                 .WithMany(p => p.ShoppingCarts);
+            modelBuilder.Entity<Image>().ToTable("Image");
+            modelBuilder.Entity<PaymentMethod>().ToTable("PaymentMethod");
             base.OnModelCreating(modelBuilder);
         }
     }
