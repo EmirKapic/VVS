@@ -1,21 +1,38 @@
 ﻿@model OrdersViewModel
-
-Thank you!
-
-You ordered items:
-
-@foreach (var item in Model.cartItems)
-{
-    <div>
-        <p>
-            @item.Product.Manufacturer @item.Product.Model
-        </p>
-        <p>
-            @item.NumberOfRepetitions <br>
-        </p>
-    </div>
-}
-
-To address : @Model.order.ShippingAddress
-<div>Total price : @Model.order.Price </div>
-
+<div class="container my-4 text-center">
+	<div class="row">
+		<div class="col-md-1 col-lg-2"></div>
+		<div class="col-md-10 col-lg-8">
+			<h1 class="display-5 fw-bold">Thank you!</h1>
+			<p class="fs-4 mb-4">Your order has been received.</p>
+			<h4>Order details</h4>
+			<ul class="list-group mb-3">
+				<li class="list-group-item d-flex justify-content-between text-body-secondary" style="background-color: #efeff0;">
+					<h6>Product</h6>
+					<span>Price</span>
+				</li>
+				@{
+					double totalPrice = 0;
+					foreach (var item in Model.cartItems)
+					{
+						var price = item.Product.Price * item.NumberOfRepetitions;
+						totalPrice += price;
+						<li class="list-group-item d-flex justify-content-between lh-sm">
+							<div class="text-start">
+								<h6 class="my-0">@item.Product.Manufacturer @item.Product.Model</h6>
+								<small class="text-muted">Količina: @item.NumberOfRepetitions</small>
+							</div>
+							<span class="text-muted">@price KM</span>
+						</li>
+					}
+					<li class="list-group-item d-flex justify-content-between" style="background-color: #efeff0;">
+						<span>Total (KM)</span>
+						<strong>@totalPrice KM</strong>
+					</li>
+				}
+			</ul>
+			<p class="fs-5"><strong>Billing address:</strong> @Model.order.ShippingAddress</p>
+		</div>
+		<div class="col-md-1 col-lg-2"></div>
+	</div>
+</div>
