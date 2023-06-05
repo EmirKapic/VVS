@@ -24,6 +24,12 @@ namespace TechHaven.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            /*byte[] imageArray = System.IO.File.ReadAllBytes(@"D:\TechHaven\TechHaven\wwwroot\images\tablet.jpeg");
+            string base64image = Convert.ToBase64String(imageArray);
+
+            await _db.Image.AddAsync(new Image() { base64Content = base64image, Category = "Tablet" });
+            await _db.SaveChangesAsync();*/
+
             return View();
         }
 

@@ -66,6 +66,22 @@ namespace TechHaven.Services
             return await _db.Product.ToListAsync();
         }
 
-        
+
+        public async Task<IEnumerable<Product>> GetProductsFromIds(List<int> ids)
+        {
+            var products = new List<Product>();
+            foreach (var id in ids)
+            {
+                products.Add(await _db.Product.FirstAsync(p => p.Id == id));
+            }
+            return products;
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsContainingString(string query)
+        {
+            return await _db.Product.Where(p => (p.Category + p.Manufacturer + p.Model).ToUpper().Contains(query.ToUpper())).ToListAsync();
+        }
+
+
     }
 }

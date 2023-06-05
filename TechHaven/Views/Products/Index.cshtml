@@ -3,13 +3,14 @@
 @using TechHaven.Services
 @inject ProductManager _productManager;
 
+<form method="post" asp-action="FilterProducts">
 <div class="container mt-4">
     <div class="row">
         <div class="p-0 px-md-2 col-md-4">
             <div class="card">
                 <div class="card-header fs-5 text-center">Filteri</div>
                 <div class="card-body">
-                    <form method="post" asp-action="FilterProducts">
+                    
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <span>Cijena</span>
@@ -20,7 +21,7 @@
                                     </div>
                                     <div class="w-25">
                                         Do
-                                        <input name="priceTo" id="price-to" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="0" max="10000" />
+                                        <input name="priceTo" id="price-to" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" max="10000" />
                                     </div>
                                 </div>
                             </li>
@@ -77,7 +78,7 @@
                                 <button type="submit">Submit me</button>
                             </li>
                         </ul>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -100,6 +101,7 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="idList[]" value="@prod.Id"/>
                 }
 
 
@@ -107,3 +109,4 @@
         </div>
     </div>
 </div>
+</form>

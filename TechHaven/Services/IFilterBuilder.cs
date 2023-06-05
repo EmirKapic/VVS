@@ -2,6 +2,12 @@
 {
     public interface IFilterBuilder
     {
+        public Filter Build();
+        public void AddMinPrice(int min);
+        public void AddMaxPrice(int max);
+        public void AddWantedManufacturers(IEnumerable<string> manufacturers);
+        public void AddWantedCategories(IEnumerable<string> categories);
+        public void AddSortStrategy(SortType sortType);
     }
     /*
      * Nakon sto se napravi ovaj interface i njegova impl

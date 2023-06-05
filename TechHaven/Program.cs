@@ -25,6 +25,9 @@ builder.Services.AddScoped<CustomerRecommendation>();
 builder.Services.AddScoped<GuestRecommendation>();
 builder.Services.AddScoped<OrdersManager>();
 builder.Services.AddSingleton<GuestShoppingCart>();
+builder.Services.AddScoped<FilterMediator>();
+builder.Services.AddScoped<FilterBuilder>();
+builder.Services.AddSingleton<ImageFactory>();
 
 //End of personal services
 

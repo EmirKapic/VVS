@@ -10,6 +10,9 @@ namespace TechHaven.Services
         public Task<IEnumerable<string>> GetAllCategories();
         public Task<IEnumerable<Product>> GetRandomProducts(int limit);
         public Task<IEnumerable<Product>> GetAllProducts();
+        public Task<IEnumerable<Product>> GetProductsFromIds(List<int> ids);
+
+        public Task<IEnumerable<Product>> GetProductsContainingString(string query);
 
     }
 }
