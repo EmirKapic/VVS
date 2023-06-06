@@ -2,80 +2,92 @@
 
 @using TechHaven.Services
 @inject ProductManager _productManager;
+@inject ImageFactory _imageFactory;
 
 <form method="post" asp-action="FilterProducts">
 <div class="container mt-4">
     <div class="row">
         <div class="p-0 px-md-2 col-md-4">
             <div class="card">
-                <div class="card-header fs-5 text-center">Filteri</div>
+                <div class="card-header fs-5 text-center">Filter</div>
                 <div class="card-body">
                     
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <span>Cijena</span>
-                                <div class="d-flex justify-content-between">
-                                    <div class="w-25">
-                                        Od
-                                        <input name="priceFrom" id="price-from" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="0" max="10000" />
+                                
+                                <div>
+                                    <div class="row" style="font-size:1.1em;">
+                                        <span style="font-weight:bold; text-transform:uppercase;">Price</span>
                                     </div>
-                                    <div class="w-25">
-                                        Do
-                                        <input name="priceTo" id="price-to" style="min-width: 50px; width: 40%; max-width: 100px;" type="number" min="1" max="10000" />
+                                    <div class="row input-group">
+                                        <div class="col-sm col-md-12 col-lg">
+                                            <input class="w-100 border rounded form-control" name="priceFrom" id="price-from" type="number" min="0" max="10000" placeholder="From" style="min-width:50px;width: 40%;" />
+                                        </div>
+                                        <div class="col-sm col-md-12 col-lg">
+                                            <input class="w-100 border rounded form-control" name="priceTo" id="price-to"  type="number" min="1" max="10000" placeholder="To"/>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 @{
                                     var categories = _productManager.GetAllCategoriesFromProducts(Model);
                                 }
-                                <!-- zasto bootstrap ne radi na ovom spanu??? -->
-                                <span style="font-weight:bold; text-transform:uppercase;">Kategorija</span>
-                                @foreach (var cat in categories)
-                                {
-                                    <div>
-                                        <input name="selectedCategory" class="form-check-input" type="checkbox" value="@cat">
-                                        @cat
+                                <div>
+                                    <div class="row">
+                                        <span style="font-weight:bold; text-transform:uppercase; font-size:1.1em;">Category</span>
                                     </div>
-                                }
+                                    <div class="row">
+                                        @foreach (var cat in categories)
+                                        {
+                                            <div>
+                                                <input name="selectedCategory" class="form-check-input" type="checkbox" value="@cat">
+                                                <label class="form-check-label">@cat</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div> 
                             </li>
                             <li class="list-group-item">
                                 @{
                                     var manufacturers = _productManager.GetAllManufacturersFromProducts(Model);
                                 }
-                                <span style="font-weight:bold; text-transform:uppercase;">
-                                    Proizvođač
-                                </span>
-                                @foreach (var man in manufacturers)
-                                {
-                                    <div>
-                                        <input name="selectedManufacturer" class="form-check-input" type="checkbox" value="@man">
-                                        @man
+                                <div>
+                                    <div class="row">
+                                        <span style="font-weight:bold; text-transform:uppercase; font-size: 1.1em;">
+                                            Manufacturer
+                                        </span>
                                     </div>
-                                }
-
+                                    <div class="row">
+                                        @foreach (var man in manufacturers)
+                                        {
+                                            <div>
+                                                <input name="selectedManufacturer" class="form-check-input" type="checkbox" value="@man">
+                                                <label class="form-check-label">@man</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             </li>
                             <li class="list-group-item">
                                 @{
                                     var sortTypes = Enum.GetValues(typeof(SortType));
                                     <span style="font-weight:bold; text-transform:uppercase;">
-                                        Način sortiranja
+                                        Sort type
                                     </span>
 
                                     <select class="form-control" name="selectedSort">
                                         @foreach (var type in sortTypes)
                                         {
                                             <option value="@type.ToString()">@type.ToString()</option>
-                                        }
-                                       
+                                        }   
                                     </select>
-
-
                                 }
                             </li>
 
-                            <li>
-                                <button type="submit">Submit me</button>
+                            <li class="list-group-item d-flex justify-content-center">
+                                <button id="btn-submitfilter" class="btn btn-primary px-5 py-2 mt-2" type="submit">Apply filter</button>
                             </li>
                         </ul>
                     
@@ -83,20 +95,21 @@
             </div>
         </div>
         <div class="p-0 px-md-2 col-md-8 mt-4 mt-md-0">
-            <h4>Pretražili ste:</h4>
+            <h4>Search results:</h4>
             <hr />
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
                 @foreach (var prod in Model)
                 {
+                    var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
                     <div class="col">
                         <div class="card h-100">
-                            <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                            <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo-search" loading="lazy" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
                                 <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
                             </div>
                             <div class="card-footer d-flex justify-content-between align-items-center p-2 pe-3">
-                                <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id" class="btn btn-sm btn-primary">Details</a>
+                                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id" class="btn btn-sm btn-primary commonBtn">Details</a>
                                 <small class="text-body-secondary">@prod.Price KM</small>
                             </div>
                         </div>

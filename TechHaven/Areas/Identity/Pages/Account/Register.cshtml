@@ -9,19 +9,19 @@
         <div class="d-flex flex-column" style="max-width: 450px;">
             <h2 class="text-center">Register a new account</h2>
             <hr />
-            <p class="text-center" style="text-align: justify; text-justify: inter-word;">Registrujte se da biste vidjeli popuste i pogodnosti koje Vam nudimo.</p>
+            <p class="text-center" style="text-align: justify; text-justify: inter-word;">Register Your account now to see discounts and other benefits we offer.</p>
             <form method="post">
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">Email</label>
-                    <input asp-for="Input.Email" type="email" class="form-control" id="emailInput"/>
+                    <input asp-for="Input.Email" type="email" class="form-control" id="emailInput" required=""/>
                 </div>
                 <div class="mb-3">
                     <label for="passwordInputNew" class="form-label">Password</label>
-                    <input asp-for="Input.Password" type="password" class="form-control" id="passwordInputNew"/>
+                    <input asp-for="Input.Password" type="password" class="form-control" id="passwordInputNew" required="" minlength="4"/>
                 </div>
                 <div class="mb-3">
                     <label for="passwordRepeat" class="form-label">Confirm password</label>
-                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control" id="passwordRepeat"/>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control" id="passwordRepeat" required="" minlength="4" />
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Register</button>
             </form>

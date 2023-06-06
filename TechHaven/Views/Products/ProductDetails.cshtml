@@ -1,7 +1,20 @@
 ﻿@model Product
 @using TechHaven.Services;
+@using Microsoft.AspNetCore.Identity
 @inject GuestRecommendation _guestRecommendation;
 @inject ProductManager _productManager;
+@inject ImageFactory _imageFactory;
+@inject SignInManager<Customer> _signInManager;
+
+@{
+    var imgbase64 = (await _imageFactory.GetImage(Model.Category)).base64Content;
+    int loggedIn = 0;
+    if (_signInManager.IsSignedIn(User))
+    {
+        loggedIn = 1;
+    }
+}
+
 
 <div class="container my-4">
     <h2 class="text-center">Product details</h2>
@@ -9,41 +22,32 @@
     <div class="row">
 
         <div class="col-12 col-lg-6">
-            <img src="https://placehold.co/600x400" class="img-fluid border border-secondary-subtle rounded w-100" />
+            <img src ="data:image/jpeg;base64,@imgbase64" class="border border-secondary-subtle rounded w-100 prod-photo-lg" />
         </div>
 
-        <div class="col-12 col-lg-6 d-flex flex-column justify-content-between">
+        <div class="col-12 col-lg-6 d-flex flex-column justify-content-center">
             <div>
                 <h3 class="mt-3 mt-lg-0 mb-3">@Model.Manufacturer @Model.Model</h3>
                 <div class="mb-3">
                     <span class="h5">@Model.Price KM</span>
-                    <span class="text-muted">/po proizvodu</span>
-                </div>
-                <p style="text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus aliquam venenatis auctor. In sollicitudin dictum posuere. Maecenas rhoncus dui magna, tempus ornare ligula finibus quis. Duis rutrum fringilla elit vitae bibendum.</p>
-
-                <div class="d-flex">
-                    <div>
-                        <span class="me-1">Količina:</span>
-                        <div class="btn-group me-2" style="width: 120px;">
-                            <button type="button" class="btn btn-outline-secondary">-</button>
-                            <input type="text" class="form-control" placeholder="1">
-                            <button type="button" class="btn btn-outline-secondary">+</button>
-                        </div>
-                    </div>
+                    <span class="text-muted">/per product</span>
                 </div>
             </div>
-            <div class="mt-4 d-flex gap-2">
-                <a id ="addToCartBtn" class="btn btn-primary d-flex align-items-center">
+            <div class="mt-4 d-flex gap-2 flex-wrap">
+                <a id="addToCartBtn" class="btn btn-primary d-flex align-items-center saveBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                     </svg>
-                    <span class="ms-2">Dodaj u korpu</span>
+                    <span class="ms-2">Add to cart</span>
                 </a>
-                <a id="saveToFavBtn" class="btn btn-danger d-flex align-items-center">
+                <div class="d-flex flex-column">
+
+                </div>
+                <a id="saveToFavBtn" class="btn btn-danger align-items-center saveBtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                     </svg>
-                    <span class="ms-2">Dodaj u wishlist</span>
+                    <span class="ms-2">Add to wishlist</span>
                 </a>
             </div>
         </div>
@@ -55,7 +59,7 @@
 <!-- Similar products -->
 <div class="container mt-4">
     <div class="border border-secondary-subtle rounded p-3">
-        <h3 class="text-center mb-3">Slični artikli</h3>
+        <h3 class="text-center mb-3">Similar products</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
             @{
                 var allProducts = (await _productManager.GetAllProducts()).ToList();
@@ -64,16 +68,17 @@
             }
             @foreach(var prod in recommends.Take(4))
             {
+                var imgbase64_secondary = (await _imageFactory.GetImage(prod.Category)).base64Content;
                 <div class="col">
                     <div class="card h-100">
-                        <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                        <img src="data:image/jpeg;base64,@imgbase64_secondary" class="card-img-top prod-photo" loading="lazy" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                            <a class="btn btn-sm btn-primary" asp-action="ProductDetails" asp-route-id="@prod.Id">Detalji</a>
+                            <a class="btn btn-sm btn-primary commonBtn" asp-action="ProductDetails" asp-route-id="@prod.Id">Detalji</a>
                             <small class="text-body-secondary">@prod.Price KM</small>
-                            <a onclick="AddToCartFromRecommendations()" class="btn btn-sm btn-success">Dodaj</a>
+                            <a onclick="AddToCartFromRecommendations()" class="btn btn-sm btn-success commonBtn">Dodaj</a>
 
                             <input id ="recommended-prod-id" type="hidden" value="@prod.Id">
                         </div>
@@ -86,10 +91,27 @@
 
 <script>
 
-    document.getElementById('saveToFavBtn').addEventListener('click', AddToFavs);
+    
     document.getElementById('addToCartBtn').addEventListener('click', AddToCart);
 
-    async function AddToFavs(){
+    if (@loggedIn === 0){
+        console.log("HERE");
+        document.getElementById('saveToFavBtn').style.display = "none";
+    }
+    else{
+        document.getElementById('saveToFavBtn').style.display = "flex";
+        document.getElementById('saveToFavBtn').addEventListener('click', AddToFavs);
+    }
+    
+    
+  async function AddToFavs(){
+        if (@loggedIn === 0){
+            document.getElementById('')
+            return;
+        }
+        
+
+
         const parameters = new URLSearchParams();
         parameters.append("newProdId", "@Model.Id");
         const url = "/MyAccount/AddToFavorites?" + parameters.toString();
@@ -101,6 +123,8 @@
     }
 
     async function AddToCart(){
+
+
         const parameters = new URLSearchParams();
         parameters.append("id", "@Model.Id");
         const url = "/Products/AddToCart?" + parameters.toString();

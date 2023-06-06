@@ -7,6 +7,7 @@
 @inject ProductManager _productManager;
 @inject SignInManager<Customer> _signInManager;
 @inject GuestShoppingCart _guestShoppingCart;
+@inject ImageFactory _imageFactory;
 @{
     var cart = await _cartManager.GetCurrentCart();
     var products = (IList<Product>)cart.Products;
@@ -42,19 +43,21 @@
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th scope="col">Proizvod</th>
-                        <th scope="col">Cijena</th>
-                        <th scope="col">Količina</th>
-                        <th scope="col">Ukupno</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Total</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
                     @for(int i = 0; i < Model.Count; ++i)
                     {
+                        var imgbase64 = (await _imageFactory.GetImage(products[i].Category)).base64Content;
+                        
                         <tr>
                             <td scope="row">
-                                <img src="https://placehold.co/70x70" class="img-fluid" alt="...">
+                                <img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-small" loading="lazy" alt="...">
                                 <span class="ms-2"> @products[i].Manufacturer @products[i].Model</span>
                             </td>
                             <td>
@@ -89,10 +92,10 @@
         <div class="col-lg">
             <div class="card bg-light">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Ukupni iznos</h5>
+                    <h5 class="card-title text-center">Total price</h5>
                     <hr />
                     <div class="fs-5 d-flex justify-content-between mb-1">
-                        <div>Ukupno:</div>
+                        <div>Total:</div>
                         <div >
                                <span id ="total-without-shipment">
                                @cart.TotalPrice.ToString("F")
@@ -101,7 +104,7 @@
                         </div>
                     </div>
                     <div class="fs-5 d-flex justify-content-between mb-1">
-                        <div>Dostava:</div>
+                        <div>Shipment:</div>
                         @if (cart.TotalPrice > 200)
                         {
                             <div class="text-decoration-line-through">@shipmentFee.ToString("F") KM</div>
@@ -111,14 +114,14 @@
                             <div>@shipmentFee.ToString("F") KM</div>
                         }
                     </div>
-                    <p class="fs-6 fw-light">Dostava je <b>besplatna</b> za sve narudžbe preko 200KM.</p>
+                    <p class="fs-6 fw-light">Shipment is <b>free</b> for all orders above 200KM.</p>
 
                     <hr />
                     <div class="d-flex justify-content-between mb-2">
-                        <h5>Ukupna cijena: </h5>
+                        <h5>Total price: </h5>
                             <h5> <span id="total-with-shipment">@priceWithShipment</span> KM</h5>
                     </div>                 
-                    <button id="buy-now-btn" type="submit" class="btn btn-primary w-100" >Kupi sada</button>
+                    <button id="buy-now-btn" type="submit" class="btn btn-primary w-100" >Buy now</button>
                     <a id="login-warning" class="text-danger" asp-controller="MyAccount" asp-action="Index">Please log in to purchase</a>
 
                 </div>
@@ -150,16 +153,17 @@
                 
                 foreach (var prod in recommends.Take(4))
                 {
+                    var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
                     <div class="col">
                         <div class="card h-100">
-                            <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                            <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo-recommend" loading="lazy" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
                             </div>
                             <div class="card-footer d-flex justify-content-between align-items-center p-2">
-                                <a class="btn btn-sm btn-primary" asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">Detalji</a>
+                                <a class="btn btn-sm btn-primary commonBtn" asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">Details</a>
                                 <small class="text-body-secondary">@prod.Price KM</small>
-                                <a onclick="AddToCart()" class="btn btn-sm btn-success">Dodaj</a>
+                                <a onclick="AddToCart()" class="btn btn-sm btn-success commonBtn">Add</a>
                                 <input id ="prod-id-add" type="hidden" value="@prod.Id">
                             </div>
                         </div>
@@ -190,6 +194,8 @@
     }
 
     async function AddToCart() {
+
+
         const container = event.target.parentNode;
         const prodId = container.querySelector('#prod-id-add').value;
 

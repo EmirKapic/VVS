@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Product>
-
+@using TechHaven.Services
+@inject ImageFactory _imageFactory;
 <div class="container container-fluid">
     <div class="row mt-3">
 
@@ -13,24 +14,25 @@
 				<table class="table table-hover align-middle">
 					<thead>
 						<tr>
-							<th scope="col">Proizvod</th>
-							<th scope="col">Cijena</th>
+							<th scope="col">Product</th>
+							<th scope="col">Price</th>
 							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody class="table-group-divider">
 						@foreach(var prod in Model)
 						{
+							var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
 							<tr>
 								<td scope="row">
-									<img src="https://placehold.co/100x100" alt="..." />
+									<img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-md" loading="lazy" alt="...">
 									<span class="ms-2">@prod.Manufacturer @prod.Model</span>
 								</td>
-								<td>$@prod.Price</td>
+								<td>@prod.Price KM</td>
 								<td>
 									<span class="float-end">
-										<a class="btn btn-primary" onclick="AddToCart()">Dodaj u korpu</a>
-										<a class="btn btn-danger" onclick="RemoveFromFavorites()">Izbaci</a>
+										<a class="btn btn-primary commonBtn" onclick="AddToCart()">Add to cart</a>
+										<a class="btn btn-danger commonBtn" onclick="RemoveFromFavorites()">Remove</a>
 										<input id="remove-id" type="hidden" value="@prod.Id">
 									</span>
 								</td>
@@ -61,6 +63,7 @@
 			.then(response => response.json());
 
 		console.log(result);
+		window.location.reload();
 	}
 
 	async function AddToCart(){

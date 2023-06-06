@@ -8,10 +8,12 @@ namespace TechHaven.Controllers
     public class OrdersController : Controller
     {
         private OrdersManager _ordersManager;
+        private PaymentManager _paymentManager;
 
-        public OrdersController(OrdersManager ordersManager)
+        public OrdersController(OrdersManager ordersManager, PaymentManager paymentManager)
         {
             _ordersManager = ordersManager;
+            _paymentManager = paymentManager;
         }
 
         public IActionResult Index()
@@ -27,8 +29,10 @@ namespace TechHaven.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ThankYou(OrdersViewModel model)
+        public async Task<IActionResult> ThankYou(OrdersViewModel model, string selectedCard)
         {
+            await _paymentManager.AddNewCard(selectedCard);
+
             model.order.OrderDate = DateTime.Now;
             var prods = new List<Product>();
             if (model.order.Products == null)

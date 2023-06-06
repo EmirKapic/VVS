@@ -22,9 +22,9 @@ namespace TechHaven.Controllers
             _signInManager = signInManager;
         }
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            /*byte[] imageArray = System.IO.File.ReadAllBytes(@"D:\TechHaven\TechHaven\wwwroot\images\tablet.jpeg");
+            /*[] imageArray = System.IO.File.ReadAllBytes(@"D:\TechHaven\TechHaven\wwwroot\images\Product Thumbnails\tablets2_img.jpg");
             string base64image = Convert.ToBase64String(imageArray);
 
             await _db.Image.AddAsync(new Image() { base64Content = base64image, Category = "Tablet" });
@@ -103,18 +103,21 @@ namespace TechHaven.Controllers
         {
             if (change == "data")
             {
-                if (newData.FirstName == null || newData.LastName == null || newData.Email == null)
+                
+
+                var usr = await _userManager.GetUserAsync(User);
+                if (_db.Customer.Where(c => c.UserName == newData.Email).Any() && (await _userManager.GetUserNameAsync(usr) != newData.Email))
                 {
                     ModelState.AddModelError("emptyFields", "Fields cannot be empty");
                     return View(newData);
                 }
-                var usr = await _userManager.GetUserAsync(User);
                 usr.FirstName = newData.FirstName;
                 usr.LastName = newData.LastName;
                 usr.Email = newData.Email;
+                usr.UserName = newData.Email;
 
                 await _userManager.UpdateAsync(usr);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return Redirect(Request.Headers.Referer);
             }
             else if(change == "password")

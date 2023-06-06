@@ -17,3 +17,94 @@ body {
   margin-bottom: 60px;
 }
 
+
+.prod-photo {
+    height: 330px;
+}
+
+.prod-photo-small {
+    height: 50px;
+    width: 50px;
+}
+
+.prod-photo-recommend{
+    height: 340px;
+}
+
+
+
+@media (min-width: 576px) {
+    .prod-photo {
+        height: 200px;
+    }
+    .prod-photo-recommend{
+        height: 200px;
+    }
+}
+
+@media (min-width: 992px) {
+    .prod-photo {
+        height: 330px;
+    }
+    
+}
+
+
+
+
+
+
+
+.prod-photo-md{
+    height: 100px;
+    width: 100px;
+}
+
+
+.prod-photo-lg{
+    width:auto;
+    max-height: 450px;
+}
+
+
+#popup{
+    position:absolute;
+    display: none;
+}
+
+
+.saveBtn{
+    cursor: pointer;
+    box-shadow: 0 3px #999;
+    border-radius: 10px;
+}
+
+.saveBtn:active{
+    box-shadow: 0 3px #666;
+    transform: translateY(4px);
+}
+
+.commonBtn {
+    box-shadow: 0 2px #999;
+}
+
+.commonBtn:hover{
+    background-color: white !important;
+    color: black !important;
+}
+
+
+#buy-now-btn{
+    box-shadow: 0 3px #999;
+}
+
+#buy-now-btn:hover{
+    transform: translateY(-3px);
+}
+
+#btn-submitfilter{
+    box-shadow: 0 3px #999;
+}
+#btn-submitfilter:hover {
+    transform: translateY(-3px);
+}

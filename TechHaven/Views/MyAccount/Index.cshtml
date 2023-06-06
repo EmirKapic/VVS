@@ -16,56 +16,56 @@
 
 
         <div class="col-md-9 mb-4">
-            <h3 class="text-center mt-3">Detalji o profilu</h3>
+            <h3 class="text-center mt-3">Profile details</h3>
             <hr />
-            <h4 class="mb-3">Lični podaci</h4>
+            <h4 class="mb-3">Personal information</h4>
 
             <form method="post" asp-route-change="data">
                 <div class="form-group mb-3">
-                    <h6>Ime<span class="text-danger">*</span> </h6>
-                    <input type="text" class="form-control" value="@currentUser.FirstName" asp-for="FirstName"/>
+                    <h6>First name<span class="text-danger">*</span> </h6>
+                    <input type="text" class="form-control" asp-for="FirstName" required="" />
                 </div>
 
                 <div class="form-group mb-3">
-                    <h6>Prezime<span class="text-danger">*</span></h6>
-                    <input type="text" class="form-control" value="@currentUser.LastName" asp-for="LastName"/>
+                    <h6>Last name<span class="text-danger">*</span></h6>
+                    <input type="text" class="form-control" asp-for="LastName" required="" />
                 </div>
 
                 <div class="form-group mb-2">
-                    <h6>E-mail adresa<span class="text-danger">*</span></h6>
-                    <input type="email" class="form-control" value= "@currentUser.Email" asp-for="Email"/>
+                    <h6>E-mail address<span class="text-danger">*</span></h6>
+                    <input type="email" class="form-control" value="@currentUser.Email" asp-for="Email" required="" />
                 </div>
                 @if (ViewData.ModelState["emptyFields"] != null && ViewData.ModelState["emptyFields"].Errors.Any())
                 {
-                    <span class="text-danger d-block">Polja ne smiju ostati prazna</span>
+                    <span class="text-danger d-block">Email already taken!</span>
                 }
 
-                <button class="btn btn-primary" type="submit">Sačuvaj promjene</button>
+                <button class="btn btn-primary" type="submit">Save changes</button>
                     
             </form>
 
-            <h4 class="mt-5 mb-3">Promijeni lozinku</h4>
+            <h4 class="mt-5 mb-3">Change your password</h4>
            
             <form method="post" asp-route-change="password">
                 <div class="form-group mb-3">
-                    <h6>Stara lozinka<span class="text-danger">*</span></h6>
-                    <input name ="oldPass" type="password" class="form-control" asp-for="oldPass"/>
+                    <h6>Old password<span class="text-danger">*</span></h6>
+                    <input name ="oldPass" type="password" class="form-control" asp-for="oldPass" required=""/>
                     @if (ViewData.ModelState["oldPass"] != null && ViewData.ModelState["oldPass"].Errors.Any())
                     {
-                        <span class="text-danger">Netačna lozinka</span>
+                        <span class="text-danger">Incorrect password</span>
                     }
                     
                 </div>
                 <div class="form-group mb-3">
-                    <h6>Nova lozinka<span class="text-danger">*</span></h6>
-                    <input name="newPass" type="password" class="form-control" asp-for="newPass"/>
+                    <h6>New password<span class="text-danger">*</span></h6>
+                    <input name="newPass" type="password" class="form-control" asp-for="newPass" required="" />
                 </div>
                 <div class="form-group mb-3">
-                    <h6>Ponovljena nova lozinka<span class="text-danger">*</span></h6>
-                    <input name="repeatNew" type="password" class="form-control" asp-for="repeatNew"/>
+                    <h6>Repeat new password<span class="text-danger">*</span></h6>
+                    <input name="repeatNew" type="password" class="form-control" asp-for="repeatNew" required="" />
                     @if (ViewData.ModelState["emptyPassFields"] != null && ViewData.ModelState["emptyPassFields"].Errors.Any())
                     {
-                        <span class="text-danger d-block">Polja ne smiju biti prazna</span>
+                        <span class="text-danger d-block"> <span class="text-danger">*</span> fields can't be left empty'</span>
                     }
                     else if (ViewData.ModelState["repeatNew"] != null && ViewData.ModelState["repeatNew"].Errors.Any())
                     {
@@ -75,7 +75,7 @@
                     
                     
                 </div>
-                <button class="btn btn-primary" type="submit">Sačuvaj promjene</button>
+                <button class="btn btn-primary" type="submit">Save changes</button>
             </form>
 
 

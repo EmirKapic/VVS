@@ -9,16 +9,16 @@
         <div class="d-flex flex-column" style="max-width: 450px;">
             <h2 class="text-center">Log In</h2>
             <hr />
-            <p class="text-center" style="text-align: justify; text-justify: inter-word;">Prijavite se i upravljajte Vašim računom na našem WebShopu.</p>
+            <p class="text-center" style="text-align: justify; text-justify: inter-word;">Log in and use Your account on our WebShop.</p>
             <form method="post">
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">Email</label>
-                    <input asp-for="Input.Email" type="email" class="form-control" id="emailInput" />
+                    <input asp-for="Input.Email" type="email" class="form-control" id="emailInput" required="" />
                 </div>
 
                 <div class="mb-3">
                     <label for="passwordInput" class="form-label">Password</label>
-                    <input asp-for="Input.Password" type="password" class="form-control" id="passwordInput" />
+                    <input asp-for="Input.Password" type="password" class="form-control" id="passwordInput" required="" minlength="4"/>
                 </div>
 
                 <input asp-for="Input.RememberMe" value="@false" type="hidden" />

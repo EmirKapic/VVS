@@ -1,4 +1,7 @@
 ﻿@model OrdersViewModel
+@using TechHaven.Services
+@inject PaymentManager _paymentManager;
+@inject OrdersManager _orderManager;
 
 <div class="container my-4">
 	<div class="row g-5">
@@ -22,10 +25,16 @@
 						<input asp-for="order.ShippingAddress" type="text" class="form-control" id="address" placeholder="Aleja Bosne Srebrene" required="">
 					</div>
 					<div class="col-lg-6">
+						@{
+							var creditCardNumbers = await _paymentManager.GetUserCards();
+						}
 						<label for="cc-number" class="form-label">Credit card number</label>
-						<input type="text" list="credit-card" class="form-control" id="cc-number">
+						<input type="text" list="credit-card" class="form-control" id="cc-number" name="selectedCard">
 						<datalist id="credit-card">
-							<option value="ovdje ide broj kartice" />
+							@foreach(var cardNumber in creditCardNumbers)
+							{
+								<option value="@cardNumber.creditCardNumber" />
+							}
 						</datalist>
 						<div class="invalid-feedback">
 							Credit card number is required

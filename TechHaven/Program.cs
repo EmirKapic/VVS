@@ -18,7 +18,6 @@ builder.Services.AddDefaultIdentity<Customer>()
 builder.Services.AddControllersWithViews();
 
 //Register personal services here
-
 builder.Services.AddScoped<CartManager>();
 builder.Services.AddScoped<ProductManager>();
 builder.Services.AddScoped<CustomerRecommendation>();
@@ -28,6 +27,7 @@ builder.Services.AddSingleton<GuestShoppingCart>();
 builder.Services.AddScoped<FilterMediator>();
 builder.Services.AddScoped<FilterBuilder>();
 builder.Services.AddSingleton<ImageFactory>();
+builder.Services.AddScoped<PaymentManager>();
 
 //End of personal services
 
