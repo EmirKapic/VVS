@@ -28,7 +28,11 @@ body {
 }
 
 .prod-photo-recommend{
-    height: 340px;
+    height: 360px;
+}
+
+.prod-photo-search{
+    height: 380px;
 }
 
 
@@ -40,6 +44,9 @@ body {
     .prod-photo-recommend{
         height: 200px;
     }
+    .prod-photo-search{
+        height: 200px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -49,10 +56,14 @@ body {
     
 }
 
-
-
-
-
+@media(min-width: 1200px){
+    .prod-photo-search {
+        height: 250px;
+    }
+    .prod-photo-recommend {
+        height: 250px;
+    }
+}
 
 
 .prod-photo-md{
