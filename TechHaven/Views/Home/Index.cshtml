@@ -135,3 +135,48 @@
         </div>
     </div>
 </div>
+<div class="container mt-4">
+    <div class="border border-secondary-subtle rounded p-3">
+        <h2 class="text-center mb-3">Find Us</h2>
+        <div id="myMap" class="w-100" style="position:relative; height:400px;"></div>
+    </div>
+</div>
+
+<script type='text/javascript'
+        src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap' async
+        defer></script>
+
+<script type='text/javascript'>
+    function GetMap() {
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'AvtaHEtWRN8GQzruJcqDKqVEWl5S8Jpv2-fj6wkPJQ8fmtceyOd6dwEGjeygr_pE',
+            center: new Microsoft.Maps.Location(20.831, -156.916),
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            zoom: 8
+        });
+
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            visible: false
+        });
+        infobox.setMap(map);
+        var techHaven = new Microsoft.Maps.Location(20.831, -156.916);
+        var pin = new Microsoft.Maps.Pushpin(techHaven);
+        pin.metadata = {
+            title: 'TechHaven Inc.',
+            description: 'TechHaven Inc. Headquarters'
+        };
+        Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+        map.entities.push(pin);
+    }
+
+    function pushpinClicked(e) {
+        if (e.target.metadata) {
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }
+</script>
