@@ -11,6 +11,7 @@ namespace TechHaven.Models
         public string Manufacturer { get; set; } = String.Empty;
         public string Model { get; set; } = String.Empty;
         public double Price { get; set; } = 0;
+        [Display(Name = "In stock")]
         public int NumberOfAvailable { get; set; } = 0;
 
         public ICollection<Customer>? Customers { get; set; } = new List<Customer>();

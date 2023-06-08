@@ -81,7 +81,5 @@ namespace TechHaven.Services
         {
             return await _db.Product.Where(p => (p.Category + p.Manufacturer + p.Model).ToUpper().Contains(query.ToUpper())).ToListAsync();
         }
-
-
-    }
+	}
 }

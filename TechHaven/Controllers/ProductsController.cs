@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using TechHaven.Data;
@@ -10,97 +15,220 @@ namespace TechHaven.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private readonly ICartManager _cartManager;
-        private readonly IProductManager _productManager;
-        private readonly FilterMediator _filterMediator;
-        public ProductsController(ApplicationDbContext db, CartManager cartManager, ProductManager productManager, FilterMediator filterMediator = null)
+		private readonly ICartManager _cartManager;
+		private readonly IProductManager _productManager;
+		private readonly FilterMediator _filterMediator;
+		public ProductsController(ApplicationDbContext db, CartManager cartManager, ProductManager productManager, FilterMediator filterMediator = null)
+		{
+			_db = db;
+			_cartManager = cartManager;
+			_productManager = productManager;
+			_filterMediator = filterMediator;
+		}
+
+        // GET: Products/Create
+        public IActionResult Create()
         {
-            _db = db;
-            _cartManager = cartManager;
-            _productManager = productManager;
-            _filterMediator = filterMediator;
+            return View();
         }
 
-        public async Task<IActionResult> Index(string category = "Laptop", string? searchQuery = null)
-        {
-            if (searchQuery != null && searchQuery.Any())
-            {
-                return View(await _productManager.GetProductsContainingString(searchQuery));
-            }
-
-            //After filtering / sorting we use this to set showed products instead of getting all of certain category
-            //This IF should ONLY be true after method filterProducts of THIS controller. In no other case should this TempData return non-null
-            var filteredIds = TempData["filteredProductIds"];
-
-
-            if (filteredIds != null)
-            {
-                var ids = JsonConvert.DeserializeObject<List<int>>(filteredIds.ToString());
-                return View(await _productManager.GetProductsFromIds(ids));
-            }
-            else
-            {
-                return View(await _productManager.GetAllByCategory(category));
-            }
-        }
-
-        public async Task<IActionResult> ProductDetails(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-            var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
-            if(prod == null)
-            {
-                return NotFound();
-            }
-            return View(prod);
-        }
+        // POST: Products/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> FilterProducts(List<int> idList, IFormCollection formCollection, int priceFrom=0, int priceTo=0)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Category,Manufacturer,Model,Price,NumberOfAvailable")] Product product)
         {
-            var selectedCategories = formCollection["selectedCategory"].ToList();
-            var selectedManufacturers = formCollection["selectedManufacturer"].ToList();
-            var selectedSortType = Request.Form["selectedSort"].ToString();
-            SortType type = DecodeSortType(selectedSortType);
+            if (ModelState.IsValid)
+            {
+                _db.Add(product);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
 
-            var currentProducts = await _productManager.GetProductsFromIds(idList);
+        // GET: Products/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _db.Product == null)
+            {
+                return NotFound();
+            }
 
-            _filterMediator.SetConditions(currentProducts, priceFrom, priceTo, selectedCategories, selectedManufacturers, type);
-            var newList = _filterMediator.GetFilteredProducts();
-            var newIdList = new List<int>();
-            newIdList.AddRange(newList.Select(p => p.Id));
+            var product = await _db.Product.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
 
-            TempData["filteredProductIds"] = JsonConvert.SerializeObject(newIdList);
+        // POST: Products/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Category,Manufacturer,Model,Price,NumberOfAvailable")] Product product)
+        {
+            if (id != product.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _db.Update(product);
+                    await _db.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
+
+        // GET: Products/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _db.Product == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _db.Product
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+        // POST: Products/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_db.Product == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Product'  is null.");
+            }
+            var product = await _db.Product.FindAsync(id);
+            if (product != null)
+            {
+                _db.Product.Remove(product);
+            }
             
-            return RedirectToAction("Index");
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> AddToCart(int id)
+        private bool ProductExists(int id)
         {
-            if (id == 0)
-            {
-                return Json(new { message = "No object found with given id!" });
-            }
-            var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
-            await _cartManager.AddToCart(prod);
-            return Json(new { message = "Sucessfully added to cart!" });
+          return (_db.Product?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        private SortType DecodeSortType(string sortType)
-        {
-            if (sortType == "HighestFirst")
+		public async Task<IActionResult> Index(string category = "Laptop", string? searchQuery = null)
+		{
+            if (User.IsInRole("Administrator"))
             {
-                return SortType.HighestFirst;
-            }
-            else if(sortType == "LowestFirst"){
-                return SortType.LowestFirst;
-            }
-            else
-            {
-                return SortType.Alphabetical;
-            }
-        }
-    }
+				return _db.Product != null ?
+						  View(await _db.Product.ToListAsync()) :
+						  Problem("Entity set 'ApplicationDbContext.Product'  is null.");
+			}
+
+			if (searchQuery != null && searchQuery.Any())
+			{
+				return View(await _productManager.GetProductsContainingString(searchQuery));
+			}
+
+			//After filtering / sorting we use this to set showed products instead of getting all of certain category
+			//This IF should ONLY be true after method filterProducts of THIS controller. In no other case should this TempData return non-null
+			var filteredIds = TempData["filteredProductIds"];
+
+
+			if (filteredIds != null)
+			{
+				var ids = JsonConvert.DeserializeObject<List<int>>(filteredIds.ToString());
+				return View(await _productManager.GetProductsFromIds(ids));
+			}
+			else
+			{
+				return View(await _productManager.GetAllByCategory(category));
+			}
+		}
+
+		public async Task<IActionResult> ProductDetails(int id)
+		{
+			if (id == 0)
+			{
+				return NotFound();
+			}
+			var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
+			if (prod == null)
+			{
+				return NotFound();
+			}
+			return View(prod);
+		}
+		[HttpPost]
+		public async Task<IActionResult> FilterProducts(List<int> idList, IFormCollection formCollection, int priceFrom = 0, int priceTo = 0)
+		{
+			var selectedCategories = formCollection["selectedCategory"].ToList();
+			var selectedManufacturers = formCollection["selectedManufacturer"].ToList();
+			var selectedSortType = Request.Form["selectedSort"].ToString();
+			SortType type = DecodeSortType(selectedSortType);
+
+			var currentProducts = await _productManager.GetProductsFromIds(idList);
+
+			_filterMediator.SetConditions(currentProducts, priceFrom, priceTo, selectedCategories, selectedManufacturers, type);
+			var newList = _filterMediator.GetFilteredProducts();
+			var newIdList = new List<int>();
+			newIdList.AddRange(newList.Select(p => p.Id));
+
+			TempData["filteredProductIds"] = JsonConvert.SerializeObject(newIdList);
+
+			return RedirectToAction("Index");
+		}
+
+		public async Task<IActionResult> AddToCart(int id)
+		{
+			if (id == 0)
+			{
+				return Json(new { message = "No object found with given id!" });
+			}
+			var prod = await _db.Product.FirstOrDefaultAsync(p => p.Id == id);
+			await _cartManager.AddToCart(prod);
+			return Json(new { message = "Sucessfully added to cart!" });
+		}
+
+		private SortType DecodeSortType(string sortType)
+		{
+			if (sortType == "HighestFirst")
+			{
+				return SortType.HighestFirst;
+			}
+			else if (sortType == "LowestFirst")
+			{
+				return SortType.LowestFirst;
+			}
+			else
+			{
+				return SortType.Alphabetical;
+			}
+		}
+	}
 }
