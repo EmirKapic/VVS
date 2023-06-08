@@ -9,12 +9,15 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+    scroll-behavior: smooth;
+    
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'General Sans', sans-serif;
 }
 
 
@@ -104,8 +107,12 @@ body {
     color: black !important;
 }
 
+.wishlist-add-button:active{
+    transform: translateY(2px);
+}
 
-#buy-now-btn{
+
+#buy-now-btn {
     box-shadow: 0 3px #999;
 }
 
@@ -118,4 +125,40 @@ body {
 }
 #btn-submitfilter:hover {
     transform: translateY(-3px);
+}
+
+
+.footer-text{
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.6em;
+    user-select: none;
+}
+
+.section-header{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.exploreBtn{
+    padding-left: 2em;
+}
+
+
+.hero-image{
+    max-height: 640px;
+    object-fit: cover;
+}
+
+.hero-camera-text{
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.hero-headphone-text{
+    position:absolute;
+    bottom: 60px;
+    right: 180px;
+    color: white;
 }

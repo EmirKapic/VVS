@@ -71,7 +71,7 @@
                 var imgbase64_secondary = (await _imageFactory.GetImage(prod.Category)).base64Content;
                 <div class="col">
                     <div class="card h-100">
-                        <img src="data:image/jpeg;base64,@imgbase64_secondary" class="card-img-top prod-photo" loading="lazy" alt="...">
+                        <img src="data:image/jpeg;base64,@imgbase64_secondary" class="prod-photo-recommend" loading="lazy" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
                         </div>

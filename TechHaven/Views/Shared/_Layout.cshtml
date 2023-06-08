@@ -6,7 +6,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,13 +16,14 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechHaven.styles.css" asp-append-version="true" />
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,700&display=swap" rel="stylesheet">
     <style>
         #main {
             margin-bottom: 60px;
         }
     </style>
 </head>
-<body>
+<body style="font-family: 'General Sans', sans-serif;">
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-light d-none d-md-block">
             <div class="container container-fluid">
@@ -158,20 +159,10 @@
     </div>
 
     <footer class="border-top footer">
-        <div class="container d-flex px-4">
-            <span class="flex-grow-1">&copy; 2023 - TechHaven</span>
-            <span>
-                <a class="me-2" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                <a class="me-2" asp-area="" asp-controller="Home" asp-action="Privacy">About us</a>
-                <a asp-area="" asp-controller="Home" asp-action="Privacy">Contact</a>
-            </span>
+        <div class="container d-flex px-4 justify-content-center">
+            <span class="footer-text">Tech Haven</span>
         </div>
     </footer>
-    <script>
-        function notYet(){
-            alert("Udji na wishlist kroz account");
-        }
-    </script>
     
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/js/site.js" asp-append-version="true"></script>
