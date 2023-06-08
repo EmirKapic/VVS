@@ -162,3 +162,31 @@ body {
     right: 180px;
     color: white;
 }
+
+@media(max-width: 1400px){
+    .hero-image{
+        max-height: 605px;
+    }
+}
+
+@media(max-width: 1200px){
+    .hero-image{
+        max-height: 500px;
+    }
+}
+
+@media(max-width: 992px){
+    .hero-image{
+        max-height: 370px;
+    }
+}
+@media(max-width: 768px){
+    .hero-image{
+        max-height: 280px;
+    }
+}
+@media(max-width: 576px){
+    .hero-image{
+        max-height: 240px;
+    }
+}
