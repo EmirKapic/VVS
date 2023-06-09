@@ -135,6 +135,20 @@ namespace TechHaven.Services
             await _db.SaveChangesAsync();
         }
 
+        public async Task ClearCart(string usrId)
+        {
+            var usr = await _db.Customer
+               .Include(u => u.ShoppingCart)
+               .ThenInclude(c => c.Products)
+               .FirstAsync(u => u.Id == usrId);
+            if (usr == null) { throw new NullReferenceException("User doesn't exist!"); }
+
+            usr.ShoppingCart.Products.Clear();
+            usr.ShoppingCart.TotalPrice = 0;
+            usr.ShoppingCart.Repetitions.Clear();
+            await _db.SaveChangesAsync();
+        }
+
         
     }
 }

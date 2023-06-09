@@ -12,12 +12,14 @@ namespace TechHaven.Services
         private readonly ApplicationDbContext _db;
         private readonly UserManager<Customer> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly CartManager _cartManager;
 
-        public OrdersManager(ApplicationDbContext db, UserManager<Customer> userManager, IHttpContextAccessor httpContextAccessor)
+        public OrdersManager(ApplicationDbContext db, UserManager<Customer> userManager, IHttpContextAccessor httpContextAccessor, CartManager cartManager)
         {
             _db = db;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _cartManager = cartManager;
         }
 
         public async Task<List<Product>> GetProductsFromOrders()
@@ -92,6 +94,7 @@ namespace TechHaven.Services
 
 
             user.Orders.Add(toBeInserted);
+            await _cartManager.ClearCart(usrId);
             await _db.SaveChangesAsync();
         }
     }

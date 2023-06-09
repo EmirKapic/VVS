@@ -10,6 +10,7 @@
 @inject ImageFactory _imageFactory;
 @{
     var cart = await _cartManager.GetCurrentCart();
+    var total = (int)cart.TotalPrice;
     var products = (IList<Product>)cart.Products;
     double shipmentFee = 8.00;
     double withShipment = cart.TotalPrice;
@@ -57,8 +58,10 @@
                         
                         <tr>
                             <td scope="row">
-                                <img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-small" loading="lazy" alt="...">
-                                <span class="ms-2"> @products[i].Manufacturer @products[i].Model</span>
+                                <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model[i].Product.Id" class="text-decoration-none" style="color:black;">
+                                        <img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-small" loading="lazy" alt="...">
+                                        <span class="ms-2"> @products[i].Manufacturer @products[i].Model</span>
+                                </a>  
                             </td>
                             <td>
                                 <span id="price-per-product">
@@ -256,6 +259,13 @@
         logInWarningText.style.display = 'block';
     }
     else{
+        const buyNowBtn = document.querySelector('#buy-now-btn');
+        
+        if (@total === 0){
+            buyNowBtn.style.opacity = "0.35";
+            buyNowBtn.disabled = true;
+        }
+
         const logInWarningText = document.getElementById('login-warning')
         logInWarningText.style.display = 'none';
     }

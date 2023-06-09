@@ -86,10 +86,11 @@
                 var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
                 <div class="col">
                     <div class="card h-100">
-                        <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo" loading="lazy" alt="...">
+                        <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">
+                            <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo" loading="lazy" alt="..." asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
-
                         </div>
                         <div class="card-footer d-flex justify-content-between align-items-center p-2 pe-3">
                             <a class="btn btn-sm btn-primary commonBtn" asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">Details</a>
@@ -118,7 +119,9 @@
                     var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
                     <div class="col">
                         <div class="card h-100">
-                            <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo" loading="lazy" alt="...">
+                            <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">
+                                <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo" loading="lazy" alt="...">
+                            </a>
                             <div class="card-body">
                                 <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
                             </div>
@@ -143,7 +146,9 @@
                     var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
                     <div class="col">
                         <div class="card h-100">
-                            <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo" loading="lazy" alt="...">
+                            <a asp-controller ="Products" asp-action="ProductDetails" asp-route-id="@prod.Id">
+                                <img src="data:image/jpeg;base64,@imgbase64" class="card-img-top prod-photo" loading="lazy" alt="...">
+                            </a>
                             <div class="card-body">
                                 <h5 class="card-title text-center">@prod.Manufacturer @prod.Model</h5>
 
@@ -174,7 +179,9 @@
             }
             <div class="col">
                 <div class="card h-100">
-                    <img src="data:image/jpeg;base64,@imgbase64laptop" class="card-img-top prod-photo" loading="lazy" alt="...">
+                    <a asp-controller="Products" asp-action="Index" asp-route-category="Laptop">
+                        <img src="data:image/jpeg;base64,@imgbase64laptop" class="card-img-top prod-photo" loading="lazy" alt="...">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title text-center">Laptops</h5>
                     </div>
@@ -185,7 +192,9 @@
             </div>
             <div class="col">
                 <div class="card h-100">
-                    <img src="data:image/jpeg;base64,@imgbase64phone" class="card-img-top prod-photo" loading="lazy" alt="...">
+                    <a asp-controller="Products" asp-action="Index" asp-route-category="Phone">
+                        <img src="data:image/jpeg;base64,@imgbase64phone" class="card-img-top prod-photo" loading="lazy" alt="...">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title text-center">Phones</h5>
                     </div>
@@ -196,7 +205,9 @@
             </div>
             <div class="col">
                 <div class="card h-100">
-                    <img src="data:image/jpeg;base64,@imgbase64console" class="card-img-top prod-photo" loading="lazy" alt="...">
+                    <a asp-controller="Products" asp-action="Index" asp-route-category="Gaming Console">
+                        <img src="data:image/jpeg;base64,@imgbase64console" class="card-img-top prod-photo" loading="lazy" alt="...">
+                    </a>
                     <div class="card-body">
                         <h5 class="card-title text-center">Consoles</h5>
                     </div>
