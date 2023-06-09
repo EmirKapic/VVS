@@ -123,6 +123,10 @@ namespace TechHaven.Areas.Identity.Pages.Account
                     await _cartManager.TransferCarts(usr.Id);
 
                     _logger.LogInformation("User logged in.");
+                    if (await _signInManager.UserManager.IsInRoleAsync(usr, "Administrator"))
+                    {
+                        return RedirectToAction("Index", "Products");
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

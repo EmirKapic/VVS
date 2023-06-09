@@ -25,7 +25,7 @@
 							var imgbase64 = (await _imageFactory.GetImage(prod.Category)).base64Content;
 							<tr>
 								<td scope="row">
-									<a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id" class="text-decoration-none" style="color:black;">
+									<a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@prod.Id" class="text-decoration-none d-flex align-items-center" style="color:black;" >
 										<img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-md" loading="lazy" alt="...">
 										<span class="ms-2">@prod.Manufacturer @prod.Model</span>
 									</a>
@@ -33,7 +33,7 @@
 								<td>@prod.Price KM</td>
 								<td>
 									<span class="float-end">
-										<a class="btn btn-primary commonBtn wishlist-add-button" onclick="AddToCart()">Add to cart</a>
+										<a class="btn btn-primary commonBtn wishlist-add-button mb-2 mb-lg-0" onclick="AddToCart()">Add to cart</a>
 										<a class="btn btn-danger commonBtn wishlist-add-button" onclick="RemoveFromFavorites()">Remove</a>
 										<input id="remove-id" type="hidden" value="@prod.Id">
 									</span>

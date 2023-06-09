@@ -57,12 +57,12 @@
                         var imgbase64 = (await _imageFactory.GetImage(products[i].Category)).base64Content;
                         
                         <tr>
-                            <td scope="row">
-                                <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model[i].Product.Id" class="text-decoration-none" style="color:black;">
-                                        <img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-small" loading="lazy" alt="...">
-                                        <span class="ms-2"> @products[i].Manufacturer @products[i].Model</span>
-                                </a>  
-                            </td>
+                                <td scope="row">
+                                    <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@Model[i].Product.Id" class="text-decoration-none d-flex align-items-center" style="color:black;">
+                                        <img src="data:image/jpeg;base64,@imgbase64" class="prod-photo-md" loading="lazy" alt="...">
+                                        <span class="ms-2">@Model[i].Product.Manufacturer @Model[i].Product.Model</span>
+                                    </a>
+                                </td>
                             <td>
                                 <span id="price-per-product">
                                         @products[i].Price
