@@ -46,6 +46,9 @@ When the user buys the product, update the database (reduce the number of availa
 <img src = 'https://user-images.githubusercontent.com/110246580/227356676-ca9c805a-25cb-4f66-abea-dec76f7b7c71.svg' height='40'/>&nbsp;
 <img src = "https://user-images.githubusercontent.com/110246580/227356926-4bea4bce-765a-441a-836a-95aff68c91ac.svg" height="40"/>
 
+## Implementation:
+http://vektoplopata-001-site1.atempurl.com/
+
 
 ## Disclaimer
 This project is purely fictional and is not intended to represent any real-life company, organization, or individual. All information, data, and content presented in this project are for educational purposes only and should not be taken as fact or used for any commercial or personal purposes. The creators of this project do not claim any ownership or affiliation with any of the entities or individuals mentioned or referenced in this project. The creators of this project are not liable for any damages, losses, or liabilities that may arise from the use or interpretation of the information presented in this project.
