@@ -119,8 +119,8 @@ namespace TechHaven.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 //Ove dvije linije ce se izbaciti nakon sto se doda input za ime i prezime
-                user.FirstName = "Testno ime";
-                user.LastName = "Testno prezime";
+                user.FirstName = "";
+                user.LastName = "";
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

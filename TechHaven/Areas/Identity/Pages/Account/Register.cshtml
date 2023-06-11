@@ -14,14 +14,17 @@
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">Email</label>
                     <input asp-for="Input.Email" type="email" class="form-control" id="emailInput" required=""/>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="passwordInputNew" class="form-label">Password</label>
                     <input asp-for="Input.Password" type="password" class="form-control" id="passwordInputNew" required="" minlength="4"/>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label for="passwordRepeat" class="form-label">Confirm password</label>
                     <input asp-for="Input.ConfirmPassword" type="password" class="form-control" id="passwordRepeat" required="" minlength="4" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Register</button>
             </form>
