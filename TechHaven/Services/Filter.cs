@@ -9,17 +9,16 @@ namespace TechHaven.Services
         private IEnumerable<string>? manufacturers = null;
         public IEnumerable<string>? categories = null;
         private ISortStrategy? sortStrategy = null;
-        //privatni konstruktor da zabranimo kreiranje filtera osim posredstvom buildera
-        private Filter() { }
 
-        public Filter(FilterBuilder builder)
+        public Filter(int minPrice, int maxPrice, IEnumerable<string> manufacturers, IEnumerable<string> categories, ISortStrategy sortStrategy)
         {
-            minPrice = builder.minPrice;
-            maxPrice = builder.maxPrice;
-            categories = builder.categories;
-            manufacturers = builder.manufacturers;
-            sortStrategy = builder.sortStrategy;
+            this.manufacturers = manufacturers;
+            this.minPrice = minPrice;
+            this.maxPrice = maxPrice;
+            this.categories = categories;
+            this.sortStrategy = sortStrategy;
         }
+
 
         public List<Product> getFilteredProducts(List<Product> products)
         {

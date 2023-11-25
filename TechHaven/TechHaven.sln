@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechHaven", "TechHaven.csproj", "{1FDB194C-ABFF-4556-ADD9-B64FE41A6241}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechHavenTests", "..\TechHavenTests\TechHavenTests.csproj", "{B0E42B40-20C6-4506-9323-A2E46BC60D48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1FDB194C-ABFF-4556-ADD9-B64FE41A6241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FDB194C-ABFF-4556-ADD9-B64FE41A6241}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FDB194C-ABFF-4556-ADD9-B64FE41A6241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E42B40-20C6-4506-9323-A2E46BC60D48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E42B40-20C6-4506-9323-A2E46BC60D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E42B40-20C6-4506-9323-A2E46BC60D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E42B40-20C6-4506-9323-A2E46BC60D48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

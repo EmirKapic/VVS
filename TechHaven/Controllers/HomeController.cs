@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using TechHaven.Data;
 using TechHaven.Models;
+using TechHaven.Services;
 
 namespace TechHaven.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly CustomerRecommendation recommendation;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(CustomerRecommendation recommendation)
         {
-            _logger = logger;
+            this.recommendation = recommendation;
         }
 
         public IActionResult Index()
@@ -32,6 +34,19 @@ namespace TechHaven.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IEnumerable<Product> recommendProduct()
+        {
+            var products = recommendation.RecommendProducts();
+            if (products == null)
+            {
+                return new List<Product>();
+            }
+            else
+            {
+                return products;
+            }
         }
     }
 }
