@@ -60,7 +60,7 @@
             try
             {
                 var usersLine = csv.First(element => element[0] == id);
-                if (usersLine[1] + coins < 0)
+                if (usersLine[1] - coins < 0)
                 {
                     return false;
                 }

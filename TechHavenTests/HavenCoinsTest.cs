@@ -94,5 +94,18 @@ namespace TechHavenTests
         {
             coinsService.SubtractHavenCoins(-1, 3);
         }
+
+
+        [TestMethod]
+        public void TestAddTooMuch()
+        {
+            Assert.IsFalse(coinsService.AddHavenCoins(1, 52));
+        }
+
+        [TestMethod]
+        public void TestSubtractTooMuch()
+        {
+            Assert.IsFalse(coinsService.SubtractHavenCoins(1, 52));
+        }
     }
 }
