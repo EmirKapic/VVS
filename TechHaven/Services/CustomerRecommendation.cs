@@ -15,10 +15,9 @@ namespace TechHaven.Services
             this._products = products;
         }
 
-        public IEnumerable<Product> RecommendProducts()
+        public virtual IEnumerable<Product> RecommendProducts()
         {
             List<Product> result = new List<Product>();
-            //neka logika da izabere onaj product iz products sa najvise
             foreach (var product in _products)
             {
                 if (product.Category.Equals(favoriteCategory))

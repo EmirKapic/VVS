@@ -10,30 +10,12 @@ namespace TechHaven.Controllers
     public class HomeController : Controller
     {
         private readonly CustomerRecommendation recommendation;
+        private readonly ApplicationDbContext context;
 
-        public HomeController(CustomerRecommendation recommendation)
+        public HomeController(CustomerRecommendation recommendation, ApplicationDbContext context)
         {
             this.recommendation = recommendation;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            this.context = context;
         }
 
         public IEnumerable<Product> recommendProduct()
@@ -48,5 +30,6 @@ namespace TechHaven.Controllers
                 return products;
             }
         }
+
     }
 }
