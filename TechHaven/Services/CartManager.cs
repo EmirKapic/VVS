@@ -13,24 +13,17 @@ namespace TechHaven.Services
         private SignInManager<Customer> _signInManager;
         private ApplicationDbContext _db;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private GuestShoppingCart _guestCart;
-        public CartManager(UserManager<Customer> userManager, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, SignInManager<Customer> signInManager, GuestShoppingCart guestCart)
+        public CartManager(UserManager<Customer> userManager, ApplicationDbContext db, IHttpContextAccessor httpContextAccessor, SignInManager<Customer> signInManager)
         {
             _userManager = userManager;
             _db = db;
             _httpContextAccessor = httpContextAccessor;
             _signInManager = signInManager;
-            _guestCart = guestCart;
         }
 
         //Adds the product given as parameter to the currently logged-in user
         public async Task<ICollection<Product>> AddToCart(Product prod)
         {
-            if (!_signInManager.IsSignedIn(_httpContextAccessor.HttpContext.User))
-            {
-                _guestCart.AddNewProduct(prod);
-                return _guestCart.Products;
-            }
             var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
             var usr = await _db.Customer
                 .Include(u => u.Products)
@@ -52,11 +45,6 @@ namespace TechHaven.Services
 
         public async Task<ICollection<Product>> RemoveFromCart(Product prod)
         {
-            if (!_signInManager.IsSignedIn(_httpContextAccessor.HttpContext.User))
-            {
-                _guestCart.RemoveProduct(prod);
-                return _guestCart.Products;
-            }
             var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
             var usr = await _db.Customer
                 .Include(u => u.Products)
@@ -73,10 +61,6 @@ namespace TechHaven.Services
 
         public async Task<ICollection<Product>> getAllFromCart()
         {
-            if (!_signInManager.IsSignedIn(_httpContextAccessor.HttpContext.User))
-            {
-                return _guestCart.Products;
-            }
             var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
             var usr = await _db.Customer
                 .Include(u => u.ShoppingCart)
@@ -92,10 +76,6 @@ namespace TechHaven.Services
         }
         public async Task<ShoppingCart> GetCurrentCart()
         {
-            if (!_signInManager.IsSignedIn(_httpContextAccessor.HttpContext.User))
-            {
-                return _guestCart;
-            }
             var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
             var usr = await _db.Customer
                 .Include(u => u.ShoppingCart)
@@ -109,31 +89,6 @@ namespace TechHaven.Services
             return usr.ShoppingCart;
         }
 
-        public async Task TransferCarts(string usrId)
-        {
-            var usr = await _db.Customer
-                .Include(u => u.ShoppingCart)
-                .ThenInclude(c => c.Products)
-                .FirstAsync(u => u.Id == usrId);
-            if (usr == null) { throw new NullReferenceException("User doesn't exist!"); }
-
-            if (_guestCart.Products.Any())
-            {
-                if (usr.ShoppingCart == null)
-                {
-                    usr.ShoppingCart = new ShoppingCart();
-                }
-                foreach(var item in _guestCart.Products)
-                {
-                    usr.ShoppingCart.AddNewProduct(await _db.Product.FirstAsync(p => p.Id == item.Id));
-                }
-            }
-
-            _guestCart.Products.Clear();
-            _guestCart.TotalPrice = 0;
-            _guestCart.Repetitions.Clear();
-            await _db.SaveChangesAsync();
-        }
 
         public async Task ClearCart(string usrId)
         {

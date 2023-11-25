@@ -4,7 +4,7 @@ using TechHaven.Models;
 
 namespace TechHaven.Services
 {
-    public class CustomerRecommendation : Recommendation
+    public class CustomerRecommendation
     {
         public Analyzer analyzer { get; set; }
         //private Product product;

@@ -120,7 +120,6 @@ namespace TechHaven.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     var usr = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-                    await _cartManager.TransferCarts(usr.Id);
 
                     _logger.LogInformation("User logged in.");
                     if (await _signInManager.UserManager.IsInRoleAsync(usr, "Administrator"))

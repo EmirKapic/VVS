@@ -136,7 +136,6 @@ namespace TechHaven.Areas.Identity.Pages.Account
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    await _cartManager.TransferCarts(userId);
                     return RedirectToPage("/Home/Index");
 
                 }

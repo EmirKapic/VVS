@@ -18,13 +18,11 @@ namespace TechHaven.Controllers
         private readonly ApplicationDbContext _db;
 		private readonly ICartManager _cartManager;
 		private readonly IProductManager _productManager;
-		private readonly FilterMediator _filterMediator;
-		public ProductsController(ApplicationDbContext db, CartManager cartManager, ProductManager productManager, FilterMediator filterMediator = null)
+		public ProductsController(ApplicationDbContext db, CartManager cartManager, ProductManager productManager)
 		{
 			_db = db;
 			_cartManager = cartManager;
 			_productManager = productManager;
-			_filterMediator = filterMediator;
 		}
 
         // GET: Products/Create
@@ -190,25 +188,6 @@ namespace TechHaven.Controllers
 				return NotFound();
 			}
 			return View(prod);
-		}
-		[HttpPost]
-		public async Task<IActionResult> FilterProducts(List<int> idList, IFormCollection formCollection, int priceFrom = 0, int priceTo = 0)
-		{
-			var selectedCategories = formCollection["selectedCategory"].ToList();
-			var selectedManufacturers = formCollection["selectedManufacturer"].ToList();
-			var selectedSortType = Request.Form["selectedSort"].ToString();
-			SortType type = DecodeSortType(selectedSortType);
-
-			var currentProducts = await _productManager.GetProductsFromIds(idList);
-
-			_filterMediator.SetConditions(currentProducts, priceFrom, priceTo, selectedCategories, selectedManufacturers, type);
-			var newList = _filterMediator.GetFilteredProducts();
-			var newIdList = new List<int>();
-			newIdList.AddRange(newList.Select(p => p.Id));
-
-			TempData["filteredProductIds"] = JsonConvert.SerializeObject(newIdList);
-
-			return RedirectToAction("Index");
 		}
 
 		public async Task<IActionResult> AddToCart(int id)
