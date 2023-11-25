@@ -25,12 +25,12 @@ namespace TechHaven.Controllers
 			_productManager = productManager;
 		}
 
-        private bool ProductExists(int id)
+        public bool ProductExists(int id)
         {
-          return (_db.Product?.Any(e => e.Id == id)).GetValueOrDefault();
+			return (_db.Product?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-		private SortType DecodeSortType(string sortType)
+		public SortType DecodeSortType(string sortType)
 		{
 			switch (sortType)
 			{
