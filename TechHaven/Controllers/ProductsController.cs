@@ -32,17 +32,16 @@ namespace TechHaven.Controllers
 
 		private SortType DecodeSortType(string sortType)
 		{
-			if (sortType == "HighestFirst")
+			switch (sortType)
 			{
-				return SortType.HighestFirst;
-			}
-			else if (sortType == "LowestFirst")
-			{
-				return SortType.LowestFirst;
-			}
-			else
-			{
-				return SortType.Alphabetical;
+                case "HighestFirst":
+					return SortType.HighestFirst;
+
+				case "LowestFirst":
+					return SortType.LowestFirst;
+
+				default:
+					return SortType.Alphabetical;
 			}
 		}
 	}
