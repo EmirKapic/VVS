@@ -11,13 +11,13 @@ namespace TechHaven.Data
         {
         }
 
-        public DbSet<Administrator> Administrator { get; set; }
-        public DbSet<Customer> Customer { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<Product> Product { get; set; }
-        public DbSet<ShoppingCart> ShoppingCart { get; set; }
-        public DbSet<Image> Image { get; set; }
-        public DbSet<PaymentMethod> PaymentMethod { get; set; }
+        public virtual DbSet<Administrator> Administrator { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<ShoppingCart> ShoppingCart { get; set; }
+        public virtual DbSet<Image> Image { get; set; }
+        public virtual DbSet<PaymentMethod> PaymentMethod { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
