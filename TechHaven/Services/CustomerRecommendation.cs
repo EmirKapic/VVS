@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using TechHaven.Data;
 using TechHaven.Models;
 
@@ -6,33 +7,26 @@ namespace TechHaven.Services
 {
     public class CustomerRecommendation
     {
-        public Analyzer analyzer { get; set; }
-        //private Product product;
-        private readonly ApplicationDbContext _db;
-        private readonly OrdersManager _ordersManager;
-
-        public CustomerRecommendation(ApplicationDbContext db, OrdersManager ordersManager)
+        public IEnumerable<Product> _products { get; set; }
+        public string favoriteCategory { get; set; }
+        public CustomerRecommendation(string favoriteCategory, IEnumerable<Product> products)
         {
-            _db = db;
-            _ordersManager = ordersManager;
-        }
-
-        public async Task Setup(Analyzer analyzer, Product? product = null)
-        {
-            this.analyzer = analyzer;
-            if (product != null)
-            {
-                this.analyzer.UserHistory = new List<Product> { product };
-            }
-            else
-            {
-                this.analyzer.UserHistory = await _ordersManager.GetProductsFromOrders();
-            }
+            this.favoriteCategory = favoriteCategory;
+            this._products = products;
         }
 
         public IEnumerable<Product> RecommendProducts()
         {
-            return analyzer.GetProducts();
+            List<Product> result = new List<Product>();
+            //neka logika da izabere onaj product iz products sa najvise
+            foreach (var product in _products)
+            {
+                if (product.Category.Equals(favoriteCategory))
+                {
+                    result.Add(product);
+                }
+            }
+            return result;
 
         }
 
