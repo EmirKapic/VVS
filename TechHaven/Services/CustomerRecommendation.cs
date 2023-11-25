@@ -18,6 +18,9 @@ namespace TechHaven.Services
         public virtual IEnumerable<Product> RecommendProducts()
         {
             List<Product> result = new List<Product>();
+            if (_products == null || favoriteCategory == null) {
+                throw new ArgumentNullException("Parameters null");
+            }
             foreach (var product in _products)
             {
                 if (product.Category.Equals(favoriteCategory))
