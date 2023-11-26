@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using TechHaven.Models;
+using System.Collections.Generic;
 
 namespace TechHaven.Services
 {
     public interface IOrdersManager
     {
-        public Task MakeNewOrder(Order order);
+        List<Product> GetProductsFromOrders();
 
-        public Task<List<Product>> GetProductsFromOrders();
+        void MakeNewOrder(Order order);
     }
 }
