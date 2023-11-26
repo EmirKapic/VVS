@@ -104,6 +104,40 @@ namespace TechHaven.Services
             await _db.SaveChangesAsync();
         }
 
-        
+        // needed for test and shopping cart controller
+        private ShoppingCart _cart;
+
+        public CartManager()
+        {
+            _cart = new ShoppingCart(); // Initializing cart
+        }
+
+        public ICollection<Product> addToCart(Product prod)
+        {
+            _cart.Products.Add(prod);
+            return _cart.Products.ToList();
+        }
+
+        public ICollection<Product> GetAllFromCart()
+        {
+            return _cart.Products.ToList();
+        }
+
+        public ICollection<Product> removeFromCart(int productId)
+        {
+            var productToRemove = _cart.Products.FirstOrDefault(p => p.Id == productId);
+
+            if (productToRemove != null)
+            {
+                _cart.Products.Remove(productToRemove);
+            }
+
+            return _cart.Products.ToList();
+        }
+
+        public ShoppingCart getCurrentCart()
+        {
+            return _cart;
+        }
     }
 }
