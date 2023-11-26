@@ -22,12 +22,7 @@ namespace TechHavenTests
             var productList = new List<Product>();
             productList.Add(new Product() { Id = 1, Model = "testModel1" });
 
-            var mockDbSet = new Mock<DbSet<Product>>();
-
-            mockDbSet.As<IQueryable<Product>>().Setup(m => m.Provider).Returns(productList.AsQueryable().Provider);
-            mockDbSet.As<IQueryable<Product>>().Setup(m => m.Expression).Returns(productList.AsQueryable().Expression);
-            mockDbSet.As<IQueryable<Product>>().Setup(m => m.ElementType).Returns(productList.AsQueryable().ElementType);
-            mockDbSet.As<IQueryable<Product>>().Setup(m => m.GetEnumerator()).Returns(productList.AsQueryable().GetEnumerator());
+            var mockDbSet = DbSetMock.GetDbSetMock(productList);
 
             var applicationDbContextMock = new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
             applicationDbContextMock.Setup(mbox  => mbox.Product).Returns(mockDbSet.Object);
