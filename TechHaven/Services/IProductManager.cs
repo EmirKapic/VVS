@@ -5,14 +5,14 @@ namespace TechHaven.Services
 {
     public interface IProductManager
     {
-        public Task<IEnumerable<Product>> GetAllByCategory(string category);
-        public Task<IEnumerable<string>> GetAllManufacturersForCategory(string category);
-        public Task<IEnumerable<string>> GetAllCategories();
-        public Task<IEnumerable<Product>> GetRandomProducts(int limit);
-        public Task<IEnumerable<Product>> GetAllProducts();
-        public Task<IEnumerable<Product>> GetProductsFromIds(List<int> ids);
+        public List<Product> GetAllByCategory(string category);
+        public List<string> GetAllManufacturersForCategory(string category);
+        public List<string> GetAllCategories();
+        public List<Product> GetRandomProducts(int limit);
+        public List<Product> GetAllProducts();
+        public List<Product> GetProductsFromIds(List<int> ids);
 
-        public Task<IEnumerable<Product>> GetProductsContainingString(string query);
+        public List<Product> GetProductsContainingString(string query);
 
     }
 }

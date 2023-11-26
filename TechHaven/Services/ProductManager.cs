@@ -13,23 +13,21 @@ namespace TechHaven.Services
         {
             _db = db;
         }
-
-
-        public async Task<IEnumerable<Product>> GetAllByCategory(string category)
+        public List<Product> GetAllByCategory(string category)
         {
             if (category == null) { throw new NullReferenceException("Passed category was null!"); }
 
-            var products = await _db.Product.Where(p => p.Category == category).ToListAsync();
+            var products = _db.Product.Where(p => p.Category == category).ToList();
             return products;
         }
 
-        public async Task<IEnumerable<string>> GetAllCategories()
+        public List<string> GetAllCategories()
         {
-            var categories = await _db.Product.Select(p => p.Category).Distinct().ToListAsync();
+            var categories = _db.Product.Select(p => p.Category).Distinct().ToList();
             return categories;
         }
 
-        public IEnumerable<string> GetAllCategoriesFromProducts(IEnumerable<Product> prods)
+        public List<string> GetAllCategoriesFromProducts(List<Product> prods)
         {
             var uniqueCategories = new HashSet<string>();
             foreach(var product in prods)
@@ -39,7 +37,7 @@ namespace TechHaven.Services
             return uniqueCategories.ToList();
         }
 
-        public IEnumerable<string> GetAllManufacturersFromProducts(IEnumerable<Product> prods)
+        public List<string> GetAllManufacturersFromProducts(List<Product> prods)
         {
             var uniqueManufacturers = new HashSet<string>();
             foreach(var product in prods)
@@ -49,37 +47,37 @@ namespace TechHaven.Services
             return uniqueManufacturers.ToList();
         }
 
-        public async Task<IEnumerable<string>> GetAllManufacturersForCategory(string category)
+        public List<string> GetAllManufacturersForCategory(string category)
         {
             if (category == null) { throw new NullReferenceException("Passed category was null!"); }
-            return await _db.Product.Where(p => p.Category == category).Select(p => p.Manufacturer).Distinct().ToListAsync();
+            return _db.Product.Where(p => p.Category == category).Select(p => p.Manufacturer).Distinct().ToList();
         }
-        public async Task<IEnumerable<Product>> GetRandomProducts(int limit)
+        public List<Product> GetRandomProducts(int limit)
         {
             if (limit <= 0) { throw new ArgumentOutOfRangeException("Limit must be greater than 0"); }
-            var products = await _db.Product.ToListAsync();
+            var products = _db.Product.ToList();
 
-            return new Randomizer(products).GetRandomized().Take(limit);
+            return new Randomizer(products).GetRandomized().Take(limit).ToList();
         }
-        public async Task<IEnumerable<Product>> GetAllProducts()
+        public List<Product> GetAllProducts()
         {
-            return await _db.Product.ToListAsync();
+            return _db.Product.ToList();
         }
 
 
-        public async Task<IEnumerable<Product>> GetProductsFromIds(List<int> ids)
+        public List<Product> GetProductsFromIds(List<int> ids)
         {
             var products = new List<Product>();
             foreach (var id in ids)
             {
-                products.Add(await _db.Product.FirstAsync(p => p.Id == id));
+                products.Add(_db.Product.First(p => p.Id == id));
             }
             return products;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsContainingString(string query)
+        public List<Product> GetProductsContainingString(string query)
         {
-            return await _db.Product.Where(p => (p.Category + p.Manufacturer + p.Model).ToUpper().Contains(query.ToUpper())).ToListAsync();
+            return _db.Product.Where(p => (p.Category + p.Manufacturer + p.Model).ToUpper().Contains(query.ToUpper())).ToList();
         }
 	}
 }
