@@ -7,7 +7,5 @@ namespace TechHaven.Services
     public interface IOrdersManager
     {
         List<Product> GetProductsFromOrders();
-
-        void MakeNewOrder(Order order);
     }
 }

@@ -127,60 +127,6 @@ namespace TechHaven.Tests.Services
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.Count);
         }
-
-        [TestMethod]
-        public void MakeNewOrder_UserOrdersNull_CreatesNewOrderList()
-        {
-            // Arrange
-            var userId = "userId";
-            var user = new Customer { Id = userId, Orders = null };
-            _mockUserManager.Setup(um => um.GetUserId(_mockHttpContextAccessor.Object.HttpContext.User)).Returns(userId);
-            _mockDbContext.Setup(db => db.Customer).Returns(DbSetMock.GetDbSetMock(new List<Customer> { user }).Object);
-            _mockDbContext.Setup(db => db.Product).Returns(DbSetMock.GetDbSetMock(_products).Object);
-
-            var order = new Order
-            {
-                OrderDate = DateTime.Now,
-                ShippingAddress = "123 Main St",
-                Price = 99.99,
-                Products = new List<Product> { _products[0], _products[1] } 
-            };
-
-            // Act
-            _ordersManager.MakeNewOrder(order);
-
-            // Assert
-            Assert.IsNotNull(user.Orders);
-            Assert.AreEqual(1, user.Orders.Count);
-        }
-
-        [TestMethod]
-        public void MakeNewOrder_WithEmptyProductsList_DoesNotSaveOrder()
-        {
-            // Arrange
-            var userId = "userId";
-            var user = new Customer { Id = userId, Orders = new List<Order>(), Products = new List<Product>() };
-            _mockUserManager.Setup(um => um.GetUserId(_mockHttpContextAccessor.Object.HttpContext.User)).Returns(userId);
-            _mockDbContext.Setup(db => db.Customer).Returns(DbSetMock.GetDbSetMock(new List<Customer> { user }).Object);
-            _mockDbContext.Setup(db => db.Product).Returns(DbSetMock.GetDbSetMock(new List<Product>()).Object); // Ensure that an empty list is returned for products
-
-            int initialProductCount = user.Products.Count;
-
-            var order = new Order
-            {
-                OrderDate = DateTime.Now,
-                ShippingAddress = "123 Main St",
-                Price = 99.99,
-                Products = new List<Product>() // Empty product list
-            };
-
-            // Act
-            _ordersManager.MakeNewOrder(order);
-
-            // Assert
-            Assert.AreEqual(initialProductCount, user.Products.Count);
-        }
-
     }
 }
 

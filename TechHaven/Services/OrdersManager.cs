@@ -75,36 +75,5 @@ namespace TechHaven.Services
 
             return new Randomizer(prods).GetRandomized().Take(20).ToList();
         }
-
-        public void MakeNewOrder(Order order)
-        {
-            var usrId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User);
-            var user = _db.Customer
-                .Include(c => c.Products)
-                .Include(c => c.Orders)
-                .ThenInclude(o => o.Products)
-                .First(c => c.Id == usrId);
-
-            if (user.Orders == null)
-            {
-                user.Orders = new List<Order>();
-            }
-
-            Order toBeInserted = new Order();
-            foreach (var prod in order.Products)
-            {
-                toBeInserted.Products.Add(_db.Product.FirstOrDefault(p => p.Id == prod.Id));
-            }
-
-            toBeInserted.OrderDate = order.OrderDate;
-            toBeInserted.ShippingAddress = order.ShippingAddress;
-            toBeInserted.Price = order.Price;
-
-            user.Orders.Add(toBeInserted);
-            _cartManager.ClearCart(usrId);
-            _db.SaveChanges();
-        }
-
-
     }
 }

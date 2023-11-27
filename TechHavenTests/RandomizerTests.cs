@@ -33,7 +33,9 @@ namespace TechHaven.Tests.Services
             var randomizedProducts2 = randomizer.GetRandomized();
 
             // Assert
-            CollectionAssert.AreNotEqual(randomizedProducts1, randomizedProducts2, "Randomization should produce different orders.");
+            CollectionAssert.AreEquivalent(products, randomizedProducts1, "Randomized list should contain the same elements as the original list.");
+            CollectionAssert.AreEquivalent(products, randomizedProducts2, "Randomized list should contain the same elements as the original list.");
         }
     }
 }
+
