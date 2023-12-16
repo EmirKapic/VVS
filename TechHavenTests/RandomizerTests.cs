@@ -4,6 +4,7 @@ using TechHaven.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace TechHaven.Tests.Services
 {
@@ -16,13 +17,19 @@ namespace TechHaven.Tests.Services
         [TestInitialize]
         public void Setup()
         {
-            products = new List<Product>
+            // Read data from JSON file
+            try
             {
-                new Product { Model = "Product1" },
-                new Product { Model = "Product2" },
-                new Product { Model = "Product3" }
-            };
-            randomizer = new Randomizer(products);
+                string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "products.json");
+                string jsonContent = File.ReadAllText(jsonFilePath);
+                products = JsonSerializer.Deserialize<List<Product>>(jsonContent);
+                randomizer = new Randomizer(products);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading JSON file: {ex.Message}");
+            }
+
         }
 
         [TestMethod]
