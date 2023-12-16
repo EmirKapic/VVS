@@ -75,7 +75,7 @@
         }
 
 
-        private void SaveNewCsv()
+        public void SaveNewCsv()
         {
             using (StreamWriter sw = new StreamWriter("../../../usercoins.csv"))
             {
