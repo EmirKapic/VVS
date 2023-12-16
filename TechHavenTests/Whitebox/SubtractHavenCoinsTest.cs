@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,16 +12,14 @@ namespace TechHaven.Services.Tests
     public class HavenCoinsServiceTests
     {
         private HavenCoinsService havenCoinsService;
-        private List<int[]> originalCsvData;
 
         [TestInitialize]
         public void Setup()
         {
-            // Initialize the service with test data
-            havenCoinsService = new HavenCoinsService();
-
-            // Saving a copy of the original CSV data
-            originalCsvData = new List<int[]>(havenCoinsService.csv);
+            var lines = new string[] { "1,28", "2,12" };
+            var fileOperationsMock = new Mock<IFileOperations>();
+            fileOperationsMock.Setup(fo => fo.ReadAllLines(It.IsAny<string>())).Returns(lines);
+            havenCoinsService = new HavenCoinsService(fileOperationsMock.Object);
         }
 
         [TestMethod]
@@ -29,12 +29,6 @@ namespace TechHaven.Services.Tests
             int userId = 1; 
             int initialCoins = 28; 
             int coinsToSubtract = 5; 
-
-            // Set up the CSV data for the test
-            havenCoinsService.csv = new List<int[]>
-            {
-                new int[] { 1, initialCoins },
-            };
 
             // Act
             bool result = havenCoinsService.SubtractHavenCoins(userId, coinsToSubtract);
@@ -65,13 +59,6 @@ namespace TechHaven.Services.Tests
             int initialCoins = 12; 
             int coinsToSubtract = 15; 
 
-            // Set up the CSV data for the test
-            havenCoinsService.csv = new List<int[]>
-            {
-                new int[] { 2, initialCoins },
-                // Add more user data if needed
-            };
-
             // Act
             bool result = havenCoinsService.SubtractHavenCoins(userId, coinsToSubtract);
 
@@ -79,16 +66,6 @@ namespace TechHaven.Services.Tests
             Assert.IsFalse(result, "SubtractHavenCoins should return false for insufficient coins");
             Assert.AreEqual(initialCoins, havenCoinsService.csv.Find(e => e[0] == userId)[1],
                 "The number of coins in the CSV should not be updated");
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            // Restore the original CSV data after each test
-            havenCoinsService.csv = originalCsvData;
-
-            // Optionally, you can save the restored data back to the CSV file
-            havenCoinsService.SaveNewCsv();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TechHaven.Services;
 
 namespace TechHaven.Services.Tests
@@ -10,13 +12,14 @@ namespace TechHaven.Services.Tests
     public class AddHavenCoinsTest
     {
         private HavenCoinsService havenCoinsService;
-        private List<int[]> csv;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            havenCoinsService = new HavenCoinsService();
-            csv = new List<int[]>(havenCoinsService.csv);
+            var lines = new string[] { "1,28", "2,12" };
+            var fileOperationsMock = new Mock<IFileOperations>();
+            fileOperationsMock.Setup(fo => fo.ReadAllLines(It.IsAny<string>())).Returns(lines);
+            havenCoinsService = new HavenCoinsService(fileOperationsMock.Object);
         }
 
         [TestMethod]
@@ -24,9 +27,7 @@ namespace TechHaven.Services.Tests
         {
             int id = 1; 
             int coins = 28;
-            int addCoins = 7; 
-
-            havenCoinsService.csv = new List<int[]>{ new int[]{ id, coins } };
+            int addCoins = 7;
 
             bool result = havenCoinsService.AddHavenCoins(id, addCoins);
 
@@ -61,19 +62,10 @@ namespace TechHaven.Services.Tests
             int coins = 28; 
             int addCoins = 23;
 
-            havenCoinsService.csv = new List<int[]> { new int[] { id, coins } };
-
             bool result = havenCoinsService.AddHavenCoins(id, addCoins);
 
             Assert.IsFalse(result, "AddHavenCoins must return false for exceeding the maximum (50) coins.");
             Assert.AreEqual(coins, havenCoinsService.getHavenCoins(id));
-        }
-        
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            havenCoinsService.csv = csv;
-            havenCoinsService.SaveNewCsv();
         }
     }
 }

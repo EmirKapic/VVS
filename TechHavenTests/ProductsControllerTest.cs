@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
 using TechHaven.Controllers;
 using TechHaven.Data;
@@ -25,7 +20,7 @@ namespace TechHavenTests
             var mockDbSet = DbSetMock.GetDbSetMock(productList);
 
             var applicationDbContextMock = new Mock<ApplicationDbContext>(new DbContextOptions<ApplicationDbContext>());
-            applicationDbContextMock.Setup(mbox  => mbox.Product).Returns(mockDbSet.Object);
+            applicationDbContextMock.Setup(mbox => mbox.Product).Returns(mockDbSet.Object);
 
             productController = new ProductsController(applicationDbContextMock.Object, null, null);
         }
