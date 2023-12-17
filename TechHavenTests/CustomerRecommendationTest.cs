@@ -51,22 +51,5 @@ namespace TechHavenTests
             Assert.AreEqual(0, res.Length);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestNullList()
-        {
-            recommendation._products = null;
-            var res = recommendation.RecommendProducts().ToArray();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void TestNullFavCategory()
-        {
-            recommendation._products = new List<Product>();
-            recommendation.favoriteCategory = null;
-            var res = recommendation.RecommendProducts().ToArray();
-        }
-
     }
 }

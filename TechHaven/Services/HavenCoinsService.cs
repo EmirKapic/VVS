@@ -2,17 +2,18 @@
 {
     public class HavenCoinsService
     {
+        private readonly IFileOperations _fileOperations;
         public List<int[]> csv;
-        public HavenCoinsService()
+        public HavenCoinsService(IFileOperations fileOperations)
         {
             csv = new List<int[]>();
-            var lines = File.ReadAllLines("../../../usercoins.csv");
-            foreach (var line in lines.Skip(1))
+            _fileOperations = fileOperations;
+            var lines = _fileOperations.ReadAllLines("../../../usercoins.csv");
+            foreach (var line in lines)
             {
                 var values = line.Split(',');
-                csv.Add(new int[2] { int.Parse(values[0]), int.Parse(values[1]) });
+                csv.Add(new int[2] { Int32.Parse(values[0]), Int32.Parse(values[1]) });
             }
-
         }
 
         public int getHavenCoins(int id)
@@ -74,17 +75,15 @@
             }
         }
 
-
-        private void SaveNewCsv()
+        public void SaveNewCsv()
         {
-            using (StreamWriter sw = new StreamWriter("../../../usercoins.csv"))
+            var lines = new List<string>();
+            foreach (var entry in csv)
             {
-                sw.WriteLine("id,coins");
-                foreach(var entry in csv)
-                {
-                    sw.WriteLine($"{entry[0]},{entry[1]}");
-                }
+                lines.Add(string.Join(",", entry));
             }
+
+            _fileOperations.WriteAllLines("../../../usercoins.csv", lines.ToArray());
         }
     }
 }

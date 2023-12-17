@@ -1,0 +1,26 @@
+﻿[
+    {
+        "Id": 1,
+        "Category": "Electronics",
+        "Manufacturer": "Manufacturer1",
+        "Model": "Product1",
+        "Price": 49.99,
+        "NumberOfAvailable": 10
+    },
+    {
+        "Id": 2,
+        "Category": "Clothing",
+        "Manufacturer": "Manufacturer2",
+        "Model": "Product2",
+        "Price": 29.99,
+        "NumberOfAvailable": 20
+    },
+    {
+        "Id": 3,
+        "Category": "Home Appliances",
+        "Manufacturer": "Manufacturer3",
+        "Model": "Product3",
+        "Price": 99.99,
+        "NumberOfAvailable": 5
+    }
+]
