@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechHaven.Models;
+﻿using TechHaven.Models;
 using TechHaven.Services;
 
 namespace TechHavenTests
@@ -11,33 +6,7 @@ namespace TechHavenTests
     [TestClass]
     public class FilterTest
     {
-        private bool IsFiltered(List<Product> productsOriginal, int min, int max, List<String> manufacturers, List<String> categories, AlphabeticalStrategy sortStrategy)
-        {
-            var productsExpected = (
-                    from product in productsOriginal
-                    where product.Price <= min && product.Price > max
-                    where manufacturers.Contains(product.Manufacturer)
-                    where categories.Contains(product.Category)
-                    select product
-                ).OrderBy(mbox => mbox.Manufacturer).ToList();
-
-            var filter = new Filter(min, max, manufacturers, categories, sortStrategy);
-
-            return Enumerable.SequenceEqual(productsExpected, filter.getFilteredProducts(productsOriginal));
-        }
-
-        [TestMethod]
-        public void GetFilteredProductsTest()
-        {
-            const int min = 10;
-            const int max = 100;
-            var manufacturers = new List<string> { "Mercedes", "Volvo" };
-            var categories = new List<string> { "Sedan", "Hatchback" };
-            var sortStrategy = new AlphabeticalStrategy();
-
-            var filter = new Filter(min, max, manufacturers, categories, sortStrategy);
-
-            var productsOriginal = new List<Product>
+        private readonly List<Product> productsOriginal = new ()
             {
                 new() { Price = 10, Manufacturer = "Volvo", Category = "Sedan" },
                 new() { Price = 100, Manufacturer = "Mercedes", Category = "Hatchback" },
@@ -47,15 +16,81 @@ namespace TechHavenTests
                 new() { Price = 10, Manufacturer = "Volvo", Category = "Coupe" }
             };
 
+        private bool IsFiltered(int min, int max, List<String> manufacturers, List<String> categories, ISortStrategy sortStrategy)
+        {
             var productsExpected = (
                     from product in productsOriginal
-                    where product.Price is (>= min and <= max)
+                    where (product.Price >= min && product.Price <= max)
                     where manufacturers.Contains(product.Manufacturer)
                     where categories.Contains(product.Category)
                     select product
-                ).OrderBy(mbox => mbox.Manufacturer).ToList();
+                ).ToList();
 
-            CollectionAssert.AreEqual(productsExpected, filter.getFilteredProducts(productsOriginal));
+            productsExpected = sortStrategy.sortProducts(productsExpected);
+
+            var filter = new Filter(min, max, manufacturers, categories, sortStrategy);
+
+            return Enumerable.SequenceEqual(productsExpected, filter.getFilteredProducts(productsOriginal));
+        }
+
+        [TestMethod]
+        public void MinMaxFilterTest()
+        {
+            const int min = 10;
+            const int max = 100;
+            var manufacturers = new List<string> {};
+            var categories = new List<string> {};
+            var sortStrategy = new AlphabeticalStrategy();
+
+            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+        }
+
+        [TestMethod]
+        public void ManufacturerFilterTest()
+        {
+            const int min = 10;
+            const int max = 100;
+            var manufacturers = new List<string> { "Mercedes", "Volvo" };
+            var categories = new List<string> {};
+            var sortStrategy = new AlphabeticalStrategy();
+
+            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+        }
+
+        [TestMethod]
+        public void CategoryFilterTest()
+        {
+            const int min = 10;
+            const int max = 100;
+            var manufacturers = new List<string> {};
+            var categories = new List<string> { "Sedan", "Hatchback" };
+            var sortStrategy = new AlphabeticalStrategy();
+
+            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+        }
+
+        [TestMethod]
+        public void HighestPriceFilterTest()
+        {
+            const int min = 10;
+            const int max = 100;
+            var manufacturers = new List<string> {};
+            var categories = new List<string> {};
+            var sortStrategy = new HighestPriceStrategy();
+
+            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+        }
+
+        [TestMethod]
+        public void LowestPriceFilterTest()
+        {
+            const int min = 10;
+            const int max = 100;
+            var manufacturers = new List<string> { };
+            var categories = new List<string> { };
+            var sortStrategy = new LowestPriceStrategy();
+
+            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
         }
     }
 }
