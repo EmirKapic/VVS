@@ -4,11 +4,11 @@ namespace TechHaven.Services
 {
     public class Filter
     {
-        private int? minPrice = null;
-        private int? maxPrice = null;
-        private IEnumerable<string>? manufacturers = null;
-        public IEnumerable<string>? categories = null;
-        private ISortStrategy? sortStrategy = null;
+        private readonly int? minPrice = null;
+        private readonly int? maxPrice = null;
+        private readonly IEnumerable<string>? manufacturers = null;
+        public readonly IEnumerable<string>? categories = null;
+        private readonly ISortStrategy? sortStrategy = null;
 
         public Filter(int minPrice, int maxPrice, IEnumerable<string> manufacturers, IEnumerable<string> categories, ISortStrategy sortStrategy)
         {
