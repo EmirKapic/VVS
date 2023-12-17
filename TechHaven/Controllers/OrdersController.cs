@@ -7,24 +7,11 @@ namespace TechHaven.Controllers
 {
     public class OrdersController : Controller
     {
-        private OrdersManager _ordersManager;
-
-        public OrdersController(OrdersManager ordersManager)
+        public Order GetOrderById(int orderId)
         {
-            _ordersManager = ordersManager;
-        }
-
-        public IActionResult Index()
-        {
-            var jsonModel = TempData["orderData"];
-            if (jsonModel == null)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            var model = JsonConvert.DeserializeObject<OrdersViewModel>(jsonModel.ToString());
-            return View(model);
+            var order = new Order();
+            order.Id = orderId;
+            return order;
         }
     }
-
-    
 }
