@@ -23,12 +23,9 @@ namespace TechHaven.Controllers
             var products = recommendation.RecommendProducts();
             if (products == null)
             {
-                return new List<Product>();
+                products = new List<Product>();
             }
-            else
-            {
-                return products;
-            }
+            return products;
         }
 
     }

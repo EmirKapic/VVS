@@ -4,6 +4,7 @@
     {
         private readonly IFileOperations _fileOperations;
         public List<int[]> csv;
+        private int maxCoins = 50;
         public HavenCoinsService(IFileOperations fileOperations)
         {
             csv = new List<int[]>();
@@ -38,7 +39,7 @@
             try
             {
                 var usersLine = csv.First(element => element[0] == id);
-                if (usersLine[1] + coins > 50)
+                if (usersLine[1] + coins > maxCoins)
                 {
                     return false;
                 }
