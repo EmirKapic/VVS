@@ -11,6 +11,21 @@ namespace TechHavenTests
     [TestClass]
     public class FilterTest
     {
+        private bool IsFiltered(List<Product> productsOriginal, int min, int max, List<String> manufacturers, List<String> categories, AlphabeticalStrategy sortStrategy)
+        {
+            var productsExpected = (
+                    from product in productsOriginal
+                    where product.Price <= min && product.Price > max
+                    where manufacturers.Contains(product.Manufacturer)
+                    where categories.Contains(product.Category)
+                    select product
+                ).OrderBy(mbox => mbox.Manufacturer).ToList();
+
+            var filter = new Filter(min, max, manufacturers, categories, sortStrategy);
+
+            return Enumerable.SequenceEqual(productsExpected, filter.getFilteredProducts(productsOriginal));
+        }
+
         [TestMethod]
         public void GetFilteredProductsTest()
         {
