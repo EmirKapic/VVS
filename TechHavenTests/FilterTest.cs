@@ -16,17 +16,21 @@ namespace TechHavenTests
                 new() { Price = 10, Manufacturer = "Volvo", Category = "Coupe" }
             };
 
-        private bool IsFiltered(int min, int max, List<String> manufacturers, List<String> categories, ISortStrategy sortStrategy)
+        private bool IsFiltered(int? min, int? max, List<String>? manufacturers, List<String>? categories, ISortStrategy? sortStrategy)
         {
             var productsExpected = (
                     from product in productsOriginal
-                    where (product.Price >= min && product.Price <= max)
-                    where manufacturers.Contains(product.Manufacturer)
-                    where categories.Contains(product.Category)
+                    where min == null || product.Price >= min
+                    where max == null || product.Price <= max
+                    where manufacturers == null || manufacturers.Contains(product.Manufacturer)
+                    where categories == null || categories.Contains(product.Category)
                     select product
                 ).ToList();
 
-            productsExpected = sortStrategy.sortProducts(productsExpected);
+            if (sortStrategy != null)
+            {
+                productsExpected = sortStrategy.sortProducts(productsExpected);
+            }
 
             var filter = new Filter(min, max, manufacturers, categories, sortStrategy);
 
@@ -34,63 +38,58 @@ namespace TechHavenTests
         }
 
         [TestMethod]
-        public void MinMaxFilterTest()
+        public void MinFilterTest()
         {
-            const int min = 10;
-            const int max = 100;
-            var manufacturers = new List<string> {};
-            var categories = new List<string> {};
-            var sortStrategy = new AlphabeticalStrategy();
+            int min = 10;
 
-            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+            Assert.IsTrue(IsFiltered(min, null, null, null, null));
+        }
+
+        [TestMethod] public void MaxFilterTest()
+        {
+            int max = 100;
+
+            Assert.IsTrue(IsFiltered(null, max, null, null, null));
         }
 
         [TestMethod]
         public void ManufacturerFilterTest()
         {
-            const int min = 10;
-            const int max = 100;
             var manufacturers = new List<string> { "Mercedes", "Volvo" };
-            var categories = new List<string> {};
-            var sortStrategy = new AlphabeticalStrategy();
 
-            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+            Assert.IsTrue(IsFiltered(null, null, manufacturers, null, null));
         }
 
         [TestMethod]
         public void CategoryFilterTest()
         {
-            const int min = 10;
-            const int max = 100;
-            var manufacturers = new List<string> {};
             var categories = new List<string> { "Sedan", "Hatchback" };
+
+            Assert.IsTrue(IsFiltered(null, null, null, categories, null));
+        }
+
+        [TestMethod]
+        public void AlphabeticalSortFilterTest()
+        {
             var sortStrategy = new AlphabeticalStrategy();
 
-            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+            Assert.IsTrue(IsFiltered(null, null, null, null, sortStrategy));
         }
 
         [TestMethod]
-        public void HighestPriceFilterTest()
+        public void HighestPriceSortFilterTest()
         {
-            const int min = 10;
-            const int max = 100;
-            var manufacturers = new List<string> {};
-            var categories = new List<string> {};
             var sortStrategy = new HighestPriceStrategy();
 
-            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+            Assert.IsTrue(IsFiltered(null, null, null, null, sortStrategy));
         }
 
         [TestMethod]
-        public void LowestPriceFilterTest()
+        public void LowestPriceSortFilterTest()
         {
-            const int min = 10;
-            const int max = 100;
-            var manufacturers = new List<string> { };
-            var categories = new List<string> { };
             var sortStrategy = new LowestPriceStrategy();
 
-            Assert.IsTrue(IsFiltered(min, max, manufacturers, categories, sortStrategy));
+            Assert.IsTrue(IsFiltered(null, null, null, null, sortStrategy));
         }
     }
 }

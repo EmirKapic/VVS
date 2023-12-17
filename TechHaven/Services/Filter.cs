@@ -10,7 +10,7 @@ namespace TechHaven.Services
         public readonly IEnumerable<string>? categories;
         private readonly ISortStrategy? sortStrategy;
 
-        public Filter(int minPrice, int maxPrice, IEnumerable<string> manufacturers, IEnumerable<string> categories, ISortStrategy sortStrategy)
+        public Filter(int? minPrice, int? maxPrice, IEnumerable<string>? manufacturers, IEnumerable<string>? categories, ISortStrategy? sortStrategy)
         {
             this.manufacturers = manufacturers;
             this.minPrice = minPrice;
