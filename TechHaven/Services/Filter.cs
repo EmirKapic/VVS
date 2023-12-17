@@ -26,64 +26,66 @@ namespace TechHaven.Services
             {
                 var product = products[i];
 
-                if (minPrice != null && product.Price < minPrice) {
+                if ((minPrice != null && product.Price < minPrice) || (maxPrice != null && product.Price > maxPrice)) {
                     products.Remove(product);
+                    
                     i--;
                     continue;
                 }
-                if (maxPrice != null && product.Price > maxPrice)
-                {
-                    products.Remove(product);
-                    i--;
-                    continue;
-                }
+
                 if (manufacturers != null)
                 {
                     bool found = false;
+
                     foreach (var man in manufacturers)
                     {
                         if (product.Manufacturer.Equals(man))
                         {
                             found = true;
+
                             break;
                         }
                     }
+
                     if (!found)
                     {
                         products.Remove(product);
+                        
                         i--;
                         continue;
                     }
                 }
+
                 if (categories != null)
                 {
                     bool found = false;
+
                     foreach(var cat in categories)
                     {
                         if (product.Category.Equals(cat))
                         {
                             found = true;
+
                             break;
                         }
                     }
+
                     if (!found)
                     {
                         products.Remove(product);
+
                         i--;
                         continue;
                     }
                 }
             }
+
             if (sortStrategy != null)
             {
                 products = sortStrategy.sortProducts(products);
             }
+
             return products;
         }
-
-
-
-
-
     }
 }
