@@ -10,16 +10,12 @@ namespace TechHaven.Models
         override public string Id { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public int? NumberOfHavenCoins { get; set; }
 
         public ShoppingCart? ShoppingCart { get; set; } = null!;
 
         public ICollection<Product>? Products { get; set; } = new List<Product>();//Wish-list
 
         public ICollection<Order>? Orders { get; set; } = new List<Order>();
-
-        public ICollection<PaymentMethod>? PaymentMethods { get; set; } = new List<PaymentMethod>();
-        
 
         public Customer() {}
     }
